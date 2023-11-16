@@ -1,0 +1,55 @@
+
+<link rel="stylesheet" type="text/css" href="./login.component.scss" />
+
+<style>
+
+  body{
+
+  }
+  .bg{
+
+    background-color: #05225d;
+    background-position: center center;
+
+  }
+</style>
+
+
+<div class="container w-75 mt-5 rounded shadow">
+
+  <div class="row align-items-stretch">
+
+    <div class="col">
+      <div class="text-center mt-5 mb-5">
+        <img src="assets/logoblue.png" width="150" alt="100">
+      </div>
+
+
+      <!--      LOGIN       -->
+
+      <form action="#">
+        <div class="mb-4">
+          <label for="exampleInputEmail1" class="form-label" >Username</label>
+          <input [(ngModel)] ="user.username" id ="exampleInputEmail1"type="email" class="form-control" name="email">
+        </div>
+        <div class="mb-4">
+          <label for="exampleInputPassword1" class="form-label" > Password </label>
+          <input [(ngModel)]="user.password" id="exampleInputPassword1"type="password" class="form-control" name="password">
+        </div>
+        <div class="mb-4 fork-check">
+          <input type="checkbox" name="connected" class="form-check-input">
+          <label  class="form-check-label">   Mantenerme Conectado</label>
+        </div>
+
+        <div class="d-grid mb-5">
+          <button type="submit" class="btn btn-primary" (click)="logIn()" >Iniciar Sesion</button>
+        </div>
+
+
+      </form>
+    </div>
+
+  </div>
+
+</div>
+

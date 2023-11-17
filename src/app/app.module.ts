@@ -42,6 +42,7 @@ import { SalesByMonthComponent } from './pages/sales-by-month/sales-by-month.com
 import { SalesByCategoryComponent } from './pages/sales-by-category/sales-by-category.component';
 import { LastFewTransactionsComponent } from './pages/last-few-transactions/last-few-transactions.component';
 import { TopThreeProductsComponent } from './pages/top-three-products/top-three-products.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { TopThreeProductsComponent } from './pages/top-three-products/top-three-
     RouterLinkActive,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    NoopAnimationsModule
   ],
   providers: [
     {provide: JWT_OPTIONS,useValue:JWT_OPTIONS},

@@ -34,28 +34,33 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import {AuthGuard} from "./guards/auth.guard";
-import { HeaderComponent } from './pages/header/header.component';
-import { SideNavComponent } from './pages/side-nav/side-nav.component';
 import { MainComponent } from './pages/main/main.component';
-import { TopWidgetsComponent } from './pages/top-widgets/top-widgets.component';
-import { SalesByMonthComponent } from './pages/sales-by-month/sales-by-month.component';
-import { SalesByCategoryComponent } from './pages/sales-by-category/sales-by-category.component';
-import { LastFewTransactionsComponent } from './pages/last-few-transactions/last-few-transactions.component';
-import { TopThreeProductsComponent } from './pages/top-three-products/top-three-products.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { DashboardComponent } from './pages/main/dashboard/dashboard.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { SidenavComponent } from './pages/sidenav/sidenav.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationComponent } from './pages/main/navigation/navigation.component';
+import { Test1Component } from './pages/main/test1/test1.component';
+import { Test2Component } from './pages/main/test2/test2.component';
+import { Test3Component } from './pages/main/test3/test3.component';
+import { AppRoutingModule } from './app-routing.module';
+import {MainModule} from "./pages/main/main.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent,
-    SideNavComponent,
     MainComponent,
-    TopWidgetsComponent,
-    SalesByMonthComponent,
-    SalesByCategoryComponent,
-    LastFewTransactionsComponent,
-    TopThreeProductsComponent
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +70,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    LayoutModule,
+    AppRoutingModule,
+    MainModule
   ],
   providers: [
     {provide: JWT_OPTIONS,useValue:JWT_OPTIONS},

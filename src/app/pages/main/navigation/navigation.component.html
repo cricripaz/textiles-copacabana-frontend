@@ -1,22 +1,36 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)"> <!-- Corregido para que se abra en PC y se cierre en móviles -->
+
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#">Dashboard</a>
-      <a mat-list-item href="/test1">Link 1</a>
-      <a mat-list-item href="/test2">Link 2</a>
-      <mat-list-item >
-        <mat-icon  matListIcon>home</mat-icon>
-        <a href="/test3">
-         Home
-        </a>
-      </mat-list-item>
-    </mat-nav-list>
+
+    <div *ngIf="role_id === 'admin' ">
+      <mat-nav-list *ngFor="let data of navData">
+        <mat-list-item [routerLink]="[data.routeLink]" >
+          <mat-icon matListIcon>{{data.icon}}</mat-icon>
+          <a  (click)="handleItemClick()">
+            {{data.label}}
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+
+    <div *ngIf="role_id === 'operador' ">
+      <mat-nav-list *ngFor="let data of navDataOp">
+        <mat-list-item [routerLink]="[data.routeLink]" >
+          <mat-icon matListIcon>{{data.icon}}</mat-icon>
+          <a  (click)="handleItemClick()">
+            {{data.label}}
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
+
+
     <mat-toolbar color="primary">
       <button
         type="button"
@@ -24,12 +38,22 @@
         mat-icon-button
         (click)="drawer.toggle()"
         *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <mat-icon aria-label="Side nav toggle icon">
+          <ng-container *ngIf="isHandset$ | async; else desktopIcon">menu</ng-container>
+          <ng-template #desktopIcon>menu_open</ng-template>
+        </mat-icon>
       </button>
-      <span>Textiles Copacabana</span>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-    <router-outlet></router-outlet>
 
+      <span *ngIf="isHandset$ | async; else showText"> </span>
+      <ng-template #showText>
+        <span>Textiles Copacabana</span>
+      </ng-template>
+
+      <span class="flex-spacer"></span>
+      <img ngSrc="assets/cropped-logowhite-150x76.png" alt="Logo" class="logo-img" height="76" width="150"/>
+
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

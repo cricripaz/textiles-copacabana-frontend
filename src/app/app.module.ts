@@ -46,7 +46,6 @@ import { DashboardComponent } from './pages/main/dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { SidenavComponent } from './pages/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './pages/main/navigation/navigation.component';
 import { Test1Component } from './pages/main/test1/test1.component';
@@ -54,13 +53,13 @@ import { Test2Component } from './pages/main/test2/test2.component';
 import { Test3Component } from './pages/main/test3/test3.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MainModule} from "./pages/main/main.module";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +72,8 @@ import {MainModule} from "./pages/main/main.module";
     NoopAnimationsModule,
     LayoutModule,
     AppRoutingModule,
-    MainModule
+    MainModule,
+    MatTableModule
   ],
   providers: [
     {provide: JWT_OPTIONS,useValue:JWT_OPTIONS},

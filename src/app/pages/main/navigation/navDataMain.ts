@@ -12,7 +12,7 @@ export const navbarData =
       label:'Registrar Tintes'
     },
     {
-      routeLink :'ink-table',
+      routeLink :'table-tintes',
       icon:'view_list',
       label:'Examinar Tintes'
     },
@@ -37,7 +37,7 @@ export const navbarData =
       label:'Examinar Ordenes '
     },
     {
-      routeLink :'test1',
+      routeLink :'test3',
       icon:'view_list',
       label:'Examinar Almacen'
     }

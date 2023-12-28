@@ -15,11 +15,20 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
-import {InkTableComponent} from "./ink-table/ink-table.component";
+import {InkTableComponent} from "./table-tintes/ink-table.component";
 import {MatTableModule} from "@angular/material/table";
-import { FormTintesComponent } from './form-tintes/form-tintes.component';
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
+import {FormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
+
+
+
+import { RegistroTinteDialogComponent } from './registro-tinte-dialog/registro-tinte-dialog.component';
+import {HttpClient} from "@angular/common/http";
+import { InventoryTableTintesComponent } from './inventory-table-tintes/inventory-table-tintes.component';
 
 const routes: Route[] = [
   {
@@ -51,13 +60,13 @@ const routes: Route[] = [
         title: 'Textiles Copacabana'
       },
       {
-        path: 'ink-table',
+        path: 'table-tintes',
         component: InkTableComponent,
         title: 'Textiles Copacabana'
       },
       {
         path: 'form-tintoreria',
-        component: FormTintesComponent,
+        component: InkTableComponent,
         title: 'Textiles Copacabana'
       },
 
@@ -76,7 +85,8 @@ const routes: Route[] = [
     Test3Component,
     NavigationComponent,
     InkTableComponent,
-    FormTintesComponent
+    RegistroTinteDialogComponent,
+    InventoryTableTintesComponent
   ],
   imports: [
     CommonModule,
@@ -92,7 +102,13 @@ const routes: Route[] = [
     MatTableModule,
     MatInputModule,
     ReactiveFormsModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    FormsModule,
+    MatDialogModule
+
   ],
   exports: [RouterModule, NavigationComponent]
 })

@@ -84,6 +84,8 @@ export class InkTableComponent implements OnInit , AfterViewInit {
     }
   }
 
+  //TODO GENERAR SERVICIO
+
 }
 
 

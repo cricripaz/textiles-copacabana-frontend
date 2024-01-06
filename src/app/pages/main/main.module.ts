@@ -29,6 +29,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { RegistroTinteDialogComponent } from './registro-tinte-dialog/registro-tinte-dialog.component';
 import {HttpClient} from "@angular/common/http";
 import { InventoryTableTintesComponent } from './inventory-table-tintes/inventory-table-tintes.component';
+import {MatSelectModule} from "@angular/material/select";
 
 const routes: Route[] = [
   {
@@ -88,28 +89,29 @@ const routes: Route[] = [
     RegistroTinteDialogComponent,
     InventoryTableTintesComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatTableModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    NgOptimizedImage,
-    MatPaginatorModule,
-    MatSortModule,
-    MatDialogModule,
-    FormsModule,
-    MatDialogModule
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatTableModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        NgOptimizedImage,
+        MatPaginatorModule,
+        MatSortModule,
+        MatDialogModule,
+        FormsModule,
+        MatDialogModule,
+        MatSelectModule
 
-  ],
+    ],
   exports: [RouterModule, NavigationComponent]
 })
 export class MainModule { }

@@ -19,6 +19,7 @@ export class RoleGuard implements CanActivate {
    // @ts-ignore
     const token : string = localStorage.getItem('token')
 
+    //TODO can activate child by rol
 
     console.log(decode(token))
 

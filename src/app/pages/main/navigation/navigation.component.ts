@@ -9,6 +9,7 @@ import jwt_decode from 'jwt-decode';
 
 import decode from 'jwt-decode';
 import {MatSidenav} from "@angular/material/sidenav";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-navigation',
@@ -72,11 +73,17 @@ export class NavigationComponent implements OnInit{
 
 
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+   private authService : AuthService
+    ) {
 
 
 
   }
 
 
+  logOut() {
+    this.authService.logout()
+  }
 }

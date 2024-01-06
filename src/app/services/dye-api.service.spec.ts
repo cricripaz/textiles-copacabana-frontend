@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TintesApiService } from './tintes-api.service';
+import { DyeApiService } from './dye-api.service';
 
-describe('TintesApiService', () => {
-  let service: TintesApiService;
+describe('DyeApiService', () => {
+  let service: DyeApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TintesApiService);
+    service = TestBed.inject(DyeApiService);
   });
 
   it('should be created', () => {

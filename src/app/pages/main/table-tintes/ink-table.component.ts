@@ -9,6 +9,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {DialogConfig} from "@angular/cdk/dialog";
 import {RegistroTinteDialogComponent} from "../registro-tinte-dialog/registro-tinte-dialog.component";
 import {Observable} from "rxjs";
+import {DyeApiService} from "../../../services/dye-api.service";
 
 
 
@@ -44,18 +45,30 @@ export class InkTableComponent implements OnInit , AfterViewInit {
 
 
 
-  constructor(private _liveAnnouncer: LiveAnnouncer , private matDialog:MatDialog , private http: HttpClient) {}
+  constructor(
+    private _liveAnnouncer: LiveAnnouncer ,
+    private matDialog:MatDialog ,
+    private dyeService : DyeApiService
+    ) {}
 
 
 
   ngOnInit(): void {
-    this.getTintes()
+    this.dyeService.fetchDyes().subscribe(
+      (data) => {
+        this.allTintes = data.lista_tintes;
+        this.dataSource.data = this.allTintes;
+      },
+      error => {
+        console.error('Error al obtener los tintes:', error);
+      }
+    );
+
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-
   }
 
 
@@ -71,20 +84,6 @@ export class InkTableComponent implements OnInit , AfterViewInit {
     this.matDialog.open(RegistroTinteDialogComponent)
   }
 
-
-
-  public async getTintes(): Promise<any> {
-    try {
-      const data = await this.http.get<any>('http://localhost:3000/api/tintes').toPromise();
-      this.allTintes = data.lista_tintes;
-      this.dataSource.data = this.allTintes;  // Actualiza el dataSource con los datos obtenidos
-    } catch (error) {
-      console.error('Error al obtener los tintes:', error);
-      throw error;
-    }
-  }
-
-  //TODO GENERAR SERVICIO
 
 }
 

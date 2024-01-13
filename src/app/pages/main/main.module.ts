@@ -70,6 +70,11 @@ const routes: Route[] = [
         component: InkTableComponent,
         title: 'Textiles Copacabana'
       },
+      {
+        path: 'inventory-table-tintes',
+        component: InventoryTableTintesComponent,
+        title: 'Textiles Copacabana'
+      }
 
 
     ]

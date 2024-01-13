@@ -14,6 +14,7 @@ import {DyeApiService} from "../../../services/dye-api.service";
 
 
 export interface TintesElement{
+
   id : number;
   nombre:string;
   tipo:string;

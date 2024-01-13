@@ -7,7 +7,7 @@ import { catchError } from "rxjs/operators";
 })
 export class DyeApiService {
 
-  private apiUrl = 'http://localhost:3000/api/tintes';
+  private apiUrl = 'http://localhost:3000/api/dye';
   constructor(
       private http : HttpClient,
   ) { }

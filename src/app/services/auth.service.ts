@@ -14,11 +14,11 @@ export class AuthService {
               private _router : Router
   ) { }
 
-  private URL = 'https://textiles-copacabana-backend-production.up.railway.app'
+  private URL = 'http://localhost:3000/api'
 
 
   signin(user:any){
-    return this.http.post(`${this.URL}/user/singin`,user)
+    return this.http.post(`http://localhost:3000/api/user/signin`,user)
   }
 
   logout(){

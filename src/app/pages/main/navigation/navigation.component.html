@@ -6,7 +6,7 @@
 
     <mat-toolbar>Menu</mat-toolbar>
 
-    <div *ngIf="role_id === 'admin' ">
+    <div *ngIf="role_id == 1 ">
       <mat-nav-list *ngFor="let data of navData">
         <mat-list-item [routerLink]="[data.routeLink]" >
           <mat-icon matListIcon>{{data.icon}}</mat-icon>
@@ -17,7 +17,7 @@
       </mat-nav-list>
     </div>
 
-    <div *ngIf="role_id === 'operador' ">
+    <div *ngIf="role_id == 2 ">
       <mat-nav-list *ngFor="let data of navDataOp">
         <mat-list-item [routerLink]="[data.routeLink]" >
           <mat-icon matListIcon>{{data.icon}}</mat-icon>

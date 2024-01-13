@@ -5,6 +5,12 @@ export const navbarData =
       routeLink :'dashboard',
       icon:'pie_chart',
       label:'Dashboard'
+    }
+    ,
+    {
+      routeLink :'inventory-table-tintes',
+      icon:'list_alt',
+      label:'Examinar Inventario'
     },
     {
       routeLink :'form-tintoreria',

@@ -19,7 +19,7 @@ import {AuthService} from "../../../services/auth.service";
 export class NavigationComponent implements OnInit{
   navData = navbarData;
   navDataOp = navDataOp;
-  role_id: string = '';
+  role_id: number = 0;
 
 
 

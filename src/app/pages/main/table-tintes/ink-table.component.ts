@@ -7,7 +7,7 @@ import {MatSort, Sort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {DialogConfig} from "@angular/cdk/dialog";
-import {RegistroTinteDialogComponent} from "../registro-tinte-dialog/registro-tinte-dialog.component";
+import {RegisterDyeInventoryDialogComponent} from "../register-dye-inventory-dialog/register-dye-inventory-dialog.component";
 import {Observable} from "rxjs";
 import {DyeApiService} from "../../../services/dye-api.service";
 
@@ -82,7 +82,7 @@ export class InkTableComponent implements OnInit , AfterViewInit {
   }
 
   openFormTintes() {
-    this.matDialog.open(RegistroTinteDialogComponent)
+    this.matDialog.open(RegisterDyeInventoryDialogComponent)
   }
 
 

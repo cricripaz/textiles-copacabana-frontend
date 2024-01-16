@@ -10,7 +10,7 @@
       <mat-nav-list *ngFor="let data of navData">
         <mat-list-item [routerLink]="[data.routeLink]" >
           <mat-icon matListIcon>{{data.icon}}</mat-icon>
-          <a  (click)="handleItemClick()">
+          <a (click)="handleItemClick()">
             {{data.label}}
           </a>
         </mat-list-item>
@@ -21,7 +21,7 @@
       <mat-nav-list *ngFor="let data of navDataOp">
         <mat-list-item [routerLink]="[data.routeLink]" >
           <mat-icon matListIcon>{{data.icon}}</mat-icon>
-          <a  (click)="handleItemClick()">
+          <a (click)="handleItemClick()">
             {{data.label}}
           </a>
         </mat-list-item>
@@ -31,11 +31,11 @@
     <div class="center-logout">
       <button mat-raised-button (click)="logOut()" color="primary">Cerrar Sesion</button>
     </div>
+
+
   </mat-sidenav>
+
   <mat-sidenav-content>
-
-
-
 
     <mat-toolbar color="primary">
       <button
@@ -62,4 +62,5 @@
 
     <router-outlet></router-outlet>
   </mat-sidenav-content>
+
 </mat-sidenav-container>

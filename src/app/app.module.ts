@@ -54,12 +54,16 @@ import { Test3Component } from './pages/main/test3/test3.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MainModule} from "./pages/main/main.module";
 import {MatTableModule} from "@angular/material/table";
+import { UnitKgPipe } from './pipes/unit-kg.pipe';
+import { TypeDyePipe } from './pipes/type-dye.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
+    UnitKgPipe,
+
   ],
   imports: [
     BrowserModule,
@@ -76,8 +80,10 @@ import {MatTableModule} from "@angular/material/table";
     MatTableModule
   ],
   providers: [
-    {provide: JWT_OPTIONS,useValue:JWT_OPTIONS},
+    {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
     JwtHelperService
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })

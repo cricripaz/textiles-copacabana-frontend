@@ -26,10 +26,11 @@ import {MatDialogModule} from "@angular/material/dialog";
 
 
 
-import { RegistroTinteDialogComponent } from './registro-tinte-dialog/registro-tinte-dialog.component';
+import { RegisterDyeInventoryDialogComponent } from './register-dye-inventory-dialog/register-dye-inventory-dialog.component';
 import {HttpClient} from "@angular/common/http";
 import { InventoryTableTintesComponent } from './inventory-table-tintes/inventory-table-tintes.component';
 import {MatSelectModule} from "@angular/material/select";
+import {TypeDyePipe} from "../../pipes/type-dye.pipe";
 
 const routes: Route[] = [
   {
@@ -91,8 +92,9 @@ const routes: Route[] = [
     Test3Component,
     NavigationComponent,
     InkTableComponent,
-    RegistroTinteDialogComponent,
-    InventoryTableTintesComponent
+    RegisterDyeInventoryDialogComponent,
+    InventoryTableTintesComponent,
+    TypeDyePipe,
   ],
     imports: [
         CommonModule,

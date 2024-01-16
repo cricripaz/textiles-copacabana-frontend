@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistroTinteDialogComponent } from './registro-tinte-dialog.component';
+import { RegisterDyeInventoryDialogComponent } from './register-dye-inventory-dialog.component';
 
 describe('RegistroTinteDialogComponent', () => {
-  let component: RegistroTinteDialogComponent;
-  let fixture: ComponentFixture<RegistroTinteDialogComponent>;
+  let component: RegisterDyeInventoryDialogComponent;
+  let fixture: ComponentFixture<RegisterDyeInventoryDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegistroTinteDialogComponent ]
+      declarations: [ RegisterDyeInventoryDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegistroTinteDialogComponent);
+    fixture = TestBed.createComponent(RegisterDyeInventoryDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

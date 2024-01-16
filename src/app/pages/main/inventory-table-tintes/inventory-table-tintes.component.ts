@@ -5,6 +5,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatDialog} from "@angular/material/dialog";
 import {InventoryApiService} from "../../../services/inventory-api.service";
+import {RegisterDyeInventoryDialogComponent} from "../register-dye-inventory-dialog/register-dye-inventory-dialog.component";
 
 
 
@@ -39,6 +40,7 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+
     this.inventoryService.fetchInventory().subscribe(
       (data) => {
         console.log( 'inventory : ', data )
@@ -48,6 +50,7 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
       error => {
         console.error('Error al obtener los items del inventario:', error);
       }
+
     )
   }
 
@@ -62,6 +65,14 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  onButtonClick() {
+
+  }
+
+  openDialogRegisterDye(){
+    this.matDialog.open(RegisterDyeInventoryDialogComponent)
   }
 
 }

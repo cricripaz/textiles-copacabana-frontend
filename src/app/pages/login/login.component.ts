@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
   user = {
     username : 'cristianpaz',
     password : 'pass123'
@@ -28,6 +29,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token',res.token);
       console.log('res token',res.token)
       this.router.navigate(['main'])
+    }, (error) => {
+      //TODO mejorar la alerta con material DESIGN
+      // Manejar el error aquí
+      console.error('Error en el inicio de sesión:', error);
+      // Muestra una alerta al usuario
+      alert('Error en el inicio de sesión. Por favor, verifica tus credenciales.');
     })
   }
 }

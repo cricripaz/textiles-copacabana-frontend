@@ -12,8 +12,12 @@ export class InventoryApiService {
     private http : HttpClient
   ) { }
 
-  fetchInventory() : Observable<any>{
+  public fetchInventory() : Observable<any>{
     return this.http.get<any>(this.apiUrl)
+  }
+
+  public createDyeInventory(body: any){
+    return this.http.post(`${this.apiUrl}/addItem`,body)
   }
 
 

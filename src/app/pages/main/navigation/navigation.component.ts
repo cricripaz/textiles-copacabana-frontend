@@ -20,7 +20,7 @@ export class NavigationComponent implements OnInit{
   navData = navbarData;
   navDataOp = navDataOp;
   role_id: number = 0;
-
+  snav: MatSidenav | undefined;
 
 
 //TODO seleccionar rol par apoder cargar la vista por role id almacenado en local storage

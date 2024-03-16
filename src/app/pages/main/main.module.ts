@@ -15,7 +15,6 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
-import {InkTableComponent} from "./table-tintes/ink-table.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -26,11 +25,19 @@ import {MatDialogModule} from "@angular/material/dialog";
 
 
 
-import { RegisterDyeInventoryDialogComponent } from './register-dye-inventory-dialog/register-dye-inventory-dialog.component';
+import { RegisterDyeInventoryDialogComponent } from './modals/register-dye-inventory-dialog/register-dye-inventory-dialog.component';
 import {HttpClient} from "@angular/common/http";
 import { InventoryTableTintesComponent } from './inventory-table-tintes/inventory-table-tintes.component';
 import {MatSelectModule} from "@angular/material/select";
 import {TypeDyePipe} from "../../pipes/type-dye.pipe";
+import { UserComponent } from './user/user.component';
+import { RegisterUserDialogComponent } from './modals/register-user-dialog/register-user-dialog.component';
+import { DeleteConfirmationUserComponent } from './modals/delete-confirmation-user/delete-confirmation-user.component';
+import { EditUserDialogComponent } from './modals/edit-user-dialog/edit-user-dialog.component';
+import {SearchTablePipe} from "../../pipes/search-table.pipe";
+import { RecipesComponent } from './recipes/recipes.component';
+import { OrdersComponent } from './orders/orders.component';
+
 
 const routes: Route[] = [
   {
@@ -39,7 +46,7 @@ const routes: Route[] = [
     children: [
       {
         path: '',
-        component: Test1Component,
+        component: DashboardComponent,
         title: 'Textiles Copacabana'
       },
       {
@@ -63,18 +70,25 @@ const routes: Route[] = [
       },
       {
         path: 'table-tintes',
-        component: InkTableComponent,
+        component: Test1Component,
         title: 'Textiles Copacabana'
       },
       {
-        path: 'form-tintoreria',
-        component: InkTableComponent,
-        title: 'Textiles Copacabana'
-      },
-      {
-        path: 'inventory-table-tintes',
+        path: 'inventory-dye',
         component: InventoryTableTintesComponent,
         title: 'Textiles Copacabana'
+      },
+      {
+        path: 'users',
+        component : UserComponent ,
+      },
+      {
+        path: 'recipes',
+        component : RecipesComponent
+      },
+      {
+        path:'orders',
+        component :OrdersComponent
       }
 
 
@@ -91,10 +105,16 @@ const routes: Route[] = [
     Test2Component,
     Test3Component,
     NavigationComponent,
-    InkTableComponent,
     RegisterDyeInventoryDialogComponent,
     InventoryTableTintesComponent,
     TypeDyePipe,
+    UserComponent,
+    RegisterUserDialogComponent,
+    DeleteConfirmationUserComponent,
+    EditUserDialogComponent,
+    SearchTablePipe,
+    RecipesComponent,
+    OrdersComponent
   ],
     imports: [
         CommonModule,

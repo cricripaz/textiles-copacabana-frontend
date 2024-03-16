@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode';
 import decode from 'jwt-decode';
 import {MatSidenav} from "@angular/material/sidenav";
 import {AuthService} from "../../../services/auth.service";
+import {initFlowbite} from "flowbite";
 
 @Component({
   selector: 'app-navigation',
@@ -17,32 +18,19 @@ import {AuthService} from "../../../services/auth.service";
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit{
+
+
   navData = navbarData;
   navDataOp = navDataOp;
   role_id: number = 0;
-  snav: MatSidenav | undefined;
+  username: string = '';
+  lastname : string ='';
 
 
-//TODO seleccionar rol par apoder cargar la vista por role id almacenado en local storage
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(map(result => result.matches));
-
-  // Otros miembros y lógica del componente...
-
-  // Referencia al mat-sidenav
-  @ViewChild('drawer') drawer!: MatSidenav;
-
-  // Función para manejar el clic en un elemento del menú
-  handleItemClick(): void {
-    this.isHandset$.subscribe(isHandset => {
-      if (isHandset) {
-        this.drawer.close(); // Cierra el menú en dispositivos móviles
-      }
-    });
-  }
 
   ngOnInit(): void {
+
+    initFlowbite();
 
     const token = localStorage.getItem('token');
 
@@ -55,6 +43,7 @@ export class NavigationComponent implements OnInit{
         // Verificar si la propiedad 'role_id' existe antes de acceder a ella
         if (decodedToken && decodedToken.role_id) {
           this.role_id = decodedToken.role_id;
+          this.username = decodedToken.username
           console.log('Tipo de rol : ', this.role_id)
         } else {
           console.error('El token no contiene la propiedad "role_id".');
@@ -78,12 +67,13 @@ export class NavigationComponent implements OnInit{
    private authService : AuthService
     ) {
 
-
-
   }
+
 
 
   logOut() {
     this.authService.logout()
   }
+
+
 }

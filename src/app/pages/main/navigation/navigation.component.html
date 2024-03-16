@@ -1,66 +1,99 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="!(isHandset$ | async)"> <!-- Corregido para que se abra en PC y se cierre en móviles -->
+<body>
 
-    <mat-toolbar>Menu</mat-toolbar>
 
-    <div *ngIf="role_id == 1 ">
-      <mat-nav-list *ngFor="let data of navData">
-        <mat-list-item [routerLink]="[data.routeLink]" >
-          <mat-icon matListIcon>{{data.icon}}</mat-icon>
-          <a (click)="handleItemClick()">
-            {{data.label}}
+<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center justify-start rtl:justify-end">
+        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+          <span class="sr-only">Open sidebar</span>
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+          </svg>
+        </button>
+        <a class="flex ms-2 md:me-24">
+          <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Textiles Copabana</span>
+        </a>
+      </div>
+
+
+      <div class="flex items-center">
+        <div class="flex items-center ms-3">
+          <div>
+            <button type="button"  aria-expanded="false" data-dropdown-toggle="dropdown-user">
+              <span class="sr-only">Open user menu</span>
+              <img width="35" height="35" src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/external-user-social-media-ui-tanah-basah-glyph-tanah-basah.png"/>
+            </button>
+          </div>
+
+
+          <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+            <div class="px-4 py-3" role="none">
+              <p class="text-sm text-gray-900 dark:text-white" role="none">
+                {{ username }}
+              </p>
+              <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                Admin
+              </p>
+            </div>
+            <ul class="py-1" role="none">
+              <li>
+                <a (click)="logOut()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Cerrar Sesion</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<br>
+
+<br>
+
+
+
+
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+
+
+
+
+
+    <ul class="space-y-2 font-medium">
+      <li *ngIf="role_id == 1; else role2">
+        <ng-container *ngFor="let item of navData">
+          <a [routerLink]="item.routeLink" class="flex items-center p-2 mb-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <mat-icon matListIcon class="text-gray-500">{{ item.icon }}</mat-icon>
+            <span class="ms-3 text-gray-900 dark:text-white">{{ item.label }}</span>
           </a>
-        </mat-list-item>
-      </mat-nav-list>
-    </div>
-
-    <div *ngIf="role_id == 2 ">
-      <mat-nav-list *ngFor="let data of navDataOp">
-        <mat-list-item [routerLink]="[data.routeLink]" >
-          <mat-icon matListIcon>{{data.icon}}</mat-icon>
-          <a (click)="handleItemClick()">
-            {{data.label}}
-          </a>
-        </mat-list-item>
-      </mat-nav-list>
-    </div>
-
-    <div class="center-logout">
-      <button mat-raised-button (click)="logOut()" color="primary">Cerrar Sesion</button>
-    </div>
+        </ng-container>
+      </li>
 
 
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">
-          <ng-container *ngIf="isHandset$ | async; else desktopIcon">menu</ng-container>
-          <ng-template #desktopIcon>menu_open</ng-template>
-        </mat-icon>
-      </button>
-
-      <span *ngIf="isHandset$ | async; else showText"> </span>
-      <ng-template #showText>
-        <span>Textiles Copacabana</span>
+      <ng-template #role2>
+        <li *ngIf="role_id == 2" >
+          <ng-container *ngFor="let item of navDataOp">
+            <mat-nav-list>
+              <mat-list-item [routerLink]="[item.routeLink]">
+                <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+                <a  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                  <span class="ms-3">{{ item.label }}</span>
+                </a>
+              </mat-list-item>
+            </mat-nav-list>
+          </ng-container>
+        </li>
       </ng-template>
+    </ul>
 
-      <span class="flex-spacer"></span>
-      <img ngSrc="assets/cropped-logowhite-150x76.png" alt="Logo" class="logo-img" height="76" width="150"/>
+</aside>
 
-    </mat-toolbar>
-
+<main class="p-3">
+  <div class="p-3 sm:ml-64">
     <router-outlet></router-outlet>
-  </mat-sidenav-content>
+  </div>
+</main>
 
-</mat-sidenav-container>
+</body>

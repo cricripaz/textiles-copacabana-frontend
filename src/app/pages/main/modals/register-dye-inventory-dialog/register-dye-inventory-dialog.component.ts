@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {InventoryApiService} from "../../../services/inventory-api.service";
+import {InventoryApiService} from "../../../../services/inventory-api.service";
 import jwt_decode from "jwt-decode";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -25,7 +25,6 @@ export class RegisterDyeInventoryDialogComponent implements OnInit {
     if (token) {
         const decodedToken: any = jwt_decode(token);
         console.log(decodedToken)
-        // Verificar si la propiedad 'role_id' existe antes de acceder a ella
         if (decodedToken && decodedToken.user_id) {
           this.user_id = decodedToken.user_id;
           console.log('user_id : ', this.user_id)
@@ -38,7 +37,9 @@ export class RegisterDyeInventoryDialogComponent implements OnInit {
   }
 
   registerDyeInventory(data:any) {
-    console.log('test button', data.value.name)
+
+    console.log(data.value)
+
     this.inventoryService.createDyeInventory(
       {
         name:data.value.name,
@@ -48,8 +49,10 @@ export class RegisterDyeInventoryDialogComponent implements OnInit {
         description: data.value.description
     }
     ).subscribe(res => {
+      //TODO VALIDAR TODO EL FORMS Y RECIEN HACER LA PETICION POST
       console.log('post ')
       this.matDialog.closeAll()
     })
   }
+
 }

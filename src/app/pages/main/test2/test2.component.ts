@@ -12,4 +12,16 @@ export class Test2Component implements OnInit {
   ngOnInit(): void {
   }
 
+  toggleSidebar() {
+    const hamburgerIcon = document.getElementById('toggleSidebarMobileHamburger');
+    const closeIcon = document.getElementById('toggleSidebarMobileClose');
+
+    if (hamburgerIcon && closeIcon) {
+      hamburgerIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    }
+
+    // Aquí puedes agregar más lógica según tus requisitos
+    console.log('Botón clickeado');
+  }
 }

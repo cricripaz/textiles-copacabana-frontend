@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.form-field-wrapper {
+  display: block; /* Cambia la visualización a bloque para que aparezca en una línea vertical */
+  margin-bottom: 16px; /* Ajusta el margen inferior según sea necesario */
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+

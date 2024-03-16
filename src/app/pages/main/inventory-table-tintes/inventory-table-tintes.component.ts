@@ -1,22 +1,7 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort, Sort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {InventoryApiService} from "../../../services/inventory-api.service";
-import {RegisterDyeInventoryDialogComponent} from "../register-dye-inventory-dialog/register-dye-inventory-dialog.component";
-
-
-
-
-export interface InventoryElement{
-  id : number;
-  name : string;
-  type : string;
-  weigth : number;
-  description : string;
-}
+import {RegisterDyeInventoryDialogComponent} from "../modals/register-dye-inventory-dialog/register-dye-inventory-dialog.component";
 
 @Component({
   selector: 'app-inventory-table-tintes',
@@ -25,54 +10,72 @@ export interface InventoryElement{
 })
 export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
 
-  public allInventory : InventoryElement[]=[]
-
-  displayedColumns: string[] = ['dyeInventory_id', 'name', 'dyeType_id','weight','description'];
-  dataSource = new MatTableDataSource<InventoryElement>(this.allInventory);
-
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  inventoryData: any[] = [];
+  dropdownStates: { [key: number]: boolean } = {};
+  searchItem ='';
+  currentPage: number = 1 ;
+  itemsPerPage: number = 10;
 
   constructor(
-    private _liveAnnouncer: LiveAnnouncer ,
     private matDialog:MatDialog ,
     private inventoryService : InventoryApiService
   ) { }
 
   ngOnInit(): void {
 
-    this.inventoryService.fetchInventory().subscribe(
-      (data) => {
-        console.log( 'inventory : ', data )
-        this.allInventory = data.data;
-        this.dataSource.data = this.allInventory;
-      },
-      error => {
-        console.error('Error al obtener los items del inventario:', error);
-      }
+  this.showInventory()
 
-    )
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    console.log('sss')
+    console.log('length : ', this.inventoryData.length )
   }
 
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  onButtonClick() {
-
-  }
 
   openDialogRegisterDye(){
     this.matDialog.open(RegisterDyeInventoryDialogComponent)
   }
+
+  toggleDropdown(index: number): void {
+    this.dropdownStates[index] = !this.dropdownStates[index];
+  }
+  showInventory() {
+    this.inventoryService.fetchInventory()
+      .subscribe(data => {
+        this.inventoryData = data && data.data ? data.data : []; // Check if data and data.data are defined
+      });
+  }
+
+
+  calculateInitialIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  calculateFinalIndex(): number {
+    const inventoryLength = this.inventoryData ? this.inventoryData.length : 0;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    return endIndex > inventoryLength ? inventoryLength : endIndex;
+  }
+
+
+  getCurrentPageItems(): any[] {
+    const initialIndex = this.calculateInitialIndex();
+    const finalIndex = this.calculateFinalIndex();
+    return this.inventoryData ? this.inventoryData.slice(initialIndex, finalIndex) : [];
+  }
+
+
+  getTotalPages(): number {
+    return Math.ceil(this.inventoryData.length / this.itemsPerPage);
+  }
+
+  
+  getPageNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+
 
 }

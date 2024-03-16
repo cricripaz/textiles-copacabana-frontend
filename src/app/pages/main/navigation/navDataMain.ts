@@ -8,45 +8,30 @@ export const navbarData =
     }
     ,
     {
-      routeLink :'inventory-table-tintes',
-      icon:'list_alt',
-      label:'Examinar Inventario'
+      routeLink :'users',
+      icon:'supervisor_account',
+      label:'Usuarios'
     },
     {
-      routeLink :'form-tintoreria',
-      icon:'list_alt',
-      label:'Registrar Tintes'
+      routeLink :'inventory-dye',
+      icon:'assignment',
+      label:'Inventario'
     },
     {
-      routeLink :'table-tintes',
-      icon:'view_list',
-      label:'Examinar Tintes'
-    },
-    {
-    routeLink :'test1',
-    icon:'description',
-    label:'Generar Recetas'
-    },
-    {
-    routeLink :'test1',
-    icon:'view_list',
-    label:'Explorar Formulas de tintes'
+      routeLink :'recipes',
+      icon:'library_books',
+      label:'Recetas'
     },
     {
       routeLink :'test1',
-      icon:'description',
-      label:'Generar Ordenes '
-    },
-    {
-      routeLink :'test1',
-      icon:'view_list',
-      label:'Examinar Ordenes '
-    },
-    {
-      routeLink :'test3',
-      icon:'view_list',
-      label:'Examinar Almacen'
+      icon:'format_color_fill',
+      label:'Tintes'
     }
-
+    ,
+    {
+      routeLink :'orders',
+      icon:'description',
+      label:'Ordenes'
+    }
 
   ]

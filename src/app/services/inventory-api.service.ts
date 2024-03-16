@@ -13,7 +13,7 @@ export class InventoryApiService {
   ) { }
 
   public fetchInventory() : Observable<any>{
-    return this.http.get<any>(this.apiUrl)
+    return this.http.get(this.apiUrl)
   }
 
   public createDyeInventory(body: any){

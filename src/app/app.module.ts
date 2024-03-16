@@ -37,25 +37,13 @@ import {AuthGuard} from "./guards/auth.guard";
 import { MainComponent } from './pages/main/main.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { DashboardComponent } from './pages/main/dashboard/dashboard.component';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationComponent } from './pages/main/navigation/navigation.component';
-import { Test1Component } from './pages/main/test1/test1.component';
-import { Test2Component } from './pages/main/test2/test2.component';
-import { Test3Component } from './pages/main/test3/test3.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MainModule} from "./pages/main/main.module";
 import {MatTableModule} from "@angular/material/table";
 import { UnitKgPipe } from './pipes/unit-kg.pipe';
 import { TypeDyePipe } from './pipes/type-dye.pipe';
+import { SearchTablePipe } from './pipes/search-table.pipe';
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -77,7 +65,8 @@ import { TypeDyePipe } from './pipes/type-dye.pipe';
     LayoutModule,
     AppRoutingModule,
     MainModule,
-    MatTableModule
+    MatTableModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},

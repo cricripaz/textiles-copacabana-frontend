@@ -42,26 +42,23 @@ export class UserComponent implements OnInit  {
 
   openDialogRegisterUser() {
     //TODO preguntar donde va el toastr si aqui o en el service
-  this.matDialog.open(RegisterUserDialogComponent)
+    this.matDialog.open(RegisterUserDialogComponent)
 
+    this.showUsers()
   }
 
   showUsers(){
     this.userService.fetchUsers()
       .subscribe(data => {
         this.usersData = data
+        console.log(this.usersData)
         this.usersData = this.usersData.users
       })
 
   }
   editUser(user : any) {
 
-    //TODO preguntar como mandar DATA
-
-
-
     this.matDialog.open(EditUserDialogComponent,{data : user})
-
 
 
 
@@ -72,12 +69,16 @@ export class UserComponent implements OnInit  {
 
   }
   deleteUser(index: number): void {
-    const userId = this.usersData[index].user_id; // Obtener el ID del usuario
-    this.userService.deleteUser(userId).subscribe(() => {
 
+    const userId = this.usersData[index].user_id; // Obtener el ID del usuario
+
+    this.userService.deleteUser(userId).subscribe(() => {
       // Eliminar el usuario del arreglo local después de la eliminación exitosa
+
       this.usersData.splice(index, 1);
-      console.log('Usuario eliminado correctamente.');
+
+      this.toastr.success('Usuario Eliminado Correctamente')
+
     }, error => {
       console.error('Error al eliminar usuario:', error);
     });

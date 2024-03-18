@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import {Route, RouterModule} from "@angular/router";
 import {MainComponent} from "./main.component";
 import {Test1Component} from "./test1/test1.component";
-import {Test2Component} from "./test2/test2.component";
-import {Test3Component} from "./test3/test3.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {NavigationComponent} from "./navigation/navigation.component";
@@ -37,6 +35,7 @@ import { EditUserDialogComponent } from './modals/edit-user-dialog/edit-user-dia
 import {SearchTablePipe} from "../../pipes/search-table.pipe";
 import { RecipesComponent } from './recipes/recipes.component';
 import { OrdersComponent } from './orders/orders.component';
+import { CustomerComponent } from './customer/customer.component';
 
 
 const routes: Route[] = [
@@ -59,16 +58,6 @@ const routes: Route[] = [
         component: Test1Component
       },
       {
-        path: 'test2',
-        component: Test2Component,
-        title: 'Textiles Copacabana'
-      },
-      {
-        path: 'test3',
-        component: Test3Component,
-        title: 'Textiles Copacabana'
-      },
-      {
         path: 'table-tintes',
         component: Test1Component,
         title: 'Textiles Copacabana'
@@ -89,6 +78,10 @@ const routes: Route[] = [
       {
         path:'orders',
         component :OrdersComponent
+      },
+      {
+        path:'customers',
+        component: CustomerComponent
       }
 
 
@@ -102,8 +95,6 @@ const routes: Route[] = [
   declarations: [
     DashboardComponent,
     Test1Component,
-    Test2Component,
-    Test3Component,
     NavigationComponent,
     RegisterDyeInventoryDialogComponent,
     InventoryTableTintesComponent,
@@ -114,7 +105,8 @@ const routes: Route[] = [
     EditUserDialogComponent,
     SearchTablePipe,
     RecipesComponent,
-    OrdersComponent
+    OrdersComponent,
+    CustomerComponent
   ],
     imports: [
         CommonModule,

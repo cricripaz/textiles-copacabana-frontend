@@ -63,7 +63,7 @@
           <input type="text"
                  id="table-search"
                  class="form-control block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                 placeholder="Search for items"
+                 placeholder="Search for users"
                  [(ngModel)]="searchUser"
           >
         </div>
@@ -93,7 +93,7 @@
           </thead>
           <tbody>
 
-          <tr class="border-b dark:border-gray-700" *ngFor="let users of usersData | search: searchUser; let i = index">
+          <tr class="border-b dark:border-gray-700" *ngFor="let users of usersData | search: searchUser; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
 
 
           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ users.user_id}}</th>

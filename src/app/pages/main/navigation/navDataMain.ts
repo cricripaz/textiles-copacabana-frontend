@@ -17,6 +17,12 @@ export const navbarData =
       icon:'assignment',
       label:'Inventario'
     },
+
+    {
+      routeLink: 'customers',
+      icon:'wc',
+      label: 'Clientes'
+    },
     {
       routeLink :'recipes',
       icon:'library_books',

@@ -1,7 +1,8 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormGroup, FormControl, FormBuilder, Validators} from "@angular/forms";
 import {UserApiService} from "../../../../services/user-api.service";
+import {ToastrService} from "ngx-toastr";
 
 
 
@@ -14,6 +15,7 @@ export class EditUserDialogComponent implements OnInit {
 
   editUserData! : any
   editUserForm! : FormGroup
+  indexUser! : number
   // myField = new FormControl(); Para hacer onchanges etc
 
 
@@ -21,16 +23,20 @@ export class EditUserDialogComponent implements OnInit {
   constructor(
     private formBuilder : FormBuilder,
     @Inject(MAT_DIALOG_DATA) public userDataInject: any,
-    userService : UserApiService
+    private userService : UserApiService,
+    private toastr : ToastrService,
+    private dialogEdituser: MatDialogRef<EditUserDialogComponent>
   )
   { }
 
 
   ngOnInit(): void {
 
-   this.editUserData = this.userDataInject;
+   this.editUserData = this.userDataInject['userdata'];
+   this.indexUser = this.userDataInject['userid']
+
    this.editUserForm = this.initForm()
-    console.log(this.editUserData)
+
 
   }
 
@@ -38,20 +44,39 @@ export class EditUserDialogComponent implements OnInit {
   initForm():FormGroup{
 
     return this.formBuilder.group({
+
       //[valores,validators,]
       username:[this.editUserData.username,[Validators.required , Validators.minLength(3)]],
+      role_id:[this.editUserData.role],
       email:[this.editUserData.email,[Validators.requiredTrue]],
       name:[this.editUserData.name],
       lastname:[this.editUserData.lastName],
       numberphone:[this.editUserData.numberPhone],
       ci:[this.editUserData.ci],
-      role_id:[this.editUserData.role_id],
     })
 
 
   }
 
   editUser() {
-    console.log('form : ',this.editUserForm.value)
+    //TODO modificar el HTML al enviar values y que no amnde string en VALUE , Ver porque no nos llega el mensaje del backend
+    this.userService.editUser(this.indexUser, this.editUserForm.value)
+      .subscribe(
+        () => {
+          this.toastr.success('El usuario se editó exitosamente.', 'Éxito'); // Muestra el toastr de éxito
+
+          this.dialogEdituser.close()
+
+        },
+        error => {
+          this.toastr.error( error.error.message, 'Error'); // Muestra el toastr de error si ocurrió un error
+        }
+      );
+  }
+
+  editUser2( ) {
+
+    this.userService.editUser( this.indexUser,this.editUserForm.value)
+
   }
 }

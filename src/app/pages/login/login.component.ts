@@ -10,9 +10,11 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   user = {
-    username : 'cristianpaz',
+    username : 'cricripaz',
     password : 'pass123'
   }
+
+  //TODO IMPLENTAR REACTIVE FORMS para login
 
   constructor(
     private authService : AuthService ,

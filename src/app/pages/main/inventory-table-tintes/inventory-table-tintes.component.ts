@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {InventoryApiService} from "../../../services/inventory-api.service";
-import {RegisterDyeInventoryDialogComponent} from "../modals/register-dye-inventory-dialog/register-dye-inventory-dialog.component";
+import {RegisterDyeInventoryDialogComponent} from "./register-dye-inventory-dialog/register-dye-inventory-dialog.component";
 
 @Component({
   selector: 'app-inventory-table-tintes',
@@ -32,6 +32,14 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
     console.log('length : ', this.inventoryData.length )
   }
 
+  showInventory() {
+
+    this.inventoryService.fetchInventory()
+      .subscribe(data => {
+        this.inventoryData = data && data.data ? data.data : []; // Check if data and data.data are defined
+      });
+  }
+
 
   openDialogRegisterDye(){
     this.matDialog.open(RegisterDyeInventoryDialogComponent)
@@ -39,12 +47,6 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
 
   toggleDropdown(index: number): void {
     this.dropdownStates[index] = !this.dropdownStates[index];
-  }
-  showInventory() {
-    this.inventoryService.fetchInventory()
-      .subscribe(data => {
-        this.inventoryData = data && data.data ? data.data : []; // Check if data and data.data are defined
-      });
   }
 
 
@@ -70,7 +72,7 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
     return Math.ceil(this.inventoryData.length / this.itemsPerPage);
   }
 
-  
+
   getPageNumbers(): number[] {
     const totalPages = this.getTotalPages();
     return Array.from({ length: totalPages }, (_, i) => i + 1);

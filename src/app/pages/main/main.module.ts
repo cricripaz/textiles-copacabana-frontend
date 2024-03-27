@@ -23,15 +23,15 @@ import {MatDialogModule} from "@angular/material/dialog";
 
 
 
-import { RegisterDyeInventoryDialogComponent } from './modals/register-dye-inventory-dialog/register-dye-inventory-dialog.component';
+import { RegisterDyeInventoryDialogComponent } from './inventory-table-tintes/register-dye-inventory-dialog/register-dye-inventory-dialog.component';
 import {HttpClient} from "@angular/common/http";
 import { InventoryTableTintesComponent } from './inventory-table-tintes/inventory-table-tintes.component';
 import {MatSelectModule} from "@angular/material/select";
 import {TypeDyePipe} from "../../pipes/type-dye.pipe";
 import { UserComponent } from './user/user.component';
-import { RegisterUserDialogComponent } from './modals/register-user-dialog/register-user-dialog.component';
-import { DeleteConfirmationUserComponent } from './modals/delete-confirmation-user/delete-confirmation-user.component';
-import { EditUserDialogComponent } from './modals/edit-user-dialog/edit-user-dialog.component';
+import { RegisterUserDialogComponent } from './user/register-user-dialog/register-user-dialog.component';
+import { DeleteConfirmationUserComponent } from './user/delete-confirmation-user/delete-confirmation-user.component';
+import { EditUserDialogComponent } from './user/edit-user-dialog/edit-user-dialog.component';
 import {SearchTablePipe} from "../../pipes/search-table.pipe";
 import { RecipesComponent } from './recipes/recipes.component';
 import { OrdersComponent } from './orders/orders.component';

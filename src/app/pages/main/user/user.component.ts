@@ -1,11 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {initFlowbite} from "flowbite";
 import {UserApiService} from "../../../services/user-api.service";
 import {MatDialog} from "@angular/material/dialog";
-import {RegisterUserDialogComponent} from "../modals/register-user-dialog/register-user-dialog.component";
-import {EditUserDialogComponent} from "../modals/edit-user-dialog/edit-user-dialog.component";
-import {DeleteConfirmationUserComponent} from "../modals/delete-confirmation-user/delete-confirmation-user.component";
-import {DialogService} from "../../../services/dialog.service";
+import {RegisterUserDialogComponent} from "./register-user-dialog/register-user-dialog.component";
+import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
+import {DeleteConfirmationUserComponent} from "./delete-confirmation-user/delete-confirmation-user.component";
 import {NgForm} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 
@@ -17,14 +15,14 @@ import {ToastrService} from "ngx-toastr";
 
 export class UserComponent implements OnInit  {
 
-  showModal: boolean = false;
-  usersData : any
+  usersData : any[] = []
   dropdownStates: { [key: number]: boolean } = {};
   searchUser = ''
+  currentPage: number = 1 ;
+  itemsPerPage: number = 10;
 
 
   @ViewChild('DataEditUserForm') dataEditUserForm!: NgForm;
-
 
 
   toggleDropdown(index: number): void {
@@ -37,34 +35,87 @@ export class UserComponent implements OnInit  {
   ) { }
 
   ngOnInit(): void {
+
     this.showUsers()
+
   }
+  ngAfterViewInit(): void {
+    console.log('length : ', this.usersData.length )
+  }
+
+
+
+  calculateInitialIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  calculateFinalIndex(): number {
+    const inventoryLength = this.usersData ? this.usersData.length : 0;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    return endIndex > inventoryLength ? inventoryLength : endIndex;
+  }
+
+  getCurrentPageItems(): any[] {
+    const initialIndex = this.calculateInitialIndex();
+    const finalIndex = this.calculateFinalIndex();
+    return this.usersData ? this.usersData.slice(initialIndex, finalIndex) : [];
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.usersData.length / this.itemsPerPage);
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
 
   openDialogRegisterUser() {
     //TODO preguntar donde va el toastr si aqui o en el service
-    this.matDialog.open(RegisterUserDialogComponent)
+    const dialogRef = this.matDialog.open(RegisterUserDialogComponent)
 
-    this.showUsers()
+
+    dialogRef.componentInstance.registrationCompletedSuccesfull.subscribe(
+      ()=> {
+        //TODO Preguntar acerca de event emmiter
+        console.log('test EVENEMMITER')
+      })
+
+
   }
 
   showUsers(){
+
     this.userService.fetchUsers()
       .subscribe(data => {
-        this.usersData = data
-        console.log(this.usersData)
-        this.usersData = this.usersData.users
+        this.usersData = data && data.users ? data.users : []; // Verifica si data y data.data están definidos
+        // Filtrar los usuarios activos después de asignar los datos
+        this.usersData = this.usersData.filter((user: any) => user.state == 'active');
       })
 
-  }
-  editUser(user : any) {
 
-    this.matDialog.open(EditUserDialogComponent,{data : user})
+  }
+
+
+  editUser(user : any , index :number) {
+    const userId = this.usersData[index].user_id;
+    this.matDialog.open(EditUserDialogComponent,
+      {
+        data : {
+          userdata : user,
+          userid : userId
+        }
+      })
 
 
 
   }
 
   openDialogDeleteUser(){
+
+    //TODO implentar mensaje de advertencia y data del userID
+
     this.matDialog.open(DeleteConfirmationUserComponent)
 
   }

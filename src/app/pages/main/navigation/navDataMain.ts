@@ -23,6 +23,12 @@ export const navbarData =
       icon:'wc',
       label: 'Clientes'
     },
+
+    {
+      routeLink :'orders',
+      icon:'description',
+      label:'Ordenes'
+    },
     {
       routeLink :'recipes',
       icon:'library_books',
@@ -33,11 +39,6 @@ export const navbarData =
       icon:'format_color_fill',
       label:'Tintes'
     }
-    ,
-    {
-      routeLink :'orders',
-      icon:'description',
-      label:'Ordenes'
-    }
+
 
   ]

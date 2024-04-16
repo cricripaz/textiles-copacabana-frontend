@@ -72,7 +72,7 @@ export class UserComponent implements OnInit  {
 
 
   openDialogRegisterUser() {
-    //TODO preguntar donde va el toastr si aqui o en el service
+
     const dialogRef = this.matDialog.open(RegisterUserDialogComponent)
 
 
@@ -92,6 +92,7 @@ export class UserComponent implements OnInit  {
         this.usersData = data && data.users ? data.users : []; // Verifica si data y data.data están definidos
         // Filtrar los usuarios activos después de asignar los datos
         this.usersData = this.usersData.filter((user: any) => user.state == 'active');
+        //TODO modificar el backend ya filtrados
       })
 
 

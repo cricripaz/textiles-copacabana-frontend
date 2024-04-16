@@ -36,6 +36,11 @@ import {SearchTablePipe} from "../../pipes/search-table.pipe";
 import { RecipesComponent } from './recipes/recipes.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CustomerComponent } from './customer/customer.component';
+import { CardsOrdersComponent } from './orders/cards-orders/cards-orders.component';
+import {CardModule} from "primeng/card";
+import {ButtonModule} from "primeng/button";
+import { RegisterDialogComponent } from './recipes/register-dialog/register-dialog.component';
+import { RecipePopupComponent } from './recipes/recipe-popup/recipe-popup.component';
 
 
 const routes: Route[] = [
@@ -106,31 +111,36 @@ const routes: Route[] = [
     SearchTablePipe,
     RecipesComponent,
     OrdersComponent,
-    CustomerComponent
+    CustomerComponent,
+    CardsOrdersComponent,
+    RegisterDialogComponent,
+    RecipePopupComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-        MatGridListModule,
-        MatCardModule,
-        MatMenuModule,
-        MatTableModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        NgOptimizedImage,
-        MatPaginatorModule,
-        MatSortModule,
-        MatDialogModule,
-        FormsModule,
-        MatDialogModule,
-        MatSelectModule
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatTableModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    NgOptimizedImage,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    FormsModule,
+    MatDialogModule,
+    MatSelectModule,
+    CardModule,
+    ButtonModule
 
-    ],
+  ],
   exports: [RouterModule, NavigationComponent]
 })
 export class MainModule { }

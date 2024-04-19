@@ -134,5 +134,7 @@ export class UserComponent implements OnInit  {
     }, error => {
       console.error('Error al eliminar usuario:', error);
     });
+
+
   }
 }

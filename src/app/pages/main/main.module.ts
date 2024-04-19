@@ -41,6 +41,8 @@ import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
 import { RegisterDialogComponent } from './recipes/register-dialog/register-dialog.component';
 import { RecipePopupComponent } from './recipes/recipe-popup/recipe-popup.component';
+import { DeleteDialogComponent } from './recipes/delete-dialog/delete-dialog.component';
+import { EditDialogComponent } from './recipes/edit-dialog/edit-dialog.component';
 
 
 const routes: Route[] = [
@@ -114,7 +116,9 @@ const routes: Route[] = [
     CustomerComponent,
     CardsOrdersComponent,
     RegisterDialogComponent,
-    RecipePopupComponent
+    RecipePopupComponent,
+    DeleteDialogComponent,
+    EditDialogComponent
   ],
   imports: [
     CommonModule,

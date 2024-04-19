@@ -4,6 +4,7 @@ import {data} from "autoprefixer";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterDialogComponent} from "./register-dialog/register-dialog.component";
 import {RecipePopupComponent} from "./recipe-popup/recipe-popup.component";
+import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'app-recipes',
@@ -44,7 +45,9 @@ export class RecipesComponent implements OnInit {
 
   }
 
-  openDialogDeleteRecipe() {
+  openDialogDeleteRecipe(recipe : any) {
+
+    this.matdialog.open(DeleteDialogComponent,{data : recipe})
 
   }
 

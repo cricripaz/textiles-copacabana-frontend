@@ -13,6 +13,8 @@ export class RecipePopupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data)
   }
 
+  protected readonly Object = Object;
 }

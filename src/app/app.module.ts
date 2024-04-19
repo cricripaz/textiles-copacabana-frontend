@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {RouterLinkActive, RouterLinkWithHref, RouterModule, RouterOutlet, Routes} from "@angular/router";
+import {RouterLinkActive, RouterLink, RouterModule, RouterOutlet, Routes} from "@angular/router";
 import { LoginComponent } from './pages/login/login.component';
 
 
@@ -56,7 +56,7 @@ import {ToastrModule} from "ngx-toastr";
   imports: [
     BrowserModule,
     RouterOutlet,
-    RouterLinkWithHref,
+    RouterLink,
     RouterLinkActive,
     FormsModule,
     HttpClientModule,

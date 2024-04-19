@@ -37,8 +37,6 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CardsOrdersComponent } from './orders/cards-orders/cards-orders.component';
-import {CardModule} from "primeng/card";
-import {ButtonModule} from "primeng/button";
 import { RegisterDialogComponent } from './recipes/register-dialog/register-dialog.component';
 import { RecipePopupComponent } from './recipes/recipe-popup/recipe-popup.component';
 import { DeleteDialogComponent } from './recipes/delete-dialog/delete-dialog.component';
@@ -141,8 +139,6 @@ const routes: Route[] = [
     FormsModule,
     MatDialogModule,
     MatSelectModule,
-    CardModule,
-    ButtonModule
 
   ],
   exports: [RouterModule, NavigationComponent]

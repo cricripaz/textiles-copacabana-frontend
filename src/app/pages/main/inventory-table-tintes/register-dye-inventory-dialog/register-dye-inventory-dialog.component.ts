@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {InventoryApiService} from "../../../../services/inventory-api.service";
 import jwt_decode from "jwt-decode";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 
 @Component({
   selector: 'app-register-dye-inventory-dialog',

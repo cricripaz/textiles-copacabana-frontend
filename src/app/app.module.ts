@@ -39,7 +39,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import {MainModule} from "./pages/main/main.module";
-import {MatTableModule} from "@angular/material/table";
+import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
 import { UnitKgPipe } from './pipes/unit-kg.pipe';
 import { TypeDyePipe } from './pipes/type-dye.pipe';
 import { SearchTablePipe } from './pipes/search-table.pipe';

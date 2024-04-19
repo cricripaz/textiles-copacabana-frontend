@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserApiService} from "../../../services/user-api.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {RegisterUserDialogComponent} from "./register-user-dialog/register-user-dialog.component";
 import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
 import {DeleteConfirmationUserComponent} from "./delete-confirmation-user/delete-confirmation-user.component";

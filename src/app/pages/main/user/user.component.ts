@@ -6,6 +6,7 @@ import {NgForm} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogUserComponent} from "./delete-dialog-userr/delete-dialog.component";
+import {UserPopupComponent} from "./user-popup/user-popup.component";
 
 
 @Component({
@@ -65,12 +66,7 @@ export class UserComponent implements OnInit  {
   openDialogRegisterUser() {
 
     const dialogRef = this.matDialog.open(RegisterUserDialogComponent)
-
-
-
-
-
-  }
+ }
 
   showUsers(){
 
@@ -79,6 +75,7 @@ export class UserComponent implements OnInit  {
         this.usersData = data && data.users ? data.users : []; // Verifica si data y data.data están definidos
         // Filtrar los usuarios activos después de asignar los datos
         this.usersData = this.usersData.filter((user: any) => user.state == 'active');
+        console.log(this.usersData)
         //TODO modificar el backend ya filtrados
       })
 
@@ -130,6 +127,6 @@ export class UserComponent implements OnInit  {
   }
 
   openModalInfoUser(users: any) {
-      //TODO Implementar
+      this.matDialog.open(UserPopupComponent,{data : users})
   }
 }

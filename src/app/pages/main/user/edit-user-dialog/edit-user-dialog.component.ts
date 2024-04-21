@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit} from '@angular/core';
 import {FormGroup, FormControl, FormBuilder, Validators} from "@angular/forms";
 import {UserApiService} from "../../../../services/user-api.service";
 import {ToastrService} from "ngx-toastr";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 
 
@@ -13,70 +13,61 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 })
 export class EditUserDialogComponent implements OnInit {
 
-  editUserData! : any
+
   editUserForm! : FormGroup
-  indexUser! : number
+
   // myField = new FormControl(); Para hacer onchanges etc
 
 
 
   constructor(
-    private formBuilder : FormBuilder,
+    private fb : FormBuilder,
     @Inject(MAT_DIALOG_DATA) public userDataInject: any,
     private userService : UserApiService,
     private toastr : ToastrService,
-    private dialogEdituser: MatDialogRef<EditUserDialogComponent>
+    private matdialog : MatDialog
   )
   { }
 
 
   ngOnInit(): void {
 
-   this.editUserData = this.userDataInject['userdata'];
-   this.indexUser = this.userDataInject['userid']
-
-   this.editUserForm = this.initForm()
-
+    this.initializeForm();
 
   }
+  private initializeForm() {
 
-
-  initForm():FormGroup{
-
-    return this.formBuilder.group({
-
-      //[valores,validators,]
-      username:[this.editUserData.username,[Validators.required , Validators.minLength(3)]],
-      role_id:[this.editUserData.role],
-      email:[this.editUserData.email,[Validators.requiredTrue]],
-      name:[this.editUserData.name],
-      lastname:[this.editUserData.lastName],
-      numberphone:[this.editUserData.numberPhone],
-      ci:[this.editUserData.ci],
+    console.log(this.userDataInject)
+    this.editUserForm = this.fb.group({
+      username:[this.userDataInject.userdata.username,[Validators.required , Validators.minLength(3)]],
+      role_id:[this.userDataInject.userdata.role],
+      email:[this.userDataInject.userdata.email,[Validators.requiredTrue]],
+      name:[this.userDataInject.userdata.name],
+      lastname:[this.userDataInject.userdata.lastName],
+      numberphone:[this.userDataInject.userdata.numberPhone],
+      ci:[this.userDataInject.userdata.ci],
     })
-
 
   }
 
   editUser() {
-    //TODO modificar el HTML al enviar values y que no amnde string en VALUE , Ver porque no nos llega el mensaje del backend
-    this.userService.editUser(this.indexUser, this.editUserForm.value)
+    //TODO verificar el role en el selector de html y enviar values al edit
+
+    let id = this.userDataInject.userdata.user_id
+    const formData = this.editUserForm.value
+    this.userService.editUser(id, formData )
       .subscribe(
         () => {
           this.toastr.success('El usuario se editó exitosamente.', 'Éxito'); // Muestra el toastr de éxito
-
-          this.dialogEdituser.close()
-
+          this.matdialog.closeAll()
+          //TODO update al array investigar
         },
         error => {
-          this.toastr.error( error.error.message, 'Error'); // Muestra el toastr de error si ocurrió un error
+          this.toastr.error( error, 'Error'); // Muestra el toastr de error si ocurrió un error
         }
       );
   }
 
-  editUser2( ) {
 
-    this.userService.editUser( this.indexUser,this.editUserForm.value)
 
-  }
 }

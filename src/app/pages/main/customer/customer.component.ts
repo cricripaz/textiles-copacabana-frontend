@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {ToastrService} from "ngx-toastr";
 import {CustomerApiService} from "../../../services/customer-api.service";
+import {RegisterDialogComponent} from "./register-dialog/register-dialog.component";
+
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-customer',
@@ -32,6 +34,8 @@ export class CustomerComponent implements OnInit {
       })
   }
   openDialogRegisterCustomer() {
+    const dialogRef = this.matDialog.open(RegisterDialogComponent)
+
 
   }
 

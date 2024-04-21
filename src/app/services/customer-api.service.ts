@@ -15,4 +15,8 @@ export class CustomerApiService {
   fetchCustomers(){
     return this.http.get(this.apiUrl)
   }
+
+  createCustomer (customerData:any){
+    return this.http.post(`${this.apiUrl}/create`,customerData)
+  }
 }

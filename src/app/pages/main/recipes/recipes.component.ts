@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {RecipeApiService} from "../../../services/recipe-api.service";
 import {data} from "autoprefixer";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {RegisterDialogComponent} from "./register-dialog/register-dialog.component";
 import {RecipePopupComponent} from "./recipe-popup/recipe-popup.component";
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-recipes',

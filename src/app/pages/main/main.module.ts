@@ -7,26 +7,13 @@ import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {NavigationComponent} from "./navigation/navigation.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatLegacyListModule as MatListModule} from "@angular/material/legacy-list";
 import {MatIconModule} from "@angular/material/icon";
-import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatLegacyCardModule as MatCardModule} from "@angular/material/legacy-card";
-import {MatLegacyMenuModule as MatMenuModule} from "@angular/material/legacy-menu";
-import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
-import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatLegacyPaginatorModule as MatPaginatorModule} from "@angular/material/legacy-paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {FormsModule} from "@angular/forms";
-import {MatLegacyDialogModule as MatDialogModule} from "@angular/material/legacy-dialog";
-
-
-
 import { RegisterDyeInventoryDialogComponent } from './inventory-table-tintes/register-dye-inventory-dialog/register-dye-inventory-dialog.component';
-import {HttpClient} from "@angular/common/http";
 import { InventoryTableTintesComponent } from './inventory-table-tintes/inventory-table-tintes.component';
-import {MatLegacySelectModule as MatSelectModule} from "@angular/material/legacy-select";
 import {TypeDyePipe} from "../../pipes/type-dye.pipe";
 import { UserComponent } from './user/user.component';
 import { RegisterUserDialogComponent } from './user/register-user-dialog/register-user-dialog.component';
@@ -41,7 +28,16 @@ import { RegisterDialogComponent } from './recipes/register-dialog/register-dial
 import { RecipePopupComponent } from './recipes/recipe-popup/recipe-popup.component';
 import { DeleteDialogComponent } from './recipes/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from './recipes/edit-dialog/edit-dialog.component';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatListModule} from "@angular/material/list";
+import {MatButtonModule} from "@angular/material/button";
+import {MatCardModule} from "@angular/material/card";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatTableModule} from "@angular/material/table";
+import {MatInputModule} from "@angular/material/input";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSelectModule} from "@angular/material/select";
+import {DeleteDialogUserComponent} from "./user/delete-dialog-userr/delete-dialog.component";
 
 const routes: Route[] = [
   {
@@ -139,6 +135,7 @@ const routes: Route[] = [
     FormsModule,
     MatDialogModule,
     MatSelectModule,
+    DeleteDialogUserComponent,
 
   ],
   exports: [RouterModule, NavigationComponent]

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {RecipeApiService} from "../../../../services/recipe-api.service";
 import jwt_decode from "jwt-decode";
@@ -105,6 +104,8 @@ export class RegisterDialogComponent implements OnInit {
       this.ingredients.splice(index, 1);
     }
   }
+
+
 
 
 

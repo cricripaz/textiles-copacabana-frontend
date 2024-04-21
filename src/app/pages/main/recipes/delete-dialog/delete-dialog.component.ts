@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {RecipeApiService} from "../../../../services/recipe-api.service";
 import {ToastrService} from "ngx-toastr";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-delete-dialog',
@@ -24,7 +24,6 @@ export class DeleteDialogComponent implements OnInit {
 
   deleteRecipe() {
     let id = this.data.recipeRegistry_id;
-
 
     this.recipeServices.deleteRecipe(id).subscribe(() => {
       // Cerrar el modal

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {InventoryApiService} from "../../../../services/inventory-api.service";
 import jwt_decode from "jwt-decode";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register-dye-inventory-dialog',
@@ -11,14 +13,21 @@ import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 export class RegisterDyeInventoryDialogComponent implements OnInit {
 
   user_id = 0
+  inventoryForm!: FormGroup;
 
   constructor(
     private matDialog:MatDialog,
-    private inventoryService : InventoryApiService
+    private inventoryService : InventoryApiService,
+    private fb : FormBuilder,
+    private toastr : ToastrService
   ) { }
 
 
   ngOnInit(): void {
+
+
+
+
     const token = localStorage.getItem('token');
 
     // Verificar si el token existe antes de intentar decodificar
@@ -32,27 +41,30 @@ export class RegisterDyeInventoryDialogComponent implements OnInit {
           console.error('El token no contiene la propiedad "role_id".');
         }
     }
-
+    this.initializeForm()
 
   }
 
-  registerDyeInventory(data:any) {
-
-    console.log(data.value)
-
-    this.inventoryService.createDyeInventory(
-      {
-        name:data.value.name,
-        type: data.value.type,
-        user_id: this.user_id,
-        weigth: data.value.weigth,
-        description: data.value.description
-    }
-    ).subscribe(res => {
-      //TODO VALIDAR TODO EL FORMS Y RECIEN HACER LA PETICION POST
-      console.log('post ')
-      this.matDialog.closeAll()
+  private initializeForm(){
+    this.inventoryForm = this.fb.group({
+      name: ['',Validators.required],
+      type: ['',Validators.required],
+      user_id: [this.user_id],
+      weigth: ['',Validators.required],
+      description: ['',Validators.required],
     })
+  }
+  registerDyeInventory() {
+    console.log(this.inventoryForm.value)
+    if (this.inventoryForm.valid){
+      this.inventoryService.createDyeInventory(this.inventoryForm.value).subscribe(() =>{
+        this.matDialog.closeAll()
+        this.toastr.success('Tinte registrado exitosamente')
+      })
+    }else{
+      this.toastr.error('Por favor llena Todos los campos')
+    }
+
   }
 
 }

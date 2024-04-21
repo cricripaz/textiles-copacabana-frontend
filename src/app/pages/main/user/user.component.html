@@ -86,9 +86,7 @@
             <th scope="col" class="px-4 py-3">Apellidos</th>
             <th scope="col" class="px-4 py-3">Carnet De Identidad</th>
             <th scope="col" class="px-4 py-3">Telefono</th>
-            <th scope="col" class="px-4 py-3">
-              <span class="sr-only">Actions</span>
-            </th>
+            <th scope="col" class="px-4 py-3">Acciones</th>
           </tr>
 
           </thead>
@@ -105,31 +103,25 @@
             <td class="px-4 py-3">{{ users.lastName}}</td>
             <td class="px-4 py-3">{{ users.ci}}</td>
             <td class="px-4 py-3">{{ users.numberPhone}}</td>
+            <td class="px-4 py-3 flex items-center justify-center">
 
-            <td class="px-4 py-3 text-right">
-              <div class="flex items-center justify-center">
-                <div style="position: relative;">
-                  <button class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button" (click)="toggleDropdown(i)">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                    </svg>
-                  </button>
-                  <div [ngClass]="{'hidden': !dropdownStates[i]}" class="z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" style="position: absolute; top: calc(100% + 0.5rem); right: 0;">
-                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="benq-ex2710q-dropdown-button">
-                      <li>
-                        <a (click)="openDialogDeleteUser()" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
-                      </li>
-                      <li>
-                        <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" (click)="editUser(users,i)">Edit</a>
-                      </li>
-                    </ul>
-                    <div class="py-1">
-                      <a (click)="deleteUser(i)" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+              <button mat-icon-button (click)="openModalInfoUser(users)" >
+                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="zoom_out_map"></mat-icon>
+              </button>
+
+
+              <button mat-icon-button (click)="editUser(users)" >
+                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="mode_edit"></mat-icon>
+              </button>
+
+              <button mat-icon-button (click)="openDialogDeleteUser(users)" >
+                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
+              </button>
+
+
             </td>
+
 
 
 

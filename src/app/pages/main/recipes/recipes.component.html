@@ -90,12 +90,19 @@
           <td class="px-4 py-3">{{ recipes.recipe_total_weight}}</td>
           <td class="px-4 py-3 flex items-center justify-center">
 
-            <img [ngSrc]="'assets/icons/icons8-extend-50.png'" (click)="openModalInfoRecipe(recipes)"  alt="editar" width="30" height="30">
 
-            <img [ngSrc]="'assets/icons/icons8-edit-50.png'" (click)="editRecipe(recipes)"  alt="editar" width="30" height="30">
+            <button mat-icon-button (click)="openModalInfoRecipe(recipes)" >
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="zoom_out_map"></mat-icon>
+            </button>
 
-            <img [ngSrc]="'assets/icons/icons8-trash-48.png'" (click)="openDialogDeleteRecipe(recipes)" alt="editar" width="30" height="30">
 
+            <button mat-icon-button (click)="editRecipe(recipes)" >
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="mode_edit"></mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="openDialogDeleteRecipe(recipes)" >
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
+            </button>
 
 
           </td>

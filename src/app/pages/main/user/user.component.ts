@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserApiService} from "../../../services/user-api.service";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {RegisterUserDialogComponent} from "./register-user-dialog/register-user-dialog.component";
 import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
-import {DeleteConfirmationUserComponent} from "./delete-confirmation-user/delete-confirmation-user.component";
 import {NgForm} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteDialogUserComponent} from "./delete-dialog-userr/delete-dialog.component";
+
 
 @Component({
   selector: 'app-user',
@@ -39,10 +40,6 @@ export class UserComponent implements OnInit  {
     this.showUsers()
 
   }
-  ngAfterViewInit(): void {
-    console.log('length : ', this.usersData.length )
-  }
-
 
 
   calculateInitialIndex(): number {
@@ -53,12 +50,6 @@ export class UserComponent implements OnInit  {
     const inventoryLength = this.usersData ? this.usersData.length : 0;
     const endIndex = this.currentPage * this.itemsPerPage;
     return endIndex > inventoryLength ? inventoryLength : endIndex;
-  }
-
-  getCurrentPageItems(): any[] {
-    const initialIndex = this.calculateInitialIndex();
-    const finalIndex = this.calculateFinalIndex();
-    return this.usersData ? this.usersData.slice(initialIndex, finalIndex) : [];
   }
 
   getTotalPages(): number {
@@ -76,11 +67,7 @@ export class UserComponent implements OnInit  {
     const dialogRef = this.matDialog.open(RegisterUserDialogComponent)
 
 
-    dialogRef.componentInstance.registrationCompletedSuccesfull.subscribe(
-      ()=> {
-        //TODO Preguntar acerca de event emmiter
-        console.log('test EVENEMMITER')
-      })
+
 
 
   }
@@ -99,13 +86,13 @@ export class UserComponent implements OnInit  {
   }
 
 
-  editUser(user : any , index :number) {
-    const userId = this.usersData[index].user_id;
+  editUser(user : any) {
+    console.log(user)
     this.matDialog.open(EditUserDialogComponent,
       {
         data : {
-          userdata : user,
-          userid : userId
+          userdata : user
+
         }
       })
 
@@ -113,28 +100,36 @@ export class UserComponent implements OnInit  {
 
   }
 
-  openDialogDeleteUser(){
 
-    //TODO implentar mensaje de advertencia y data del userID
+  openDialogDeleteUser(user : any){
 
-    this.matDialog.open(DeleteConfirmationUserComponent)
+    this.matDialog.open(DeleteDialogUserComponent,{data:user})
 
   }
-  deleteUser(index: number): void {
+  deleteUser(users:any): void {
 
-    const userId = this.usersData[index].user_id; // Obtener el ID del usuario
+    // this.userService.deleteUser(userId).subscribe(() => {
+    //   // Eliminar el usuario del arreglo local después de la eliminación exitosa
+    //
+    //   this.usersData.splice(index, 1);
+    //
+    //   this.toastr.success('Usuario Eliminado Correctamente')
+    //
+    // }, error => {
+    //   console.error('Error al eliminar usuario:', error);
+    // });
 
-    this.userService.deleteUser(userId).subscribe(() => {
-      // Eliminar el usuario del arreglo local después de la eliminación exitosa
+  }
 
+  handleUserDeleted(userId: number) {
+    const index = this.usersData.findIndex(user => user.id === userId);
+    if (index !== -1) {
       this.usersData.splice(index, 1);
+      this.toastr.success('Usuario Eliminado Correctamente');
+    }
+  }
 
-      this.toastr.success('Usuario Eliminado Correctamente')
-
-    }, error => {
-      console.error('Error al eliminar usuario:', error);
-    });
-
-
+  openModalInfoUser(users: any) {
+      //TODO Implementar
   }
 }

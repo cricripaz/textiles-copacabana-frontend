@@ -44,6 +44,7 @@ import { UnitKgPipe } from './pipes/unit-kg.pipe';
 import { TypeDyePipe } from './pipes/type-dye.pipe';
 import { SearchTablePipe } from './pipes/search-table.pipe';
 import {ToastrModule} from "ngx-toastr";
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -53,21 +54,23 @@ import {ToastrModule} from "ngx-toastr";
     UnitKgPipe,
 
   ],
-  imports: [
-    BrowserModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    FormsModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes),
-    NoopAnimationsModule,
-    LayoutModule,
-    AppRoutingModule,
-    MainModule,
-    MatTableModule,
-    ToastrModule.forRoot()
-  ],
+    imports: [
+        BrowserModule,
+        RouterOutlet,
+        RouterLink,
+        RouterLinkActive,
+        FormsModule,
+        HttpClientModule,
+        RouterModule.forRoot(routes),
+        NoopAnimationsModule,
+        LayoutModule,
+        AppRoutingModule,
+        MainModule,
+        MatTableModule,
+        ToastrModule.forRoot(),
+        NgOptimizedImage,
+        ReactiveFormsModule
+    ],
   providers: [
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
     JwtHelperService

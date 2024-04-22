@@ -25,4 +25,8 @@ export class InventoryApiService {
     return this.http.put(`${this.apiUrl}/edit/${id}`,body)
   }
 
+  public addQuantityWeight(body:any){
+    return this.http.post(`${this.apiUrl}/update-weight`,body)
+  }
+
 }

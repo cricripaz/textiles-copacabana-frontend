@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {InventoryPopupComponent} from "./inventory-popup/inventory-popup.component";
 import {EditInventoryComponent} from "./edit-inventory/edit-inventory.component";
 import {data} from "autoprefixer";
+import {AddWeightInventoryComponent} from "./add-weight-inventory/add-weight-inventory.component";
 
 @Component({
   selector: 'app-inventory-table-tintes',
@@ -47,10 +48,6 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
 
   openDialogRegisterDye(){
     this.matDialog.open(RegisterDyeInventoryDialogComponent)
-  }
-
-  toggleDropdown(index: number): void {
-    this.dropdownStates[index] = !this.dropdownStates[index];
   }
 
 
@@ -97,6 +94,6 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
   }
 
   addQuantityItem(item: any) {
-
+    this.matDialog.open(AddWeightInventoryComponent,{data : item})
   }
 }

@@ -35,12 +35,18 @@ export class EditUserDialogComponent implements OnInit {
     this.initializeForm();
 
   }
+
+  roleMapping: { [key: string]: number } = {
+    'admin': 1,
+    'operador': 2
+  };
   private initializeForm() {
 
-    console.log(this.userDataInject)
+    const roleValue = this.roleMapping[this.userDataInject.userdata.role.toLowerCase()]; // Convierte el texto a número
+
     this.editUserForm = this.fb.group({
       username:[this.userDataInject.userdata.username,[Validators.required , Validators.minLength(3)]],
-      role_id:[this.userDataInject.userdata.role],
+      role_id:[roleValue],
       email:[this.userDataInject.userdata.email,[Validators.requiredTrue]],
       name:[this.userDataInject.userdata.name],
       lastname:[this.userDataInject.userdata.lastName],
@@ -51,7 +57,6 @@ export class EditUserDialogComponent implements OnInit {
   }
 
   editUser() {
-    //TODO verificar el role en el selector de html y enviar values al edit
 
     let id = this.userDataInject.userdata.user_id
     const formData = this.editUserForm.value

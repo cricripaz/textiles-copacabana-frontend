@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CustomerApiService} from "../../../../services/customer-api.service";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register-dialog',
   standalone: true,
     imports: [
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDialogModule
     ],
   templateUrl: './register-dialog.component.html',
   styleUrl: './register-dialog.component.scss'
@@ -16,34 +19,61 @@ import {CustomerApiService} from "../../../../services/customer-api.service";
 
 export class RegisterDialogComponent implements OnInit{
 
-  DataInventoryDyeForm: any;
+  DataInventoryForm!: FormGroup;
 
   constructor(
-    private customerService : CustomerApiService
+
+    private fb : FormBuilder,
+    private toastr : ToastrService,
+    private customerService : CustomerApiService,
+    private matdialog : MatDialog
   ) {
   }
+
+
+
   ngOnInit(): void {
+    this.initializeForm()
   }
-  registerCustomerInventory(data : any) {
-
-    // this.customerService.createCustomer(
-    //   //TODO CAMBIAR HTML INPUT del form
-    //   {
-    //     name: data.value
-    //     type:
-    //     address:
-    //     city:
-    //     phoneNumber:
-    //     email:
-    //     NIT:
-    //     notes:
-    //   }
-    // )
 
 
+  private initializeForm(){
+    this.DataInventoryForm = this.fb.group({
+      name: ['', Validators.required],
+      type: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      email: ['', Validators.required],
+      NIT: ['', Validators.required],
+      notes: [''],
+    })
+  }
+
+
+
+  registerCustomer(){
+    console.log(this.DataInventoryForm.value)
+    if(this.DataInventoryForm.valid){
+      this.customerService.createCustomer(this.DataInventoryForm.value).subscribe(
+        (res: any) => {
+             this.toastr.success('Cliente Agregado Exitosamente')
+             this.matdialog.closeAll()
+          //TODO UPDATE data parent
+
+        }, () => {
+          this.toastr.error('Error en el inicio de sesión. Por favor, verifica tus credenciales.')
+        }
+      )
+    }else{
+      this.toastr.error('Por favor llena Todos los campos')
+    }
 
 
   }
+
+
+
 
 
 }

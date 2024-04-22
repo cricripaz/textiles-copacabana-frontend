@@ -21,4 +21,8 @@ export class InventoryApiService {
   }
 
 
+  public editItemInventory(id:number,body:any){
+    return this.http.put(`${this.apiUrl}/edit/${id}`,body)
+  }
+
 }

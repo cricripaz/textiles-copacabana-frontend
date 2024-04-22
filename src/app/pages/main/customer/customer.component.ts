@@ -13,7 +13,6 @@ import { MatDialog } from '@angular/material/dialog';
 export class CustomerComponent implements OnInit {
   customersData:any
   searchUser: string = '';
-  dropdownStates: { [key: number]: boolean } = {};
 
   constructor(
     private matDialog:MatDialog ,
@@ -39,19 +38,16 @@ export class CustomerComponent implements OnInit {
 
   }
 
-  toggleDropdown(index: number): void {
-    this.dropdownStates[index] = !this.dropdownStates[index];
-  }
-
-  openDialogDeleteCustomer() {
+  openDialogDeleteCustomer(customers:any) {
 
   }
 
-  editUser(users: any) {
+
+  openModalInfoCustomer(customers: any) {
 
   }
 
-  deleteUser(i: number) {
+  editCustomer(customers: any) {
 
   }
 }

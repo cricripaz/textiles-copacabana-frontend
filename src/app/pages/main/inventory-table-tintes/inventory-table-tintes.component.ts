@@ -2,6 +2,9 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {InventoryApiService} from "../../../services/inventory-api.service";
 import {RegisterDyeInventoryDialogComponent} from "./register-dye-inventory-dialog/register-dye-inventory-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {InventoryPopupComponent} from "./inventory-popup/inventory-popup.component";
+import {EditInventoryComponent} from "./edit-inventory/edit-inventory.component";
+import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-inventory-table-tintes',
@@ -37,6 +40,7 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
     this.inventoryService.fetchInventory()
       .subscribe(data => {
         this.inventoryData = data && data.data ? data.data : []; // Check if data and data.data are defined
+        console.log(this.inventoryData)
       });
   }
 
@@ -79,5 +83,20 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
   }
 
 
+  openModalItemInventory(item: any) {
+    this.matDialog.open(InventoryPopupComponent,{data : item})
+  }
 
+  editItemInventory(item: any) {
+    this.matDialog.open(EditInventoryComponent,{data : item})
+
+  }
+
+  openDialogDeleteItemInventory(item: any) {
+
+  }
+
+  addQuantityItem(item: any) {
+
+  }
 }

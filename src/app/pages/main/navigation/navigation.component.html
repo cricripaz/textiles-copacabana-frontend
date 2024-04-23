@@ -1,6 +1,5 @@
 <body>
 
-
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
@@ -59,36 +58,20 @@
 
 
 
-
-
-    <ul class="space-y-2 font-medium">
-      <li *ngIf="role_id == 1; else role2">
-        <ng-container *ngFor="let item of navData">
-          <a [routerLink]="item.routeLink" class="flex items-center p-2 mb-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <mat-icon matListIcon class="text-gray-500">{{ item.icon }}</mat-icon>
-            <span class="ms-3 text-gray-900 dark:text-white">{{ item.label }}</span>
-          </a>
-        </ng-container>
+  <ul class="space-y-2 font-medium">
+    <ng-container *ngFor="let item of getNavData()">
+      <li>
+        <a [routerLink]="item.routeLink" class="flex items-center p-2 mb-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+          <mat-icon matListIcon class="text-gray-500">{{ item.icon }}</mat-icon>
+          <span class="ms-3 text-gray-900 dark:text-white">{{ item.label }}</span>
+        </a>
       </li>
-
-
-      <ng-template #role2>
-        <li *ngIf="role_id == 2" >
-          <ng-container *ngFor="let item of navDataOp">
-            <mat-nav-list>
-              <mat-list-item [routerLink]="[item.routeLink]">
-                <mat-icon matListIcon>{{ item.icon }}</mat-icon>
-                <a  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  <span class="ms-3">{{ item.label }}</span>
-                </a>
-              </mat-list-item>
-            </mat-nav-list>
-          </ng-container>
-        </li>
-      </ng-template>
-    </ul>
+    </ng-container>
+  </ul>
 
 </aside>
+
+
 
 <main class="p-3">
   <div class="p-3 sm:ml-64">

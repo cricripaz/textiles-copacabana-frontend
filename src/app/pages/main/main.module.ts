@@ -17,7 +17,6 @@ import { InventoryTableTintesComponent } from './inventory-table-tintes/inventor
 import {TypeDyePipe} from "../../pipes/type-dye.pipe";
 import { UserComponent } from './user/user.component';
 import { RegisterUserDialogComponent } from './user/register-user-dialog/register-user-dialog.component';
-import { DeleteConfirmationUserComponent } from './user/delete-confirmation-user/delete-confirmation-user.component';
 import { EditUserDialogComponent } from './user/edit-user-dialog/edit-user-dialog.component';
 import {SearchTablePipe} from "../../pipes/search-table.pipe";
 import { RecipesComponent } from './recipes/recipes.component';
@@ -102,7 +101,6 @@ const routes: Route[] = [
     TypeDyePipe,
     UserComponent,
     RegisterUserDialogComponent,
-    DeleteConfirmationUserComponent,
     EditUserDialogComponent,
     SearchTablePipe,
     RecipesComponent,

@@ -29,4 +29,10 @@ export class InventoryApiService {
     return this.http.post(`${this.apiUrl}/update-weight`,body)
   }
 
+  public deleteItemInventory(id : number){
+    return this.http.delete(`${this.apiUrl}/delete/${id}`)
+  }
+
+
+
 }

@@ -45,15 +45,23 @@ export class AddWeightInventoryComponent implements OnInit{
   addWeigth() {
 
     if (this.addWeightForm.valid){
+
       console.log(this.addWeightForm.value)
+
       this.inventoryservice.addQuantityWeight(this.addWeightForm.value).subscribe( () => {
+
         this.matdialog.closeAll()
+
         this.toastr.success(`Exito ,Cantidad Agregada : ${this.addWeightForm.value.weigth}`)
-        //TODO update values weight parent 
+
+        //TODO update values weight parent
       })
 
+
     }else {
+
       this.toastr.error('Por favor llena Todos los campos')
+
     }
 
 

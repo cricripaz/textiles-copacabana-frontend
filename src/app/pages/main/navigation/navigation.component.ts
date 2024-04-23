@@ -76,4 +76,13 @@ export class NavigationComponent implements OnInit{
   }
 
 
+  getNavData() {
+    if (this.role_id === 1) {
+      return this.navData;
+    } else if (this.role_id === 2) {
+      return this.navDataOp;
+    } else {
+      return [];
+    }
+  }
 }

@@ -6,6 +6,8 @@ import {InventoryPopupComponent} from "./inventory-popup/inventory-popup.compone
 import {EditInventoryComponent} from "./edit-inventory/edit-inventory.component";
 import {data} from "autoprefixer";
 import {AddWeightInventoryComponent} from "./add-weight-inventory/add-weight-inventory.component";
+import {DeleteDialogComponent} from "../recipes/delete-dialog/delete-dialog.component";
+import {DeleteInventoryComponent} from "./delete-inventory/delete-inventory.component";
 
 @Component({
   selector: 'app-inventory-table-tintes',
@@ -90,7 +92,7 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
   }
 
   openDialogDeleteItemInventory(item: any) {
-
+    this.matDialog.open(DeleteInventoryComponent, {data : item})
   }
 
   addQuantityItem(item: any) {

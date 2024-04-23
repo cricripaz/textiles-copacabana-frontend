@@ -1,15 +1,13 @@
 export const navDataOp =
   [
     {
-      routeLink :'test1',
-      icon:'view_list',
-      label:'Examinar Ordenes'
+      routeLink :'inventory-dye',
+      icon:'assignment',
+      label:'Inventario'
     },
     {
-      routeLink :'test1',
-      icon:'view_list',
-      label:'Examinar Almacen'
-    }
-
-
+      routeLink :'orders',
+      icon:'description',
+      label:'Ordenes'
+    },
   ]

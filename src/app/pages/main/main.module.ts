@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {Route, RouterModule} from "@angular/router";
 import {MainComponent} from "./main.component";
-import {Test1Component} from "./test1/test1.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {NavigationComponent} from "./navigation/navigation.component";
@@ -37,6 +36,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSelectModule} from "@angular/material/select";
 import {DeleteDialogUserComponent} from "./user/delete-dialog-userr/delete-dialog.component";
+import {DyeingComponent} from "./dyeing/dyeing.component";
 
 const routes: Route[] = [
   {
@@ -54,13 +54,8 @@ const routes: Route[] = [
         title: 'Textiles Copacabana'
       },
       {
-        path:'test1',
-        component: Test1Component
-      },
-      {
-        path: 'table-tintes',
-        component: Test1Component,
-        title: 'Textiles Copacabana'
+        path:'dyeing',
+        component: DyeingComponent
       },
       {
         path: 'inventory-dye',
@@ -84,7 +79,6 @@ const routes: Route[] = [
         component: CustomerComponent
       }
 
-
     ]
   }
 
@@ -94,7 +88,6 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     DashboardComponent,
-    Test1Component,
     NavigationComponent,
     RegisterDyeInventoryDialogComponent,
     InventoryTableTintesComponent,

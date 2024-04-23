@@ -13,21 +13,14 @@ export const navbarData =
       label:'Usuarios'
     },
     {
-      routeLink :'inventory-dye',
-      icon:'assignment',
-      label:'Inventario'
-    },
-
-    {
       routeLink: 'customers',
       icon:'wc',
       label: 'Clientes'
     },
-
     {
-      routeLink :'orders',
-      icon:'description',
-      label:'Ordenes'
+      routeLink :'inventory-dye',
+      icon:'assignment',
+      label:'Inventario'
     },
     {
       routeLink :'recipes',
@@ -35,10 +28,14 @@ export const navbarData =
       label:'Recetas'
     },
     {
-      routeLink :'test1',
+      routeLink :'orders',
+      icon:'description',
+      label:'Ordenes'
+    },
+    {
+      routeLink :'dyeing',
       icon:'format_color_fill',
-      label:'Tintes'
+      label:'Teñido'
     }
-
 
   ]

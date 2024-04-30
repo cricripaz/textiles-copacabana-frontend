@@ -7,6 +7,10 @@ import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogUserComponent} from "./delete-dialog-userr/delete-dialog.component";
 import {UserPopupComponent} from "./user-popup/user-popup.component";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+
+
+
 
 
 @Component({
@@ -18,6 +22,8 @@ import {UserPopupComponent} from "./user-popup/user-popup.component";
 export class UserComponent implements OnInit  {
 
   usersData : any[] = []
+
+
   dropdownStates: { [key: number]: boolean } = {};
   searchUser = ''
   currentPage: number = 1 ;
@@ -63,10 +69,7 @@ export class UserComponent implements OnInit  {
   }
 
 
-  openDialogRegisterUser() {
 
-    const dialogRef = this.matDialog.open(RegisterUserDialogComponent)
- }
 
   showUsers(){
 
@@ -93,38 +96,24 @@ export class UserComponent implements OnInit  {
         }
       })
 
-
+  }
+  openDialogRegisterUser() {
+   this.matDialog.open(RegisterUserDialogComponent).afterClosed().subscribe( (res) => {
+     console.log(res)
+     //TODO Implementarlo de mejor manera y verificar los parametros
+     this.usersData.push(res.user)
+   })
 
   }
 
-
-  openDialogDeleteUser(user : any){
-
-    this.matDialog.open(DeleteDialogUserComponent,{data:user})
-
-  }
-  deleteUser(users:any): void {
-
-    // this.userService.deleteUser(userId).subscribe(() => {
-    //   // Eliminar el usuario del arreglo local después de la eliminación exitosa
-    //
-    //   this.usersData.splice(index, 1);
-    //
-    //   this.toastr.success('Usuario Eliminado Correctamente')
-    //
-    // }, error => {
-    //   console.error('Error al eliminar usuario:', error);
-    // });
-
+  openDialogDeleteUser(user : any , index: number){
+    console.log('index',index)
+    this.matDialog.open(DeleteDialogUserComponent,{data:user}).afterClosed().subscribe((res) => {
+      console.log('res After ',res )})
+       this.usersData.splice(index, 1)
   }
 
-  handleUserDeleted(userId: number) {
-    const index = this.usersData.findIndex(user => user.id === userId);
-    if (index !== -1) {
-      this.usersData.splice(index, 1);
-      this.toastr.success('Usuario Eliminado Correctamente');
-    }
-  }
+
 
   openModalInfoUser(users: any) {
       this.matDialog.open(UserPopupComponent,{data : users})

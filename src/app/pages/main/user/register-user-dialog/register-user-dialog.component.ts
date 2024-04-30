@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {UserApiService} from "../../../../services/user-api.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-register-user-dialog',
@@ -8,11 +8,10 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./register-user-dialog.component.scss']
 })
 export class RegisterUserDialogComponent implements OnInit {
-  @Output() registrationCompletedSuccesfull = new EventEmitter<void>();
   constructor(
 
     private userService : UserApiService,
-    private matDialog : MatDialog
+    private dialoRef : MatDialogRef<RegisterUserDialogComponent>
   ) { }
 
   ngOnInit(): void {
@@ -34,11 +33,11 @@ export class RegisterUserDialogComponent implements OnInit {
       role_id: data.value.role_id
     }
 
-    this.userService.createUser(datauser).subscribe(res => {
+    this.userService.createUser(datauser).subscribe( ()=> {
       //TODO VALIDAR TODO EL FORMS Y RECIEN HACER LA PETICION POST
-      console.log('post User ')
-      this.matDialog.closeAll()
-      this.registrationCompletedSuccesfull.emit()
+        this.dialoRef.close({user : datauser , message : 'success'})
+
+
     })
   }
 }

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Inject, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {UserApiService} from "../../../../services/user-api.service";
 import {ToastrService} from "ngx-toastr";
 import {data} from "autoprefixer";
+import {DeleteDialogComponent} from "../../recipes/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'app-delete-dialog-user',
@@ -19,18 +20,22 @@ export class DeleteDialogUserComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userServices : UserApiService,
     private toastr : ToastrService,
-    private matdialog : MatDialog
+    private matdialog : MatDialog,
+    public dialogRef : MatDialogRef<DeleteDialogComponent>
   ) {
   }
 
   deleteRecipe() {
 
+
     let id = this.data.user_id;
 
     this.userServices.deleteUser(id).subscribe(()=>{
-      this.matdialog.closeAll()
+
       this.toastr.success('Usuario Eliminado Correctamente');
         //TODO implementar el splice data del delete user
+        this.dialogRef.close("yes")
+
     },error => {
       this.toastr.error('Error al eliminar receta:', error)
       }

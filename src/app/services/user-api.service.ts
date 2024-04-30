@@ -51,8 +51,7 @@ export class UserApiService {
   }
 
 
-
-  deleteUser( userId : number ){
+  deleteUser( userId : number ): Observable<any>{
     //TODO enviar Toast De confrimacion para hacer delete de un USER y hacer el HTTP DELETE
 
     return this.http.put(`${this.apiUrl}/delete/${userId}`, {})

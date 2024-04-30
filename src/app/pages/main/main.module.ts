@@ -21,7 +21,6 @@ import {SearchTablePipe} from "../../pipes/search-table.pipe";
 import { RecipesComponent } from './recipes/recipes.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CustomerComponent } from './customer/customer.component';
-import { CardsOrdersComponent } from './orders/cards-orders/cards-orders.component';
 import { RegisterDialogComponent } from './recipes/register-dialog/register-dialog.component';
 import { RecipePopupComponent } from './recipes/recipe-popup/recipe-popup.component';
 import { DeleteDialogComponent } from './recipes/delete-dialog/delete-dialog.component';
@@ -37,6 +36,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSelectModule} from "@angular/material/select";
 import {DeleteDialogUserComponent} from "./user/delete-dialog-userr/delete-dialog.component";
 import {DyeingComponent} from "./dyeing/dyeing.component";
+import {RoleIdToNamePipe} from "../../pipes/role-id-to-name.pipe";
 
 const routes: Route[] = [
   {
@@ -99,7 +99,6 @@ const routes: Route[] = [
     RecipesComponent,
     OrdersComponent,
     CustomerComponent,
-    CardsOrdersComponent,
     RegisterDialogComponent,
     RecipePopupComponent,
     DeleteDialogComponent,
@@ -127,6 +126,7 @@ const routes: Route[] = [
     MatDialogModule,
     MatSelectModule,
     DeleteDialogUserComponent,
+    RoleIdToNamePipe,
 
   ],
   exports: [RouterModule, NavigationComponent]

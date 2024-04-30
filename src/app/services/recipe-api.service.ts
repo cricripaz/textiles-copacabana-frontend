@@ -60,8 +60,10 @@ export class RecipeApiService {
   }
 
 
-  editRecipe(recipe : any) {
-    return this.http.put(`${this.apiUrl}`,recipe)
+  editRecipe(recipe : any, id : number) {
+
+    return this.http.put( `${this.apiUrl}/edit/${id}`,recipe )
+
   }
 
 

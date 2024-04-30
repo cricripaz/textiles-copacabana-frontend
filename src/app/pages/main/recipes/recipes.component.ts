@@ -5,6 +5,7 @@ import {RegisterDialogComponent} from "./register-dialog/register-dialog.compone
 import {RecipePopupComponent} from "./recipe-popup/recipe-popup.component";
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {EditDialogComponent} from "./edit-dialog/edit-dialog.component";
 
 @Component({
   selector: 'app-recipes',
@@ -47,12 +48,18 @@ export class RecipesComponent implements OnInit {
 
   openDialogDeleteRecipe(recipe : any) {
 
-    this.matdialog.open(DeleteDialogComponent,{data : recipe})
+    this.matdialog.open(DeleteDialogComponent,{data : recipe} )
 
   }
 
-  editRecipe(recipes: any) {
+  editRecipe(recipe: any) {
+    this.matdialog.open(EditDialogComponent,
+      {
 
+        data: { recipe: {...recipe, ingredients: recipe.ingredients || []} }
+
+          }
+    );
   }
 
   deleteRecipe(i: number) {

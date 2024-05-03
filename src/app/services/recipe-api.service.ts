@@ -62,7 +62,7 @@ export class RecipeApiService {
 
   editRecipe(recipe : any, id : number) {
 
-    return this.http.put( `${this.apiUrl}/edit/${id}`,recipe )
+    return this.http.put( `${this.apiUrl}/update/${id}`,recipe )
 
   }
 

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {UserApiService} from "../../../../services/user-api.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register-user-dialog',
@@ -11,7 +12,8 @@ export class RegisterUserDialogComponent implements OnInit {
   constructor(
 
     private userService : UserApiService,
-    private dialoRef : MatDialogRef<RegisterUserDialogComponent>
+    private dialoRef : MatDialogRef<RegisterUserDialogComponent>,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {

@@ -20,7 +20,6 @@ export class DeleteDialogUserComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userServices : UserApiService,
     private toastr : ToastrService,
-    private matdialog : MatDialog,
     public dialogRef : MatDialogRef<DeleteDialogComponent>
   ) {
   }
@@ -33,7 +32,7 @@ export class DeleteDialogUserComponent {
     this.userServices.deleteUser(id).subscribe(()=>{
 
       this.toastr.success('Usuario Eliminado Correctamente');
-        //TODO implementar el splice data del delete user
+
         this.dialogRef.close("yes")
 
     },error => {

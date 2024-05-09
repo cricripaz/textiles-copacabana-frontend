@@ -39,7 +39,6 @@ export class RegisterUserDialogComponent implements OnInit {
       //TODO VALIDAR TODO EL FORMS Y RECIEN HACER LA PETICION POST
         this.dialoRef.close({user : datauser , message : 'success'})
 
-
     })
   }
 }

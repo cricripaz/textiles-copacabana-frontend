@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import {catchError, map, tap} from "rxjs/operators";
 import {Observable, of} from "rxjs";
@@ -8,18 +8,21 @@ import {Observable, of} from "rxjs";
   providedIn: 'root'
 })
 export class UserApiService {
-  private apiUrl = 'http://localhost:3000/api/user';
+  public apiUrl = 'http://localhost:3000/api/user';
   constructor(private http : HttpClient,
               private toastr : ToastrService) { }
 
 
   fetchUsers() :Observable<any>{
-    return this.http.get(this.apiUrl,{
+
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNyaWNyaXBheiIsInJvbGVfaWQiOjEsInVzZXJfaWQiOjIzNDN9.a236i4p6gHIp6D-gmxv13CcLH77aJddZh2H70E2pXUg'; // Tu token de autenticación
+
+    const headers = new HttpHeaders()
+      .set('x-access-token', token);
+
+    return this.http.get(this.apiUrl, {headers}
       //TODO implementar el token no harcodeado
-      headers:{
-        'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNyaWNyaXBheiIsInJvbGVfaWQiOjEsInVzZXJfaWQiOjIzNDN9.a236i4p6gHIp6D-gmxv13CcLH77aJddZh2H70E2pXUg'
-      }
-    })
+    )
   }
 
   createUser(body: any) {

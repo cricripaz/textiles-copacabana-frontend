@@ -69,8 +69,6 @@ export class UserComponent implements OnInit  {
   }
 
 
-
-
   showUsers(){
 
     this.userService.fetchUsers()
@@ -85,7 +83,6 @@ export class UserComponent implements OnInit  {
 
   }
 
-
   editUser(user : any) {
     console.log(user)
     this.matDialog.open(EditUserDialogComponent,
@@ -99,9 +96,12 @@ export class UserComponent implements OnInit  {
   }
   openDialogRegisterUser() {
    this.matDialog.open(RegisterUserDialogComponent).afterClosed().subscribe( (res) => {
-     console.log(res)
      //TODO Implementarlo de mejor manera y verificar los parametros
-     this.usersData.push(res.user)
+     if(res.message == 'success'){
+       this.usersData.push(res.user)
+     }
+
+
    })
 
   }

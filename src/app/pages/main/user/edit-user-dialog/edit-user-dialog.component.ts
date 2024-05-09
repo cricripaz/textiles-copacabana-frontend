@@ -18,7 +18,10 @@ export class EditUserDialogComponent implements OnInit {
 
   // myField = new FormControl(); Para hacer onchanges etc
 
-
+  roleMapping: { [key: string]: number } = {
+    'admin': 1,
+    'operador': 2
+  };
 
   constructor(
     private fb : FormBuilder,
@@ -36,10 +39,7 @@ export class EditUserDialogComponent implements OnInit {
 
   }
 
-  roleMapping: { [key: string]: number } = {
-    'admin': 1,
-    'operador': 2
-  };
+
   private initializeForm() {
 
     const roleValue = this.roleMapping[this.userDataInject.userdata.role.toLowerCase()]; // Convierte el texto a número
@@ -57,7 +57,6 @@ export class EditUserDialogComponent implements OnInit {
   }
 
   editUser() {
-
     let id = this.userDataInject.userdata.user_id
     const formData = this.editUserForm.value
     this.userService.editUser(id, formData )

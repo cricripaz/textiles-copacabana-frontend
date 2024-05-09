@@ -69,7 +69,6 @@ export class RegisterDialogComponent implements OnInit{
       this.toastr.error('Por favor llena Todos los campos')
     }
 
-
   }
 
 

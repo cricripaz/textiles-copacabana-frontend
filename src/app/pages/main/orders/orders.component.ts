@@ -20,7 +20,6 @@ export class OrdersComponent implements OnInit {
   isSelectedAll: boolean = false; // Estado de la checkbox "Select All"
 
 
-
   constructor(
     private orderService : OrdersApiService,
     private toastrService : ToastrService

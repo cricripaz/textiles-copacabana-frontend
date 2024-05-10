@@ -56,6 +56,8 @@ export class OrdersComponent implements OnInit {
     this.orderService.getOrders().subscribe( data => {
       this.orderData = data
       this.orderData =  this.orderData.data
+
+      console.log(this.orderData)
     })
 
   }

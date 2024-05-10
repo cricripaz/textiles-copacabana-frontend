@@ -89,7 +89,7 @@
           </th>
           <th scope="col" class="px-4 py-3">ID</th>
           <th scope="col" class="px-4 py-3">Estado</th>
-          <th scope="col" class="px-4 py-3">Titulo</th>
+          <th scope="col" class="px-4 py-3">Cliente</th>
           <th scope="col" class="px-4 py-3">Fecha</th>
           <th scope="col" class="px-4 py-3">Color</th>
           <th scope="col" class="px-4 py-3">codigo-color</th>
@@ -113,14 +113,14 @@
                      class="sr-only">checkbox</label>
             </div>
           </td>
-          <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ order.lote}}</th>
+          <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ order.order_id}}</th>
 
           <td class="px-4 py-3 ">
-            <span class="inline-block rounded bg-gray-200 px-2.5 py-1" [ngClass]="order.state === 'En Proceso'? 'bg-yellow' : order.state === 'Completado'? 'bg-green' : 'bg-orange'">
-              {{ order.state }}
+            <span class="inline-block rounded bg-gray-200 px-2.5 py-1" [ngClass]="order.order_status === 'En Proceso'? 'bg-yellow' : order.state === 'Completado'? 'bg-green' : 'bg-orange'">
+              {{ order.order_status }}
             </span>
           </td>
-          <td class="px-4 py-3">{{ order.title}}</td>
+          <td class="px-4 py-3">{{ order.customer_name}}</td>
           <td class="px-4 py-3">{{ order.date}}</td>
           <td class="px-4 py-3">{{ order.color}}</td>
 

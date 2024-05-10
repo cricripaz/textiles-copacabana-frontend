@@ -3,6 +3,12 @@ import {OrdersApiService} from "../../../services/orders-api.service";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import {ToastrService} from "ngx-toastr";
+import {MatDialog} from "@angular/material/dialog";
+import {RegisterDialogComponent} from "../recipes/register-dialog/register-dialog.component";
+import {RegisterOrderDialogComponent} from "./register-order-dialog/register-order-dialog.component";
+import {DeleteOrderDialogComponent} from "./delete-order-dialog/delete-order-dialog.component";
+import {EditOrderDialogComponent} from "./edit-order-dialog/edit-order-dialog.component";
+import {OrderPopupComponent} from "./order-popup/order-popup.component";
 
 // @ts-ignore
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -22,7 +28,8 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private orderService : OrdersApiService,
-    private toastrService : ToastrService
+    private toastrService : ToastrService,
+    private matdialog : MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +37,43 @@ export class OrdersComponent implements OnInit {
     this.showOrders()
 
   }
+
+  //ACTIONS
+
+  showOrders(){
+
+    this.orderService.getOrders().subscribe( data => {
+      this.orderData = data
+      this.orderData =  this.orderData.data
+
+      console.log(this.orderData)
+    })
+
+  }
+
+  openDialogRegisterOrder() {
+
+    this.matdialog.open(RegisterOrderDialogComponent)
+
+  }
+
+
+
+  openDialogDeleteOrder(order: any) {
+    this.matdialog.open(DeleteOrderDialogComponent, {data : order})
+
+  }
+
+  editOrder(order: any) {
+      this.matdialog.open(EditOrderDialogComponent, {data : order})
+  }
+
+  openModalOrder(order: any) {
+    this.matdialog.open(OrderPopupComponent, {data : order})
+  }
+
+
+  //GENERATE PDF
 
   toggleAllSelections(): void {
     this.isSelectedAll = !this.isSelectedAll; // Cambiar el estado de "Select All".
@@ -51,36 +95,7 @@ export class OrdersComponent implements OnInit {
   }
 
 
-  showOrders(){
 
-    this.orderService.getOrders().subscribe( data => {
-      this.orderData = data
-      this.orderData =  this.orderData.data
-
-      console.log(this.orderData)
-    })
-
-  }
-
-  openDialogRegisterOrder() {
-
-  }
-
-  getCurrentPageItems() {
-
-  }
-
-  openDialogDeleteOrder(order: any) {
-
-  }
-
-  editOrder(order: any) {
-
-  }
-
-  openModalOrder(order: any) {
-
-  }
 
   calculateInitialIndex() {
 
@@ -96,6 +111,10 @@ export class OrdersComponent implements OnInit {
 
   getTotalPages() {
     return 0;
+  }
+
+  getCurrentPageItems() {
+
   }
 
   exportOrders() {

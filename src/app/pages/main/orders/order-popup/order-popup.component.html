@@ -1,1 +1,13 @@
-<p>order-popup works!</p>
+<div>
+  <h3>{{ data.customer_name }} ({{ data.order_status }})</h3>
+  <table>
+    <tr class="bg-white dark:bg-gray-800" *ngFor="let product of data.products | keyvalue">
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        {{ product.key }}
+      </th>
+      <td class="px-6 py-4">
+        {{ product.value.quantity }}
+      </td>
+    </tr>
+  </table>
+</div>

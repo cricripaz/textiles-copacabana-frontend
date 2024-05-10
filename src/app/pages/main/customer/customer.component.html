@@ -96,7 +96,7 @@
         </thead>
         <tbody>
 
-        <tr class="border-b dark:border-gray-700" *ngFor="let customers of customersData | search: searchUser; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
+        <tr class="border-b dark:border-gray-700" *ngFor="let customers of getCurrentPageItems() | search: searchUser; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
 
 
           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ customers.customer_id}}</th>
@@ -112,10 +112,9 @@
           <td class="px-4 py-3 flex items-center justify-center">
 
 
-            <button mat-icon-button (click)="openModalInfoCustomer(customers)" >
-              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="zoom_out_map"></mat-icon>
-            </button>
-
+<!--            <button mat-icon-button (click)="openModalInfoCustomer(customers)" >-->
+<!--              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="zoom_out_map"></mat-icon>-->
+<!--            </button>-->
 
             <button mat-icon-button (click)="editCustomer(customers)" >
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="mode_edit"></mat-icon>
@@ -129,6 +128,12 @@
           </td>
 
         </tr>
+        <tr *ngFor="let empty of getEmptyRows(); let i = index" class="border-b dark:border-gray-700" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
+          <td colspan="10" class="px-4 py-3">
+            <span style="opacity: 0;">-</span>  <!-- Contenido invisible para mantener el tamaño de la celda -->
+          </td>
+        </tr>
+
         </tbody>
       </table>
     </div>
@@ -136,41 +141,42 @@
 
 
     <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    Showing
-                    <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-                    of
-                    <span class="font-semibold text-gray-900 dark:text-white">1000</span>
-                </span>
+               <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+    Showing
+    <span class="font-semibold text-gray-900 dark:text-white">{{ calculateInitialIndex() + 1 }}</span>
+    to
+    <span class="font-semibold text-gray-900 dark:text-white">{{ calculateFinalIndex() > customersData.length ? customersData.length : calculateFinalIndex() }}</span>
+    of
+    <span class="font-semibold text-gray-900 dark:text-white">{{ customersData.length }}</span>
+  </span>
+
       <ul class="inline-flex items-stretch -space-x-px">
         <li>
-          <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          <a (click)="currentPage = currentPage > 1 ? currentPage - 1 : 1" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
             <span class="sr-only">Previous</span>
-            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <svg class="style-click w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
           </a>
         </li>
+
+        <ng-container *ngFor="let pageNumber of getPageNumbers()">
+          <li>
+            <a  class="style-click flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                [class.bg-primary-50]="pageNumber === currentPage"
+                [class.text-primary-600]="pageNumber === currentPage"
+                (click)="currentPage = pageNumber">
+              {{ pageNumber }}
+            </a>
+          </li>
+        </ng-container>
+
         <li>
-          <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-        </li>
-        <li>
-          <a href="#" aria-current="page" class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          <a class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+             (click)="currentPage = currentPage < getTotalPages() ? currentPage + 1 : getTotalPages()">
             <span class="sr-only">Next</span>
-            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            <svg class=" style-click w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M14.707 9.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 10 10.293 7.707a1 1 0 011.414-1.414l4 4z" clip-rule="evenodd" />
             </svg>
           </a>
         </li>

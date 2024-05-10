@@ -31,11 +31,6 @@ export const navbarData =
       routeLink :'orders',
       icon:'description',
       label:'Ordenes'
-    },
-    {
-      routeLink :'dyeing',
-      icon:'format_color_fill',
-      label:'Teñido'
     }
 
   ]

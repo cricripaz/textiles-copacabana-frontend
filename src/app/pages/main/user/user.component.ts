@@ -3,11 +3,9 @@ import {UserApiService} from "../../../services/user-api.service";
 import {RegisterUserDialogComponent} from "./register-user-dialog/register-user-dialog.component";
 import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
 import {NgForm} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogUserComponent} from "./delete-dialog-userr/delete-dialog.component";
 import {UserPopupComponent} from "./user-popup/user-popup.component";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 
 
@@ -24,7 +22,6 @@ export class UserComponent implements OnInit  {
   usersData : any[] = []
 
 
-  dropdownStates: { [key: number]: boolean } = {};
   searchUser = ''
   currentPage: number = 1 ;
   itemsPerPage: number = 10;
@@ -33,39 +30,15 @@ export class UserComponent implements OnInit  {
   @ViewChild('DataEditUserForm') dataEditUserForm!: NgForm;
 
 
-  toggleDropdown(index: number): void {
-    this.dropdownStates[index] = !this.dropdownStates[index];
-  }
   constructor(
       private userService : UserApiService,
-      private matDialog:MatDialog ,
-      private toastr: ToastrService
+      private matDialog:MatDialog
   ) { }
 
   ngOnInit(): void {
 
     this.showUsers()
 
-  }
-
-
-  calculateInitialIndex(): number {
-    return (this.currentPage - 1) * this.itemsPerPage;
-  }
-
-  calculateFinalIndex(): number {
-    const inventoryLength = this.usersData ? this.usersData.length : 0;
-    const endIndex = this.currentPage * this.itemsPerPage;
-    return endIndex > inventoryLength ? inventoryLength : endIndex;
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.usersData.length / this.itemsPerPage);
-  }
-
-  getPageNumbers(): number[] {
-    const totalPages = this.getTotalPages();
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
 
@@ -76,7 +49,7 @@ export class UserComponent implements OnInit  {
         this.usersData = data && data.users ? data.users : []; // Verifica si data y data.data están definidos
         // Filtrar los usuarios activos después de asignar los datos
         this.usersData = this.usersData.filter((user: any) => user.state == 'active');
-        console.log(this.usersData)
+
         //TODO modificar el backend ya filtrados
       })
 
@@ -117,5 +90,40 @@ export class UserComponent implements OnInit  {
 
   openModalInfoUser(users: any) {
       this.matDialog.open(UserPopupComponent,{data : users})
+  }
+
+
+  //PAGINATION
+
+
+  calculateInitialIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  calculateFinalIndex(): number {
+    const inventoryLength = this.usersData ? this.usersData.length : 0;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    return endIndex > inventoryLength ? inventoryLength : endIndex;
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.usersData.length / this.itemsPerPage);
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  getCurrentPageItems() {
+    const initialIndex = this.calculateInitialIndex();
+    const finalIndex = this.calculateFinalIndex();
+    return this.usersData ? this.usersData.slice(initialIndex, finalIndex) : [];
+  }
+
+  getEmptyRows(): any[] {
+    const itemsShown = this.usersData.slice(this.calculateInitialIndex(), this.calculateFinalIndex()).length;
+    const emptyRowsCount = this.itemsPerPage - itemsShown;
+    return Array(emptyRowsCount).fill(null);
   }
 }

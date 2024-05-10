@@ -14,7 +14,7 @@ export class CustomerApiService {
               ) { }
 
 
-  fetchCustomers(){
+  fetchCustomers():Observable<any>{
     return this.http.get(this.apiUrl)
   }
 

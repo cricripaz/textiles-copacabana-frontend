@@ -15,48 +15,86 @@ import {DeleteCustomerDialogComponent} from "./delete-customer-dialog/delete-cus
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
-  customersData:any
+
+  customersData: any[] = []
   searchUser: string = '';
 
+  currentPage: number = 1 ;
+  itemsPerPage: number = 10;
   constructor(
     private matDialog:MatDialog ,
-    private toastr: ToastrService,
     private customerService: CustomerApiService
   ) { }
 
   ngOnInit(): void {
     this.showCustomers()
   }
-
-
-  showCustomers(){
+  showCustomers() {
     this.customerService.fetchCustomers()
       .subscribe(data => {
-        this.customersData = data
-        this.customersData = this.customersData.data
-      })
+        // Assuming 'data.customers' is the correct path if 'data' and 'data.customers' are valid
+        this.customersData = data && data.customers ? data.customers : [];
+      });
   }
+
+
   openDialogRegisterCustomer() {
     const dialogRef = this.matDialog.open(RegisterDialogComponent)
 
   }
 
+  editCustomer(customers: any) {
+    this.matDialog.open(EditCustomerDialogComponent, {data: customers})
+  }
+
   openDialogDeleteCustomer(customers:any,index: number) {
     this.matDialog.open(DeleteCustomerDialogComponent,
       { data:customers }).afterClosed().subscribe( (res) => {
-      if (res === 'yes'){
+            if (res === 'yes'){
         this.customersData.splice(index,1)
       }
 
     })
   }
 
-
   openModalInfoCustomer(customers: any) {
 
   }
 
-  editCustomer(customers: any) {
-      this.matDialog.open(EditCustomerDialogComponent, {data: customers})
+
+  //PAGINATION
+
+  calculateInitialIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
   }
+
+  calculateFinalIndex(): number {
+    const inventoryLength = this.customersData ? this.customersData.length : 0;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    return endIndex > inventoryLength ? inventoryLength : endIndex;
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.customersData.length / this.itemsPerPage);
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+
+  getCurrentPageItems() {
+    const initialIndex = this.calculateInitialIndex();
+    const finalIndex = this.calculateFinalIndex();
+    return this.customersData ? this.customersData.slice(initialIndex, finalIndex) : [];
+  }
+
+  getEmptyRows(): any[] {
+    const itemsShown = this.customersData.slice(this.calculateInitialIndex(), this.calculateFinalIndex()).length;
+    const emptyRowsCount = this.itemsPerPage - itemsShown;
+    return Array(emptyRowsCount).fill(null);
+  }
+
+
 }

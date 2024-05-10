@@ -73,6 +73,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
         <tr>
+          <th scope="col" class="px-4 py-3">ID</th>
           <th scope="col" class="px-4 py-3">Nombre</th>
           <th scope="col" class="px-4 py-3">Tipo</th>
           <th scope="col" class="px-4 py-3">Encargado</th>
@@ -86,12 +87,12 @@
 
         <tr class="border-b dark:border-gray-700" *ngFor="let item of getCurrentPageItems() | search: searchItem; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
 
-          <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ item.name}}</th>
-          <td class="px-4 py-3">{{ item.dyeType_id | typeDye}}</td>
+          <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ item.dyeInventory_id}}</th>
+          <td class="px-4 py-3">{{item.name}}</td>
+          <td class="px-4 py-3">{{ item.dyeType }}</td>
           <td class="px-4 py-3">{{ item.encargado}}</td>
           <td class="px-4 py-3">{{ item.weight}} kg</td>
           <td class="px-4 py-3">{{ item.description}}</td>
-
 
 
           <td class="px-4 py-3 flex items-center justify-center">

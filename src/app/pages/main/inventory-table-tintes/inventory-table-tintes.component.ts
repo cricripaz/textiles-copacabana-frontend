@@ -42,8 +42,7 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
 
     this.inventoryService.fetchInventory()
       .subscribe(data => {
-        this.inventoryData = data && data.data ? data.data : []; // Check if data and data.data are defined
-        console.log(this.inventoryData)
+        this.inventoryData = data && data.data ? data.data : [];
       });
   }
 

@@ -19,6 +19,7 @@ export class EditInventoryComponent implements OnInit{
   inventoryForm!: FormGroup;
 
 
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data : any,
     private fb : FormBuilder,
@@ -35,9 +36,10 @@ export class EditInventoryComponent implements OnInit{
 
   private initializeForm (){
 
+
     this.inventoryForm = this.fb.group({
       name: [this.data.name,Validators.required],
-      dyeType_id: [this.data.dyeType_id,Validators.required],
+      type: [this.data.dyeType],
       weight: [this.data.weight,Validators.required],
       description: [this.data.description,Validators.required],
     })
@@ -49,7 +51,7 @@ export class EditInventoryComponent implements OnInit{
 
     const formData = this.inventoryForm.value
 
-    console.log(formData)
+
 
     this.inventoryService.editItemInventory(id,formData)
       .subscribe(

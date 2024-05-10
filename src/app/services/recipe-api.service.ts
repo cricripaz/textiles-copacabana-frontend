@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, map} from "rxjs/operators";
-import {of, throwError} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 
 @Injectable({
@@ -15,7 +15,7 @@ export class RecipeApiService {
     private toastr : ToastrService) { }
 
 
-  fetchRecipes(){
+  fetchRecipes():Observable<any>  {
     return this.http.get(this.apiUrl)
   }
 

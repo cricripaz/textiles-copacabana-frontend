@@ -14,10 +14,11 @@ import {EditDialogComponent} from "./edit-dialog/edit-dialog.component";
 })
 export class RecipesComponent implements OnInit {
 
-  recipeData:any
+  recipeData: any[] = []
   searchUser: string=''
-  dropdownStates: { [key: number]: boolean } = {};
 
+  currentPage: number = 1 ;
+  itemsPerPage: number = 10;
   constructor(
     private recipeService : RecipeApiService,
     private matdialog : MatDialog
@@ -27,51 +28,69 @@ export class RecipesComponent implements OnInit {
     this.showRecipes()
   }
 
-
   showRecipes(){
     this.recipeService.fetchRecipes()
-      .subscribe(
-        data => {
-          this.recipeData = data
-          this.recipeData = this.recipeData.recipes
-          console.log(this.recipeData)
-        }
-      )
-  }
-  toggleDropdown(index: number): void {
-    this.dropdownStates[index] = !this.dropdownStates[index];
+      .subscribe(data => {
+        this.recipeData = data && data.recipes ? data.recipes : []; // Verifica si data y data.data están definidos
+
+      })
   }
   openDialogRegisterRecipe() {
     this.matdialog.open(RegisterDialogComponent)
 
   }
 
-  openDialogDeleteRecipe(recipe : any) {
+  openDialogDeleteRecipe(recipe : any, index:number) {
 
-    this.matdialog.open(DeleteDialogComponent,{data : recipe} )
-
-  }
-
-  editRecipe(recipe: any) {
-    this.matdialog.open(EditDialogComponent,
-      {
-
-        data: { recipe: {...recipe, ingredients: recipe.ingredients || []} }
-
+    this.matdialog.open(DeleteDialogComponent,{data : recipe} ).afterClosed().subscribe( (res)=> {
+          if (res === 'yes'){
+            this.recipeData.splice(index,1)
           }
-    );
-  }
-
-  deleteRecipe(i: number) {
+    })
 
   }
+  editRecipe(recipe: any) {
+    this.matdialog.open(EditDialogComponent, {data: { recipe: {...recipe, ingredients: recipe.ingredients || []} }});
+  }
 
-  protected readonly Object = Object;
 
   openModalInfoRecipe(recipes: any) {
 
     const dialogRef = this.matdialog.open(RecipePopupComponent,{data : recipes})
-
-
   }
+
+
+  //PAGINATION
+  calculateInitialIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  calculateFinalIndex(): number {
+    const inventoryLength = this.recipeData ? this.recipeData.length : 0;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    return endIndex > inventoryLength ? inventoryLength : endIndex;
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.recipeData.length / this.itemsPerPage);
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  getCurrentPageItems() {
+    const initialIndex = this.calculateInitialIndex();
+    const finalIndex = this.calculateFinalIndex();
+    return this.recipeData ? this.recipeData.slice(initialIndex, finalIndex) : [];
+  }
+
+  getEmptyRows(): any[] {
+    const itemsShown = this.recipeData.slice(this.calculateInitialIndex(), this.calculateFinalIndex()).length;
+    const emptyRowsCount = this.itemsPerPage - itemsShown;
+    return Array(emptyRowsCount).fill(null);
+  }
+
+
 }

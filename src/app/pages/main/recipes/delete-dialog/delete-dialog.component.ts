@@ -27,7 +27,7 @@ export class DeleteDialogComponent implements OnInit {
 
     this.recipeServices.deleteRecipe(id).subscribe(() => {
       // Cerrar el modal
-      this.dialogRef.close();
+      this.dialogRef.close('yes');
 
       // Mostrar el toast de éxito
       this.toast.success('Receta Eliminada Correctamente');

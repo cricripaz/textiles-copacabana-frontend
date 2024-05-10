@@ -92,7 +92,7 @@
           </thead>
           <tbody>
 
-          <tr class="border-b dark:border-gray-700" *ngFor="let users of usersData | search: searchUser; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
+          <tr class="border-b dark:border-gray-700" *ngFor="let users of getCurrentPageItems() | search: searchUser; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
 
 
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white" >{{ users.user_id}}</th>
@@ -125,6 +125,12 @@
 
 
 
+          </tr>
+
+          <tr *ngFor="let empty of getEmptyRows(); let i = index" class="border-b dark:border-gray-700" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
+            <td colspan="10" class="px-4 py-3">
+              <span style="opacity: 0;">-</span>  <!-- Contenido invisible para mantener el tamaño de la celda -->
+            </td>
           </tr>
           </tbody>
         </table>

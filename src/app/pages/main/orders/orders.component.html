@@ -91,6 +91,7 @@
           <th scope="col" class="px-4 py-3">Estado</th>
           <th scope="col" class="px-4 py-3">Cliente</th>
           <th scope="col" class="px-4 py-3">Fecha</th>
+          <th scope="col" class="px-4 py-3">Acciones</th>
         </tr>
 
         </thead>
@@ -136,7 +137,7 @@
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="mode_edit"></mat-icon>
             </button>
 
-            <button mat-icon-button (click)="openDialogDeleteOrder(order)" >
+            <button mat-icon-button (click)="openDialogDeleteOrder(order , i)" >
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
             </button>
 

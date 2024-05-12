@@ -17,5 +17,9 @@ export class OrdersApiService {
     return this.http.get(this.apiUrl)
   }
 
+  public deleteOrder(id : number){
+    return this.http.delete(`${this.apiUrl}/delete/${id}`)
+  }
+
 
 }

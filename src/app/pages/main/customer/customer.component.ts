@@ -50,7 +50,7 @@ export class CustomerComponent implements OnInit {
   openDialogDeleteCustomer(customers:any,index: number) {
     this.matDialog.open(DeleteCustomerDialogComponent,
       { data:customers }).afterClosed().subscribe( (res) => {
-            if (res === 'yes'){
+      if (res === 'yes'){
         this.customersData.splice(index,1)
       }
 

@@ -48,6 +48,7 @@ export class UserComponent implements OnInit  {
       .subscribe(data => {
         this.usersData = data && data.users ? data.users : []; // Verifica si data y data.data están definidos
         // Filtrar los usuarios activos después de asignar los datos
+        console.log(this.usersData)
         this.usersData = this.usersData.filter((user: any) => user.state == 'active');
 
         //TODO modificar el backend ya filtrados

@@ -10,6 +10,7 @@ import {DeleteOrderDialogComponent} from "./delete-order-dialog/delete-order-dia
 import {EditOrderDialogComponent} from "./edit-order-dialog/edit-order-dialog.component";
 import {OrderPopupComponent} from "./order-popup/order-popup.component";
 
+
 // @ts-ignore
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -45,22 +46,22 @@ export class OrdersComponent implements OnInit {
     this.orderService.getOrders().subscribe( data => {
       this.orderData = data
       this.orderData =  this.orderData.data
-
-      console.log(this.orderData)
     })
 
   }
 
   openDialogRegisterOrder() {
-
     this.matdialog.open(RegisterOrderDialogComponent)
-
   }
 
 
 
-  openDialogDeleteOrder(order: any) {
-    this.matdialog.open(DeleteOrderDialogComponent, {data : order})
+  openDialogDeleteOrder(order: any,index :number) {
+    this.matdialog.open(DeleteOrderDialogComponent, {data : order}).afterClosed().subscribe((res) =>{
+
+      res == 'yes' ? this.orderData.splice(index,1): ''
+
+    })
 
   }
 
@@ -118,33 +119,28 @@ export class OrdersComponent implements OnInit {
   }
 
   exportOrders() {
-
-
-    const selectedOrders = Array.from(this.selectedIndexes).map(index => this.orderData[index])
+    const selectedOrders = Array.from(this.selectedIndexes).map(index => this.orderData[index]);
 
     if (selectedOrders.length === 0) {
-
-      this.toastrService.warning('Selecciona al menos 1 Orden')
-
+      this.toastrService.warning('Selecciona al menos 1 Orden');
     } else {
-
-
-      // Aquí puedes hacer más acciones, como procesar las órdenes seleccionadas.
-
       const body = [];
-      // Agregar los encabezados de columna al PDF
       body.push([
-        'ID', 'Título', 'Color', 'Código Color', 'Fecha', 'Estado', 'realizado'
+        'ID', 'Nombre del Cliente', 'Estado', 'Fecha de Entrada', '       Nombre      |   Cantidad ','Realizado'
       ]);
 
       selectedOrders.forEach(order => {
+        const products  = Object.entries(order.products).map(([productName, product]) => {
+          // @ts-ignore
+          return [productName, product.quantity];
+        });
+
         body.push([
-          order.lote.toString(),
-          order.title,
-          order.color,
-          order.cod_color,
-          new Date(order.date).toLocaleDateString(),
-          order.state,
+          order.order_id.toString(),
+          order.customer_name,
+          order.order_status,
+          new Date(order.entry_date).toLocaleDateString(),
+          { table: { body: products } },
           '  '
         ]);
       });
@@ -152,14 +148,12 @@ export class OrdersComponent implements OnInit {
       const docDefinition = {
         content: [
           {
-            // Contenedor para la imagen y el título
             columns: [
               {
-                // Columna para el título, asegurándose de que se alinee a la izquierda
                 text: `Órdenes del día: ${new Date().toLocaleDateString()}`,
                 style: 'header',
                 alignment: 'left',
-                margin: [10, 0, 0, 0]  // Margen para alinear correctamente con la imagen
+                margin: [10, 0, 0, 0]
               }
             ]
           },
@@ -174,17 +168,18 @@ export class OrdersComponent implements OnInit {
           header: {
             fontSize: 18,
             bold: true,
-            margin: [0, 10, 0, 10] // Ajustado para alinear con la imagen
+            margin: [0, 10, 0, 10]
           },
           tableExample: {
             margin: [0, 5, 0, 15]
           }
         }
       };
+
       // @ts-ignore
       pdfMake.createPdf(docDefinition).open();
-
-
     }
   }
+
+
 }

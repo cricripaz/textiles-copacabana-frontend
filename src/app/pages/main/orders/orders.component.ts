@@ -20,18 +20,21 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 
 export class OrdersComponent implements OnInit {
-  searchItem: string= '';
+  searchItem: string = '';
   orderData: any;
+  filteredOrders = [];
   currentPage: number = 0;
   selectedIndexes: Set<number> = new Set<number>();
   isSelectedAll: boolean = false; // Estado de la checkbox "Select All"
+  selectedStatuses: Set<string> = new Set();
 
 
   constructor(
-    private orderService : OrdersApiService,
-    private toastrService : ToastrService,
-    private matdialog : MatDialog
-  ) { }
+    private orderService: OrdersApiService,
+    private toastrService: ToastrService,
+    private matdialog: MatDialog
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -41,13 +44,30 @@ export class OrdersComponent implements OnInit {
 
   //ACTIONS
 
-  showOrders(){
-
-    this.orderService.getOrders().subscribe( data => {
+  showOrders() {
+    this.orderService.getOrders().subscribe(data => {
       this.orderData = data
-      this.orderData =  this.orderData.data
+      this.orderData = this.orderData.data
+      this.filterOrders();
     })
 
+  }
+
+  toggleStatusFilter(status: string): void {
+    if (this.selectedStatuses.has(status)) {
+      this.selectedStatuses.delete(status);
+    } else {
+      this.selectedStatuses.add(status);
+    }
+    this.filterOrders();
+  }
+
+  filterOrders(): void {
+    if (this.selectedStatuses.size > 0) {
+      this.filteredOrders = this.orderData.filter((order: { order_status: string; }) => this.selectedStatuses.has(order.order_status));
+    } else {
+      this.filteredOrders = this.orderData;
+    }
   }
 
   openDialogRegisterOrder() {
@@ -55,22 +75,21 @@ export class OrdersComponent implements OnInit {
   }
 
 
+  openDialogDeleteOrder(order: any, index: number) {
+    this.matdialog.open(DeleteOrderDialogComponent, {data: order}).afterClosed().subscribe((res) => {
 
-  openDialogDeleteOrder(order: any,index :number) {
-    this.matdialog.open(DeleteOrderDialogComponent, {data : order}).afterClosed().subscribe((res) =>{
-
-      res == 'yes' ? this.orderData.splice(index,1): ''
+      res == 'yes' ? this.orderData.splice(index, 1) : ''
 
     })
 
   }
 
   editOrder(order: any) {
-      this.matdialog.open(EditOrderDialogComponent, {data : order})
+    this.matdialog.open(EditOrderDialogComponent, {data: order})
   }
 
   openModalOrder(order: any) {
-    this.matdialog.open(OrderPopupComponent, {data : order})
+    this.matdialog.open(OrderPopupComponent, {data: order})
   }
 
 
@@ -84,6 +103,7 @@ export class OrdersComponent implements OnInit {
       this.selectedIndexes.clear();
     }
   }
+
   toggleSelection(index: number): void {
     if (this.selectedIndexes.has(index)) {
       this.selectedIndexes.delete(index);
@@ -94,8 +114,6 @@ export class OrdersComponent implements OnInit {
       this.isSelectedAll = this.selectedIndexes.size === this.orderData.length;
     }
   }
-
-
 
 
   calculateInitialIndex() {
@@ -126,11 +144,11 @@ export class OrdersComponent implements OnInit {
     } else {
       const body = [];
       body.push([
-        'ID', 'Nombre del Cliente', 'Estado', 'Fecha de Entrada', '       Nombre      |   Cantidad ','Realizado'
+        'ID', 'Nombre del Cliente', 'Estado', 'Fecha de Entrada', '       Nombre      |   Cantidad ', 'Realizado'
       ]);
 
       selectedOrders.forEach(order => {
-        const products  = Object.entries(order.products).map(([productName, product]) => {
+        const products = Object.entries(order.products).map(([productName, product]) => {
           // @ts-ignore
           return [productName, product.quantity];
         });
@@ -140,7 +158,7 @@ export class OrdersComponent implements OnInit {
           order.customer_name,
           order.order_status,
           new Date(order.entry_date).toLocaleDateString(),
-          { table: { body: products } },
+          {table: {body: products}},
           '  '
         ]);
       });
@@ -204,3 +222,5 @@ export class OrdersComponent implements OnInit {
     console.log(order);
   }
 }
+
+

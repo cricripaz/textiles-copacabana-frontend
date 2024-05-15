@@ -1,5 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  baseUrl : ''
 };
 
 // TODO investigar PROD angular 14 , 17

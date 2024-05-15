@@ -92,6 +92,7 @@
           <th scope="col" class="px-4 py-3">Cliente</th>
           <th scope="col" class="px-4 py-3">Fecha</th>
           <th scope="col" class="px-4 py-3">Acciones</th>
+          <th scope="col" class="px-4 py-3">Operaciones</th>
         </tr>
 
         </thead>
@@ -115,18 +116,14 @@
           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ order.order_id}}</th>
 
           <td class="px-4 py-3 ">
-            <span class="inline-block rounded bg-gray-200 px-2.5 py-1" [ngClass]="order.order_status === 'En Proceso'? 'bg-yellow' : order.state === 'Completado'? 'bg-green' : 'bg-orange'">
+            <span class="inline-block rounded bg-gray-200 px-2.5 py-1" [ngClass]="order.order_status === 'En Proceso'? 'bg-yellow' : order.order_status === 'Completado'? 'bg-green-300' : 'bg-orange'">
               {{ order.order_status }}
             </span>
           </td>
           <td class="px-4 py-3">{{ order.customer_name}}</td>
           <td class="px-4 py-3">{{ order.entry_date}}</td>
 
-
-
           <td class="px-4 py-3 flex items-center justify-center">
-
-
 
             <button mat-icon-button (click)="openModalOrder(order)" >
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="zoom_out_map"></mat-icon>
@@ -141,9 +138,13 @@
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
             </button>
 
-
           </td>
 
+          <td class="px-4 py-3">
+            <button mat-icon-button (click)="startOrder(order,i)" [disabled]="order.isButtonDisabled">
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="done"></mat-icon>
+            </button>
+          </td>
 
         </tr>
         </tbody>

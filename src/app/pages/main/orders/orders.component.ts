@@ -182,4 +182,25 @@ export class OrdersComponent implements OnInit {
   }
 
 
+  startOrder(order: any, index: number) {
+    if (!order.clickState) {
+      order.clickState = false; // Inicializa la propiedad si no existe
+    }
+    order.clickState = !order.clickState; // Alterna el estado del clic
+
+    if (order.clickState) {
+      this.orderData[index].order_status = 'En Proceso';
+      this.toastrService.success('Orden En Proceso');
+    } else {
+      this.orderData[index].order_status = 'Completado';
+      this.toastrService.success('Orden Terminada');
+    }
+
+    // Deshabilitar el botón si el estado es "Terminado"
+    if (this.orderData[index].order_status === 'Completado') {
+      order.isButtonDisabled = true;
+    }
+
+    console.log(order);
+  }
 }

@@ -13,6 +13,8 @@ import {ToastrService} from "ngx-toastr";
 export class EditDialogComponent implements OnInit {
   form!: FormGroup;
    id! : number
+
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditDialogComponent>,

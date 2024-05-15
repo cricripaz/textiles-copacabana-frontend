@@ -14,9 +14,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {NgForOf, NgIf} from "@angular/common";
 import {CustomerApiService} from "../../../../services/customer-api.service";
 import {Customer} from "../../../../models/customer.model";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
-import {map} from "rxjs/operators";
-import {ThisReceiver} from "@angular/compiler";
+import {ProductServiceService} from "../../../../services/product.service.service";
+
 
 @Component({
   selector: 'app-register-order-dialog',
@@ -34,22 +33,31 @@ import {ThisReceiver} from "@angular/compiler";
 })
 export class RegisterOrderDialogComponent implements OnInit{
   formOrder!: FormGroup;
-  customers: Customer[] = [];  // Assuming Customer is properly defined
+  customers: Customer[] = [];
+  productsData : any[] =[];
 
   constructor(
     private customerService: CustomerApiService,
+    private productsService: ProductServiceService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.getCustomers();
+    this.getData();
   }
 
   private initForm(): void {
     this.formOrder = this.fb.group({
       customer: ['', Validators.required],
-      products: this.fb.array([this.createProduct()])
+      products: this.fb.array([this.createProductGroup()])
+    });
+  }
+
+  private createProductGroup(): FormGroup {
+    return this.fb.group({
+      product_select: ['', Validators.required],
+      quantity:['']
     });
   }
 
@@ -57,18 +65,24 @@ export class RegisterOrderDialogComponent implements OnInit{
     return this.formOrder.get('products') as FormArray;
   }
 
-  private createProduct(): FormGroup {
-    return this.fb.group({
-      type: ['', Validators.required],
-      color: ['', Validators.required]
+  getData(): void {
+    this.customerService.fetchCustomers().subscribe((res) => {
+      this.customers = res.customers.sort((a: { name: string; }, b: { name: string; }) => a.name.localeCompare(b.name));
+    });
+
+    this.productsService.fetchProducts().subscribe((res) => {
+      this.productsData = res.products.sort((a: { name_product: string; }, b: { name_product: string; }) => a.name_product.localeCompare(b.name_product));
     });
   }
 
-  getCustomers(): void {
-    this.customerService.fetchCustomers().subscribe({
-      next: (data: any[]) => this.customers = data,
-      error: (err: any) => console.error('Failed to fetch customers', err)
-    });
+  addProduct(): void {
+    this.products.push(this.createProductGroup());
+  }
+
+  removeProduct(index: number): void {
+    if (this.products.length > 1) {
+      this.products.removeAt(index);
+    }
   }
 
   onSubmit(): void {
@@ -76,12 +90,6 @@ export class RegisterOrderDialogComponent implements OnInit{
     // Handle form submission
   }
 
-  addProduct(): void {
-    this.products.push(this.createProduct());
-  }
 
-  removeProduct(index: number): void {
-    this.products.removeAt(index);
-  }
 
 }

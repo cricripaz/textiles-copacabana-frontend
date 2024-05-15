@@ -19,6 +19,7 @@
         </div>
         <div class="col-span-2">
           <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredientes</label>
+
           <div formArrayName="ingredients">
             <div *ngFor="let ingredient of ingredients.controls; let i = index ;let isLast = last; " [formGroupName]="i">
               <div class="flex space-x-4 items-center">

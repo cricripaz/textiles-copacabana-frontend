@@ -6,6 +6,7 @@ import {RecipePopupComponent} from "./recipe-popup/recipe-popup.component";
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {EditDialogComponent} from "./edit-dialog/edit-dialog.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-recipes',
@@ -21,7 +22,8 @@ export class RecipesComponent implements OnInit {
   itemsPerPage: number = 10;
   constructor(
     private recipeService : RecipeApiService,
-    private matdialog : MatDialog
+    private matdialog : MatDialog,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -93,4 +95,7 @@ export class RecipesComponent implements OnInit {
   }
 
 
+  starOrder(recipes: any) {
+    this.toastr.success('Orden Iniciada')
+  }
 }

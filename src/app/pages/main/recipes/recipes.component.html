@@ -80,6 +80,7 @@
           <th scope="col" class="px-4 py-3">Nombre</th>
           <th scope="col" class="px-4 py-3">Peso</th>
           <th scope="col" class="px-4 py-3 text-center">Acciones</th>
+          <th scope="col" class="px-4 py-3 text-center">Operaciones</th>
         </tr>
         </thead>
 
@@ -92,7 +93,7 @@
 
 
             <button mat-icon-button (click)="openModalInfoRecipe(recipes)" >
-              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="zoom_out_map"></mat-icon>
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="visibility"></mat-icon>
             </button>
 
 
@@ -106,6 +107,12 @@
 
 
           </td>
+          <td class="px-4 py-3">
+            <button mat-icon-button (click)="starOrder(recipes)" >
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="done"></mat-icon>
+            </button>
+          </td>
+
         </tr>
 
         <tr *ngFor="let empty of getEmptyRows(); let i = index" class="border-b dark:border-gray-700" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">

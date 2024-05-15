@@ -99,7 +99,10 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-						"scripts": []
+						"scripts": [
+              "node_modules/alpinejs/dist/cdn.min.js",
+              "node_modules/flowbite/dist/flowbite.min.js"
+            ]
 					}
 				}
 			}

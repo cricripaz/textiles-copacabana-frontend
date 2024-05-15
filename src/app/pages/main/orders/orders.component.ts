@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {OrdersApiService} from "../../../services/orders-api.service";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -22,12 +22,17 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class OrdersComponent implements OnInit {
   searchItem: string = '';
   orderData: any;
-  filteredOrders = [];
+  filteredOrders :any ;
   currentPage: number = 0;
   selectedIndexes: Set<number> = new Set<number>();
   isSelectedAll: boolean = false; // Estado de la checkbox "Select All"
   selectedStatuses: Set<string> = new Set();
-
+  dropdownVisible = false;
+  filters: { [key: string]: boolean } = {
+    enProceso: false,
+    completado: false,
+    pendiente: false
+  };
 
   constructor(
     private orderService: OrdersApiService,
@@ -40,7 +45,9 @@ export class OrdersComponent implements OnInit {
 
     this.showOrders()
 
+
   }
+
 
   //ACTIONS
 
@@ -54,12 +61,19 @@ export class OrdersComponent implements OnInit {
   }
 
   toggleStatusFilter(status: string): void {
+    this.filters[status] = !this.filters[status];
+    console.log(this.filters);
+
     if (this.selectedStatuses.has(status)) {
       this.selectedStatuses.delete(status);
     } else {
       this.selectedStatuses.add(status);
     }
     this.filterOrders();
+  }
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 
   filterOrders(): void {
@@ -98,7 +112,7 @@ export class OrdersComponent implements OnInit {
   toggleAllSelections(): void {
     this.isSelectedAll = !this.isSelectedAll; // Cambiar el estado de "Select All".
     if (this.isSelectedAll) {
-      this.orderData.forEach((_: any, index: number) => this.selectedIndexes.add(index));
+      this.filteredOrders.forEach((_: any, index: number) => this.selectedIndexes.add(index));
     } else {
       this.selectedIndexes.clear();
     }
@@ -111,7 +125,7 @@ export class OrdersComponent implements OnInit {
     } else {
       this.selectedIndexes.add(index);
       // Si el tamaño del conjunto de índices seleccionados es igual al número de órdenes, marcar "Select All".
-      this.isSelectedAll = this.selectedIndexes.size === this.orderData.length;
+      this.isSelectedAll = this.selectedIndexes.size === this.filteredOrders.length;
     }
   }
 
@@ -137,7 +151,7 @@ export class OrdersComponent implements OnInit {
   }
 
   exportOrders() {
-    const selectedOrders = Array.from(this.selectedIndexes).map(index => this.orderData[index]);
+    const selectedOrders = Array.from(this.selectedIndexes).map(index => this.filteredOrders[index]);
 
     if (selectedOrders.length === 0) {
       this.toastrService.warning('Selecciona al menos 1 Orden');
@@ -146,7 +160,7 @@ export class OrdersComponent implements OnInit {
       body.push([
         'ID', 'Nombre del Cliente', 'Estado', 'Fecha de Entrada', '       Nombre      |   Cantidad ', 'Realizado'
       ]);
-
+      console.log(selectedOrders)
       selectedOrders.forEach(order => {
         const products = Object.entries(order.products).map(([productName, product]) => {
           // @ts-ignore

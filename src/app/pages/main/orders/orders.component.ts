@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {OrdersApiService} from "../../../services/orders-api.service";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -60,6 +60,13 @@ export class OrdersComponent implements OnInit {
 
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('#filterDropdownButton') && !target.closest('#filterDropOrder')) {
+      this.dropdownVisible = false;
+    }
+  }
   toggleStatusFilter(status: string): void {
     this.filters[status] = !this.filters[status];
     console.log(this.filters);

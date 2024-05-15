@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {KeyValuePipe, NgForOf} from "@angular/common";
+import {KeyValuePipe, NgClass, NgForOf} from "@angular/common";
 import {Order} from "../../../../models/order.model";
 
 
@@ -9,7 +9,8 @@ import {Order} from "../../../../models/order.model";
   standalone: true,
   imports: [
     NgForOf,
-    KeyValuePipe
+    KeyValuePipe,
+    NgClass
   ],
   templateUrl: './order-popup.component.html',
   styleUrl: './order-popup.component.scss'

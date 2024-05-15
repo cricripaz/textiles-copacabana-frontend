@@ -1,13 +1,31 @@
-<div>
-  <h3>{{ data.customer_name }} ({{ data.order_status }})</h3>
-  <table>
-    <tr class="bg-white dark:bg-gray-800" *ngFor="let product of data.products | keyvalue">
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-        {{ product.key }}
-      </th>
-      <td class="px-6 py-4">
-        {{ product.value.quantity }}
-      </td>
+<div class="relative overflow-x-auto p-6 bg-white shadow-md rounded-lg dark:bg-gray-800">
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Orden # {{ data.order_id }}</h2>
+  <div class="mb-6">
+    <div class="flex items-center mb-2">
+      <span class="text-sm font-semibold text-gray-900 dark:text-white mr-2">Cliente:</span>
+      <span class="text-sm text-gray-700 dark:text-gray-300">{{ data.customer_name }}</span>
+    </div>
+    <div class="flex items-center mb-6">
+      <span class="text-sm font-semibold text-gray-900 dark:text-white mr-2">Estado:</span>
+      <span class="inline-block rounded-full text-white px-3 py-1 text-sm" [ngClass]="{
+        'bg-yellow-500': data.order_status === 'En Proceso',
+        'bg-green-500': data.order_status === 'Completado',
+        'bg-orange-500': data.order_status === 'Pendiente'
+      }">{{ data.order_status }}</span>
+    </div>
+  </div>
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" class="px-6 py-3 rounded-s-lg">Product Name</th>
+      <th scope="col" class="px-6 py-3">Quantity</th>
     </tr>
+    </thead>
+    <tbody>
+    <tr class="bg-white dark:bg-gray-800" *ngFor="let product of data.products | keyvalue">
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ product.key }}</th>
+      <td class="px-6 py-4">{{ product.value.quantity }}</td>
+    </tr>
+    </tbody>
   </table>
 </div>

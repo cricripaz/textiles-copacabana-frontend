@@ -28,6 +28,7 @@ export class OrdersComponent implements OnInit {
   isSelectedAll: boolean = false; // Estado de la checkbox "Select All"
   selectedStatuses: Set<string> = new Set();
   dropdownVisible = false;
+
   filters: { [key: string]: boolean } = {
     enProceso: false,
     completado: false,

@@ -25,7 +25,8 @@ export class UserComponent implements OnInit  {
   searchUser = ''
   currentPage: number = 1 ;
   itemsPerPage: number = 10;
-
+  dropdownVisible: boolean = false;
+  selectedStatuses: Set<string> = new Set();
 
   @ViewChild('DataEditUserForm') dataEditUserForm!: NgForm;
 
@@ -97,6 +98,7 @@ export class UserComponent implements OnInit  {
   //PAGINATION
 
 
+
   calculateInitialIndex(): number {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
@@ -127,4 +129,9 @@ export class UserComponent implements OnInit  {
     const emptyRowsCount = this.itemsPerPage - itemsShown;
     return Array(emptyRowsCount).fill(null);
   }
+
+  toggleDropdown() {
+
+  }
+
 }

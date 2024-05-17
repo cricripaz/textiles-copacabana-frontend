@@ -1,10 +1,12 @@
 import {Component, Inject, inject} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-user-popup',
   standalone: true,
-  imports: [],
+  imports: [
+    MatDialogModule
+  ],
   templateUrl: './user-popup.component.html',
   styleUrl: './user-popup.component.scss'
 })

@@ -19,7 +19,9 @@ import { map } from "rxjs/operators";
 import { ColorApiService } from "../../../../services/color-api.service";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {OrdersApiService} from "../../../../services/orders-api.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register-order-dialog',
@@ -50,9 +52,12 @@ export class RegisterOrderDialogComponent implements OnInit {
 
   constructor(
     private customerService: CustomerApiService,
+    private orderService : OrdersApiService,
     private materialService: MaterialApiService,
     private colorService: ColorApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr : ToastrService,
+    private matdialog : MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -71,8 +76,8 @@ export class RegisterOrderDialogComponent implements OnInit {
   private createProductGroup(): FormGroup {
 
     const productGroup = this.fb.group({
-      material: [''],
-      color: [''],
+      name_material: [''],
+      name_color: [''],
       quantity: ['']
     });
 
@@ -85,7 +90,7 @@ export class RegisterOrderDialogComponent implements OnInit {
 
   private setupMaterialAutocomplete(productGroup: FormGroup): void {
 
-    const materialControl = productGroup.get('material')!;
+    const materialControl = productGroup.get('name_material')!;
     this.filteredMaterials.push(
       materialControl.valueChanges.pipe(
         startWith(''),
@@ -97,7 +102,7 @@ export class RegisterOrderDialogComponent implements OnInit {
   }
 
   private setupColorAutocomplete(productGroup: FormGroup): void {
-    const colorControl = productGroup.get('color')!;
+    const colorControl = productGroup.get('name_color')!;
     this.filteredColors.push(
       colorControl.valueChanges.pipe(
         startWith(''),
@@ -176,6 +181,24 @@ export class RegisterOrderDialogComponent implements OnInit {
 
   onSubmit(): void {
     console.log('Form submitted with value:', this.formOrder.value);
-    // Handle form submission
+
+    const orderData = {
+      customer_id: this.formOrder.value.customer,
+      products: this.formOrder.value.products.map((product: any) => ({
+        name_material: product.name_material,
+        name_color: product.name_color,
+        quantity: product.quantity
+      }))
+    };
+
+    this.orderService.createOrder(orderData).subscribe(response => {
+      this.toastr.success('Orden Creada exitosamente','Exito')
+      this.matdialog.closeAll()
+      // Manejar la respuesta, redirigir o mostrar mensaje de éxito
+    }, error => {
+      console.error(error)
+      // Manejar el error, mostrar mensaje de error
+    });
   }
+
 }

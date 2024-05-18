@@ -17,6 +17,10 @@ export class OrdersApiService {
     return this.http.get(this.apiUrl)
   }
 
+  public createOrder(body:any) {
+    return this.http.post(`${this.apiUrl}/create`,body)
+  }
+
   public deleteOrder(id : number){
     return this.http.delete(`${this.apiUrl}/delete/${id}`)
   }

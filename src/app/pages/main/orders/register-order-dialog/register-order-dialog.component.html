@@ -35,7 +35,7 @@
                 <mat-form-field class="w-full">
                   <input id="material-{{i}}" type="text"
                          matInput
-                         formControlName="material"
+                         formControlName="name_material"
                          [matAutocomplete]="autoMaterial">
                   <mat-autocomplete #autoMaterial="matAutocomplete">
                     <mat-option *ngFor="let option of filteredMaterials[i] | async" [value]="option.name">
@@ -49,7 +49,7 @@
                 <mat-form-field class="w-full">
                   <input id="color-{{i}}" type="text"
                          matInput
-                         formControlName="color"
+                         formControlName="name_color"
                          [matAutocomplete]="autoColor">
                   <mat-autocomplete #autoColor="matAutocomplete">
                     <mat-option *ngFor="let option of filteredColors[i] | async" [value]="option.name">

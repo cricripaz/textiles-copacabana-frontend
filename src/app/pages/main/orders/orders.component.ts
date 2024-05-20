@@ -22,12 +22,16 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class OrdersComponent implements OnInit {
   searchItem: string = '';
   orderData: any;
-  filteredOrders :any ;
-  currentPage: number = 0;
+  filteredOrders: any[] = [];
+  paginatedOrders: any[] =[];
   selectedIndexes: Set<number> = new Set<number>();
   isSelectedAll: boolean = false; // Estado de la checkbox "Select All"
   selectedStatuses: Set<string> = new Set();
   dropdownVisible = false;
+
+//PAGINATION
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
 
   filters: { [key: string]: boolean } = {
     enProceso: false,
@@ -51,14 +55,12 @@ export class OrdersComponent implements OnInit {
 
 
   //ACTIONS
-
   showOrders() {
     this.orderService.getOrders().subscribe(data => {
       this.orderData = data
       this.orderData = this.orderData.data
       this.filterOrders();
-    })
-
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -68,6 +70,7 @@ export class OrdersComponent implements OnInit {
       this.dropdownVisible = false;
     }
   }
+
   toggleStatusFilter(status: string): void {
     this.filters[status] = !this.filters[status];
     console.log(this.filters);
@@ -86,39 +89,43 @@ export class OrdersComponent implements OnInit {
 
   filterOrders(): void {
     if (this.selectedStatuses.size > 0) {
-      this.filteredOrders = this.orderData.filter((order: { order_status: string; }) => this.selectedStatuses.has(order.order_status));
+      this.filteredOrders = this.orderData.filter((order: { order_status: string }) => this.selectedStatuses.has(order.order_status));
     } else {
       this.filteredOrders = this.orderData;
     }
+    this.applyPagination();
+  }
+
+  applyPagination() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    this.paginatedOrders = this.filteredOrders.slice(startIndex, endIndex);
   }
 
   openDialogRegisterOrder() {
-    this.matdialog.open(RegisterOrderDialogComponent)
+    this.matdialog.open(RegisterOrderDialogComponent);
   }
 
-
   openDialogDeleteOrder(order: any, index: number) {
-    this.matdialog.open(DeleteOrderDialogComponent, {data: order}).afterClosed().subscribe((res) => {
-
-      res == 'yes' ? this.orderData.splice(index, 1) : ''
-
-    })
-
+    this.matdialog.open(DeleteOrderDialogComponent, { data: order }).afterClosed().subscribe((res) => {
+      if (res === 'yes') {
+        this.orderData.splice(index, 1);
+        this.filterOrders();
+      }
+    });
   }
 
   editOrder(order: any) {
-    this.matdialog.open(EditOrderDialogComponent, {data: order})
+    this.matdialog.open(EditOrderDialogComponent, { data: order });
   }
 
   openModalOrder(order: any) {
-    this.matdialog.open(OrderPopupComponent, {data: order})
+    this.matdialog.open(OrderPopupComponent, { data: order });
   }
 
-
-  //GENERATE PDF
-
+//GENERATE PDF
   toggleAllSelections(): void {
-    this.isSelectedAll = !this.isSelectedAll; // Cambiar el estado de "Select All".
+    this.isSelectedAll = !this.isSelectedAll;
     if (this.isSelectedAll) {
       this.filteredOrders.forEach((_: any, index: number) => this.selectedIndexes.add(index));
     } else {
@@ -129,33 +136,11 @@ export class OrdersComponent implements OnInit {
   toggleSelection(index: number): void {
     if (this.selectedIndexes.has(index)) {
       this.selectedIndexes.delete(index);
-      this.isSelectedAll = false; // Si se desmarca alguna, "Select All" también debe desmarcarse.
+      this.isSelectedAll = false;
     } else {
       this.selectedIndexes.add(index);
-      // Si el tamaño del conjunto de índices seleccionados es igual al número de órdenes, marcar "Select All".
       this.isSelectedAll = this.selectedIndexes.size === this.filteredOrders.length;
     }
-  }
-
-
-  calculateInitialIndex() {
-
-  }
-
-  calculateFinalIndex() {
-
-  }
-
-  getPageNumbers() {
-
-  }
-
-  getTotalPages() {
-    return 0;
-  }
-
-  getCurrentPageItems() {
-
   }
 
   exportOrders() {
@@ -166,9 +151,9 @@ export class OrdersComponent implements OnInit {
     } else {
       const body = [];
       body.push([
-        'ID', 'Nombre del Cliente', 'Estado', 'Fecha de Entrada', '       Nombre      |   Cantidad ', 'Realizado'
+        'ID', 'Nombre del Cliente', 'Estado', 'Fecha de Entrada', 'Nombre | Cantidad', 'Realizado'
       ]);
-      console.log(selectedOrders)
+      console.log(selectedOrders);
       selectedOrders.forEach(order => {
         const products = Object.entries(order.products).map(([productName, product]) => {
           // @ts-ignore
@@ -180,7 +165,7 @@ export class OrdersComponent implements OnInit {
           order.customer_name,
           order.order_status,
           new Date(order.entry_date).toLocaleDateString(),
-          {table: {body: products}},
+          { table: { body: products } },
           '  '
         ]);
       });
@@ -221,12 +206,11 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-
   startOrder(order: any, index: number) {
     if (!order.clickState) {
-      order.clickState = false; // Inicializa la propiedad si no existe
+      order.clickState = false;
     }
-    order.clickState = !order.clickState; // Alterna el estado del clic
+    order.clickState = !order.clickState;
 
     if (order.clickState) {
       this.orderData[index].order_status = 'En Proceso';
@@ -236,13 +220,43 @@ export class OrdersComponent implements OnInit {
       this.toastrService.success('Orden Terminada');
     }
 
-    // Deshabilitar el botón si el estado es "Terminado"
     if (this.orderData[index].order_status === 'Completado') {
       order.isButtonDisabled = true;
     }
 
     console.log(order);
   }
+
+//PAGINATION
+  calculateInitialIndex() {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  calculateFinalIndex() {
+    const ordersLength = this.filteredOrders ? this.filteredOrders.length : 0;
+    const endIndex = this.currentPage * this.itemsPerPage;
+    return endIndex > ordersLength ? ordersLength : endIndex;
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.filteredOrders.length / this.itemsPerPage);
+  }
+
+  getPageNumbers() {
+    const totalPages = this.getTotalPages();
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  getCurrentPageItems() {
+    const initialIndex = this.calculateInitialIndex();
+    const finalIndex = this.calculateFinalIndex();
+    return this.filteredOrders ? this.filteredOrders.slice(initialIndex, finalIndex) : [];
+  }
+
+  ngOnChanges(): void {
+    this.applyPagination();
+  }
+
 }
 
 

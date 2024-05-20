@@ -9,8 +9,8 @@ import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
 })
 
 export class DashboardComponent {
-  title = 'ng2-charts-demo';
 
+  // Configuración del gráfico de líneas
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [
       'January', 'February', 'March', 'April', 'May', 'June',
@@ -22,16 +22,16 @@ export class DashboardComponent {
         label: 'Ventas-2022',
         fill: true,
         tension: 0.5,
-        borderColor: 'black',
-        backgroundColor: 'rgba(255,0,0,0.3)'
+        borderColor: '#FFB6C1', // LightPink
+        backgroundColor: 'rgba(255,182,193,0.3)' // LightPink
       },
       {
         data: [45, 50, 60, 70, 75, 65, 50, 60, 55, 50, 45, 45],
         label: 'Ventas-2024',
         fill: true,
         tension: 0.5,
-        borderColor: 'black',
-        backgroundColor: 'rgba(0,255,0,0.3)'
+        borderColor: '#ADD8E6', // LightBlue
+        backgroundColor: 'rgba(173,216,230,0.3)' // LightBlue
       }
     ]
   };
@@ -50,14 +50,14 @@ export class DashboardComponent {
       {
         data: [65, 59, 80, 81],
         label: '2023',
-        backgroundColor: 'rgba(0,123,255,0.5)',
-        borderColor: 'blue',
+        backgroundColor: 'rgba(135,206,250,0.5)', // LightSkyBlue
+        borderColor: '#87CEFA', // LightSkyBlue
       },
       {
         data: [28, 48, 40, 19],
         label: '2024',
-        backgroundColor: 'rgba(40,167,69,0.5)',
-        borderColor: 'green',
+        backgroundColor: 'rgba(144,238,144,0.5)', // LightGreen
+        borderColor: '#90EE90', // LightGreen
       }
     ]
   };
@@ -73,8 +73,16 @@ export class DashboardComponent {
     datasets: [
       {
         data: [300, 50, 100],
-        backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,0,255,0.3)', 'rgba(255,255,0,0.3)'],
-        borderColor: ['red', 'blue', 'yellow'],
+        backgroundColor: [
+          'rgba(255,182,193,0.3)', // LightPink
+          'rgba(173,216,230,0.3)', // LightBlue
+          'rgba(255,255,224,0.3)' // LightYellow
+        ],
+        borderColor: [
+          '#FFB6C1', // LightPink
+          '#ADD8E6', // LightBlue
+          '#FFFFE0' // LightYellow
+        ],
       }
     ]
   };
@@ -83,4 +91,6 @@ export class DashboardComponent {
     maintainAspectRatio: false,
   };
   public doughnutChartLegend = true;
+
+
 }

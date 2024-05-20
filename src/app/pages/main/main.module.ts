@@ -38,6 +38,7 @@ import {DeleteDialogUserComponent} from "./user/delete-dialog-userr/delete-dialo
 import {DyeingComponent} from "./dyeing/dyeing.component";
 import {RoleIdToNamePipe} from "../../pipes/role-id-to-name.pipe";
 import {BaseChartDirective} from "ng2-charts";
+import {DateTimeFormatPipe} from "../../pipes/date-time-format.pipe";
 
 const routes: Route[] = [
   {
@@ -129,6 +130,7 @@ const routes: Route[] = [
     DeleteDialogUserComponent,
     RoleIdToNamePipe,
     BaseChartDirective,
+    DateTimeFormatPipe,
 
   ],
   exports: [RouterModule, NavigationComponent]

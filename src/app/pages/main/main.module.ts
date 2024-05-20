@@ -37,6 +37,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {DeleteDialogUserComponent} from "./user/delete-dialog-userr/delete-dialog.component";
 import {DyeingComponent} from "./dyeing/dyeing.component";
 import {RoleIdToNamePipe} from "../../pipes/role-id-to-name.pipe";
+import {BaseChartDirective} from "ng2-charts";
 
 const routes: Route[] = [
   {
@@ -127,6 +128,7 @@ const routes: Route[] = [
     MatSelectModule,
     DeleteDialogUserComponent,
     RoleIdToNamePipe,
+    BaseChartDirective,
 
   ],
   exports: [RouterModule, NavigationComponent]

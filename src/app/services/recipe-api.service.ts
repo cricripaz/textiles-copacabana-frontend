@@ -3,19 +3,21 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map} from "rxjs/operators";
 import {Observable, of, throwError} from "rxjs";
 import {ToastrService} from "ngx-toastr";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeApiService {
 
-  private apiUrl = 'http://localhost:3000/api/recipe';
+  private apiUrl = `${environment.baseUrl}/recipe`;
   constructor(
     private http : HttpClient,
     private toastr : ToastrService) { }
 
 
   fetchRecipes():Observable<any>  {
+
     return this.http.get(this.apiUrl)
   }
 

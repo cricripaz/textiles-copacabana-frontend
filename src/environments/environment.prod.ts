@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl : ''
+  baseUrl : 'http://54.94.203.163:3000'
 };
 
 // TODO investigar PROD angular 14 , 17

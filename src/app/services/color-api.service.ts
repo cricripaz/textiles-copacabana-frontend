@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Color} from "../models/color.model";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 
 
@@ -10,10 +11,13 @@ import {HttpClient} from "@angular/common/http";
 })
 export class ColorApiService {
 
-  private colorsUrl = 'http://localhost:3000/api/colors';
+  private colorsUrl = `${environment.baseUrl}/colors`;
+
+
   constructor(private http :HttpClient) { }
 
   public getColors():Observable<any> {
+    console.log(this.colorsUrl)
     return this.http.get(this.colorsUrl);
   }
 }

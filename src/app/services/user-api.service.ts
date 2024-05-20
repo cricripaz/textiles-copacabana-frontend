@@ -3,12 +3,13 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import {catchError, map, tap} from "rxjs/operators";
 import {Observable, of} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserApiService {
-  public apiUrl = 'http://localhost:3000/api/user';
+  public apiUrl = `${environment.baseUrl}/user`;
   constructor(private http : HttpClient,
               private toastr : ToastrService) { }
 

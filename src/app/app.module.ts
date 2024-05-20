@@ -6,7 +6,6 @@ import {RouterLinkActive, RouterLink, RouterModule, RouterOutlet, Routes} from "
 import { LoginComponent } from './pages/login/login.component';
 
 
-
 //Routes
 
 const routes: Routes = [
@@ -46,6 +45,10 @@ import { SearchTablePipe } from './pipes/search-table.pipe';
 import {ToastrModule} from "ngx-toastr";
 import {NgOptimizedImage} from "@angular/common";
 
+import { BaseChartDirective } from 'ng2-charts';
+
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,10 +72,13 @@ import {NgOptimizedImage} from "@angular/common";
         MatTableModule,
         ToastrModule.forRoot(),
         NgOptimizedImage,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        BaseChartDirective
+
     ],
   providers: [
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+    provideCharts(withDefaultRegisterables()),
     JwtHelperService
   ],
   exports: [

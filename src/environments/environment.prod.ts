@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl : 'http://54.94.203.163:3000'
+  baseUrl : 'https://app-textiles-copacabana.online/api'
 };
 
 // TODO investigar PROD angular 14 , 17

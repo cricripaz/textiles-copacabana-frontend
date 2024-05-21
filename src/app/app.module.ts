@@ -81,8 +81,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
     provideCharts(withDefaultRegisterables()),
     JwtHelperService
   ],
-  exports: [
-  ],
+  exports: [RouterModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

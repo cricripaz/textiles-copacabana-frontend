@@ -57,9 +57,6 @@ export class CustomerComponent implements OnInit {
     })
   }
 
-  openModalInfoCustomer(customers: any) {
-
-  }
 
 
   //PAGINATION
@@ -88,12 +85,6 @@ export class CustomerComponent implements OnInit {
     const initialIndex = this.calculateInitialIndex();
     const finalIndex = this.calculateFinalIndex();
     return this.customersData ? this.customersData.slice(initialIndex, finalIndex) : [];
-  }
-
-  getEmptyRows(): any[] {
-    const itemsShown = this.customersData.slice(this.calculateInitialIndex(), this.calculateFinalIndex()).length;
-    const emptyRowsCount = this.itemsPerPage - itemsShown;
-    return Array(emptyRowsCount).fill(null);
   }
 
 

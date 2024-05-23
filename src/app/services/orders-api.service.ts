@@ -27,4 +27,9 @@ export class OrdersApiService {
   }
 
 
+  public updateOrder(id : number, body: any) {
+
+    return this.http.put(`${this.apiUrl}/edit/${id}`, body)
+
+  }
 }

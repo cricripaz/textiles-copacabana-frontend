@@ -9,6 +9,7 @@ import {RegisterOrderDialogComponent} from "./register-order-dialog/register-ord
 import {DeleteOrderDialogComponent} from "./delete-order-dialog/delete-order-dialog.component";
 import {EditOrderDialogComponent} from "./edit-order-dialog/edit-order-dialog.component";
 import {OrderPopupComponent} from "./order-popup/order-popup.component";
+import {DatePipe} from "@angular/common";
 
 
 // @ts-ignore
@@ -16,7 +17,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  styleUrls: ['./orders.component.scss'],
+  providers: [DatePipe],
 })
 
 export class OrdersComponent implements OnInit {

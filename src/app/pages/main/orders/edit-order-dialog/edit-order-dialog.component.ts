@@ -158,26 +158,7 @@ export class EditOrderDialogComponent implements OnInit {
     this.filteredColors.splice(index, 1);
   }
 
-  onSubmit() {
-    const formValue = this.formOrder.value;
-    // Mapear el nombre del cliente al ID del cliente antes de enviar
-    const customer = this.customers.find(c => c.name === formValue.customer);
-    if (customer) {
-      formValue.customer = customer.customer_id;
-    }
-    console.log(formValue);
-    if (this.formOrder.valid) {
-      this.orderService.updateOrder(this.data.order_id, formValue).subscribe(
-        (response: any) => {
-          this.dialogRef.close(response);
-        },
-        (error: any) => {
-          this.toastrService.error(error.message, 'Error Actualizando la orden');
-          console.error('Error updating order:', error.message);
-        }
-      );
-    }
-  }
+
 
   private initMaterialAutocomplete(index: number) {
     const control = (this.formOrder.get('products') as FormArray).at(index).get('name_material') as FormControl;
@@ -209,6 +190,26 @@ export class EditOrderDialogComponent implements OnInit {
     const customer = this.customers.find((c :any) => c.customer_id === customerId);
     return customer ? customer.name : '';
   }
-
+  onSubmit() {
+    const formValue = this.formOrder.value;
+    // Mapear el nombre del cliente al ID del cliente antes de enviar
+    const customer = this.customers.find(c => c.name === formValue.customer);
+    if (customer) {
+      formValue.customer = customer.customer_id;
+    }
+    console.log(formValue);
+    if (this.formOrder.valid) {
+      this.orderService.updateOrder(this.data.order_id, formValue).subscribe(
+        (response: any) => {
+          this.toastrService.success('Orden Editada Exitosamente')
+          this.dialogRef.close(response);
+        },
+        (error: any) => {
+          this.toastrService.error(error.message, 'Error Actualizando la orden');
+          console.error('Error updating order:', error.message);
+        }
+      );
+    }
+  }
 
 }

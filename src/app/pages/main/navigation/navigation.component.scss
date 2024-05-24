@@ -8,3 +8,28 @@
   height: 30px ;
   width: 30px;
 }
+
+/* navigation.component.scss */
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.group:hover .group-hover\:block {
+  display: block;
+}
+
+aside {
+  overflow-y: auto;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style: none;
+}

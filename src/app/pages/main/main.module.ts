@@ -39,6 +39,8 @@ import {DyeingComponent} from "./dyeing/dyeing.component";
 import {RoleIdToNamePipe} from "../../pipes/role-id-to-name.pipe";
 import {BaseChartDirective} from "ng2-charts";
 import {DateTimeFormatPipe} from "../../pipes/date-time-format.pipe";
+import {ColorsComponent} from "./colors/colors.component";
+import {MaterialsComponent} from "./materials/materials.component";
 
 const routes: Route[] = [
   {
@@ -79,7 +81,17 @@ const routes: Route[] = [
       {
         path:'customers',
         component: CustomerComponent
-      }
+      },
+      {
+        path:'colors',
+        component :ColorsComponent
+      },
+      {
+        path:'materials',
+        component: MaterialsComponent
+      },
+
+
 
     ]
   }

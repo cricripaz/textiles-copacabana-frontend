@@ -20,4 +20,19 @@ export class ColorApiService {
     console.log(this.colorsUrl)
     return this.http.get(this.colorsUrl);
   }
+
+  public createColor (body:any) {
+    return this.http.post(`${this.colorsUrl}/create`,body)
+  }
+
+  public editColor (id:number,body:any) {
+    return this.http.put(`${this.colorsUrl}/edit/${id}`,body)
+  }
+
+  public deleteColor (id:number) {
+    return this.http.put(`${this.colorsUrl}/delete/${id}`, {})
+  }
+
+
+
 }

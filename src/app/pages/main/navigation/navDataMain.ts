@@ -9,6 +9,11 @@ interface NavItem {
 
 export const navbarData: NavItem[] = [
   {
+    routeLink: '',
+    icon: '',
+    label: ''
+  },
+  {
     routeLink: 'dashboard',
     icon: 'pie_chart',
     label: 'Dashboard'

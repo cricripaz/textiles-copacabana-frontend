@@ -209,22 +209,31 @@ export class OrdersComponent implements OnInit {
   }
 
   startOrder(order: any, index: number) {
-    if (!order.clickState) {
+
+    // Verificar si clickState existe, si no inicializarlo
+    if (order.clickState === undefined) {
       order.clickState = false;
     }
+
+    // Alternar el estado de clickState
     order.clickState = !order.clickState;
 
+    // Actualizar el estado de la orden según el valor de clickState
     if (order.clickState) {
-      this.orderData[index].order_status = 'En Proceso';
+      order.order_status = 'En Proceso';
       this.toastrService.success('Orden En Proceso');
     } else {
-      this.orderData[index].order_status = 'Completado';
+      order.order_status = 'Completado';
       this.toastrService.success('Orden Terminada');
     }
 
-    if (this.orderData[index].order_status === 'Completado') {
+    // Si la orden está completada, deshabilitar el botón
+    if (order.order_status === 'Completado') {
       order.isButtonDisabled = true;
     }
+
+    // Actualizar el objeto orderData con la nueva información de la orden
+    this.orderData[index] = order;
 
     console.log(order);
   }
@@ -255,9 +264,6 @@ export class OrdersComponent implements OnInit {
     return this.filteredOrders ? this.filteredOrders.slice(initialIndex, finalIndex) : [];
   }
 
-  ngOnChanges(): void {
-    this.applyPagination();
-  }
 
 }
 

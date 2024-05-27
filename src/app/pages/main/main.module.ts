@@ -145,6 +145,6 @@ const routes: Route[] = [
     DateTimeFormatPipe,
 
   ],
-  exports: [RouterModule, NavigationComponent]
+    exports: [RouterModule, NavigationComponent, SearchTablePipe]
 })
 export class MainModule { }

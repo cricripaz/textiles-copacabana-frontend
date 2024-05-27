@@ -16,5 +16,15 @@ export class MaterialApiService {
     return this.http.get(this.apiUrl)
   }
 
+  public createMaterial (body:any) {
+      return this.http.post(`${this.apiUrl}/create`,body)
+  }
+  public editMaterial (id: number,body:any) {
+    return this.http.put(`${this.apiUrl}/edit/${id}`,body)
+  }
+  public deleteMaterial (id:number) {
+    return this.http.put(`${this.apiUrl}/delete/${id}`,{})
+  }
+
 
 }

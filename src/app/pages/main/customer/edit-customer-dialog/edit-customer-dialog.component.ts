@@ -21,10 +21,6 @@ export class EditCustomerDialogComponent {
 
 
 
-  roleMapping: { [key: string]: string } = {
-    'Persona': 'Persona',
-    'Empresa': 'Empresa'
-  };
 
   constructor(
     private fb : FormBuilder,

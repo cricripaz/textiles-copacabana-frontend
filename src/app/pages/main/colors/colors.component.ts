@@ -11,6 +11,9 @@ import {
 } from "../materials/register-material-dialog/register-material-dialog.component";
 import {EditMaterialDialogComponent} from "../materials/edit-material-dialog/edit-material-dialog.component";
 import {DeleteMaterialDialogComponent} from "../materials/delete-material-dialog/delete-material-dialog.component";
+import {EditColorDialogComponent} from "./edit-color-dialog/edit-color-dialog.component";
+import {RegisterColorDialogComponent} from "./register-color-dialog/register-color-dialog.component";
+import {DeleteColorDialogComponent} from "./delete-color-dialog/delete-color-dialog.component";
 
 
 @Component({
@@ -54,15 +57,15 @@ export class ColorsComponent implements OnInit{
   }
 
   openDialogRegisterColor() {
-    this.matDialog.open(RegisterMaterialDialogComponent)
+    this.matDialog.open(RegisterColorDialogComponent)
   }
 
   editColor(colors: any) {
-    this.matDialog.open(EditMaterialDialogComponent)
+    this.matDialog.open(EditColorDialogComponent , {data : colors})
   }
 
   openDialogDeleteColor(colors: any, i: number) {
-    this.matDialog.open(DeleteMaterialDialogComponent)
+    this.matDialog.open(DeleteColorDialogComponent, {data : colors})
   }
 
   calculateInitialIndex() {

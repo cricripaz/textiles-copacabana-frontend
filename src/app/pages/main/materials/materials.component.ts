@@ -46,11 +46,17 @@ export class MaterialsComponent implements OnInit{
   }
 
   openDialogDeleteMaterial(material: any, i: number) {
-    this.matDialog.open(DeleteMaterialDialogComponent)
+    this.matDialog.open(DeleteMaterialDialogComponent , {data : material}).afterClosed().subscribe(
+      (res) => {
+        if (res === 'yes'){
+          this.materialData.splice(i,1)
+        }
+      }
+    )
   }
 
   editMaterial(material: any) {
-    this.matDialog.open(EditMaterialDialogComponent)
+    this.matDialog.open(EditMaterialDialogComponent , { data : material})
   }
 
   calculateInitialIndex() {

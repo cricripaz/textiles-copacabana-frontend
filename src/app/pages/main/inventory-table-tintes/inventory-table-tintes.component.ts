@@ -14,7 +14,7 @@ import {DeleteInventoryComponent} from "./delete-inventory/delete-inventory.comp
   templateUrl: './inventory-table-tintes.component.html',
   styleUrls: ['./inventory-table-tintes.component.scss']
 })
-export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
+export class InventoryTableTintesComponent implements OnInit  {
 
   inventoryData: any[] = [];
   dropdownStates: { [key: number]: boolean } = {};
@@ -33,16 +33,13 @@ export class InventoryTableTintesComponent implements OnInit , AfterViewInit {
 
   }
 
-  ngAfterViewInit(): void {
-    console.log('sss')
-    console.log('length : ', this.inventoryData.length )
-  }
 
   showInventory() {
 
     this.inventoryService.fetchInventory()
       .subscribe(data => {
         this.inventoryData = data && data.data ? data.data : [];
+        console.log(this.inventoryData)
       });
   }
 

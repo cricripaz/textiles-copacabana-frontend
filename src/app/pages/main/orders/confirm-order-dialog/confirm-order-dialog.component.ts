@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {AsyncPipe, KeyValuePipe, NgClass, NgForOf} from "@angular/common";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {
   AbstractControl,
   FormArray,
@@ -43,7 +43,8 @@ export class ConfirmOrderDialogComponent  implements OnInit{
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private recipeService: RecipeApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private matDialogRef: MatDialogRef<ConfirmOrderDialogComponent>
   ) {
     this.orderConfirmationForm = this.fb.group({
       products: this.fb.array([])
@@ -69,7 +70,7 @@ export class ConfirmOrderDialogComponent  implements OnInit{
 
     this.products.controls.forEach((productControl: AbstractControl, index: number) => {
       if (productControl instanceof FormGroup) {
-        this.filteredOptions[index] = productControl.get('recipe')!.valueChanges.pipe(
+        this.filteredOptions[index] = productControl.get('recipe_name')!.valueChanges.pipe(
           startWith(''),
           map(value => this._filter(value))
         );
@@ -81,7 +82,8 @@ export class ConfirmOrderDialogComponent  implements OnInit{
     this.products.push(this.fb.group({
       name: [name, Validators.required],
       quantity: [quantity, Validators.required],
-      recipe: ['', Validators.required]
+      recipe_name: ['', Validators.required],
+      recipe_id: ['', Validators.required]
     }));
   }
 
@@ -93,10 +95,14 @@ export class ConfirmOrderDialogComponent  implements OnInit{
     return this.recipeData.filter(option => option.recipe_name.toLowerCase().includes(filterValue));
   }
 
-  protected readonly console = console;
-  protected readonly onsubmit = onsubmit;
+  onOptionSelected(value: string, index: number): void {
+    const [recipe_name, recipeRegistry_id] = value.split('|');
+    const productControl = this.products.at(index) as FormGroup;
+    productControl.get('recipe_name')!.setValue(recipe_name);
+    productControl.get('recipe_id')!.setValue(recipeRegistry_id);
+  }
 
-  onSubmit() {
-    console.log(this.orderConfirmationForm.value)
+  onSubmit(): void {
+    console.log(this.orderConfirmationForm.value);
   }
 }

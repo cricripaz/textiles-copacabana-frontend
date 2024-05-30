@@ -14,7 +14,7 @@
       }">{{ data.order_status }}</span>
     </div>
   </div>
-  <form [formGroup]="orderConfirmationForm"  (ngSubmit)="onSubmit()">
+  <form [formGroup]="orderConfirmationForm" (ngSubmit)="onSubmit()">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
       <tr>
@@ -24,15 +24,15 @@
       </tr>
       </thead>
       <tbody formArrayName="products">
-      <tr *ngFor="let product of products.controls; let i = index ; " [formGroupName]="i" class="bg-white dark:bg-gray-800">
-
+      <tr *ngFor="let product of products.controls; let i = index;" [formGroupName]="i" class="bg-white dark:bg-gray-800">
         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ product.value.name }}</th>
         <td class="px-6 py-4">{{ product.value.quantity }}</td>
         <td class="px-6 py-4">
           <mat-form-field appearance="outline">
-            <input type="text" matInput formControlName="recipe" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.recipe_name">
+            <input type="text" matInput formControlName="recipe_name" [matAutocomplete]="auto">
+            <input type="hidden" formControlName="recipe_id">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event.option.value, i)">
+              <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.recipe_name + '|' + option.recipeRegistry_id">
                 {{ option.recipe_name }}
               </mat-option>
             </mat-autocomplete>
@@ -42,8 +42,7 @@
       </tbody>
     </table>
     <div class="p-4 bg-white dark:bg-gray-700">
-      <button type="submit"
-              class="w-full text-white inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      <button type="submit" class="w-full text-white inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         Aceptar Orden
       </button>
     </div>

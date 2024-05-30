@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {RecipeApiService} from "../../../../services/recipe-api.service";
 import jwt_decode from "jwt-decode";
+import {InventoryApiService} from "../../../../services/inventory-api.service";
+import {Observable, of} from "rxjs";
+import {map} from "rxjs/operators";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
   selector: 'app-register-dialog',
@@ -13,16 +17,20 @@ import jwt_decode from "jwt-decode";
 export class RegisterDialogComponent implements OnInit {
 
   ingredients: { name: string, weight: number, note: string }[] = [];
-
+  allMaterials: any[] = [];
+  filteredMaterials!: Observable<any[]>;
   user_id = 0
 
+
+
   constructor(
-    private recipeService : RecipeApiService
+    private recipeService : RecipeApiService,
+    private inventoryService : InventoryApiService
   ) { }
 
   ngOnInit(): void {
 
-   this.addIngredient();
+    this.addIngredient();
 
     const token = localStorage.getItem('token');
 
@@ -32,14 +40,27 @@ export class RegisterDialogComponent implements OnInit {
       console.log(decodedToken)
       if (decodedToken && decodedToken.user_id) {
         this.user_id = decodedToken.user_id;
-        console.log('user_id : ', this.user_id)
       } else {
         console.error('El token no contiene la propiedad "role_id".');
       }
     }
+    this.inventoryService.fetchInventory().subscribe(products => {
+      this.allMaterials = products.data;
 
+      this.filteredMaterials = of(this.allMaterials); // Inicialmente todos los materiales
+    });
 
   }
+
+  onInputChange(value: string): void {
+    this.filteredMaterials = of(this.allMaterials).pipe(
+
+      map(products => products.filter(product =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      ))
+    );
+  }
+
 
   onSubmit(DataUserForm: NgForm) {
     //TODO verificar porque no funciona el .valid
@@ -110,7 +131,6 @@ export class RegisterDialogComponent implements OnInit {
 
 
 }
-
 
 
 

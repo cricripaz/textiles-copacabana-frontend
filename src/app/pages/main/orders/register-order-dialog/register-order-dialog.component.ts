@@ -10,7 +10,6 @@ import { MatIconModule } from "@angular/material/icon";
 import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
 import { CustomerApiService } from "../../../../services/customer-api.service";
 import { Customer } from "../../../../models/customer.model";
-import { ProductServiceService } from "../../../../services/product.service.service";
 import { MaterialApiService } from "../../../../services/material-api.service";
 import { Color } from "../../../../models/color.model";
 import { Material } from "../../../../models/material.model";

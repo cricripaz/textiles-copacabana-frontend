@@ -10,6 +10,7 @@ import {DeleteOrderDialogComponent} from "./delete-order-dialog/delete-order-dia
 import {EditOrderDialogComponent} from "./edit-order-dialog/edit-order-dialog.component";
 import {OrderPopupComponent} from "./order-popup/order-popup.component";
 import {DatePipe} from "@angular/common";
+import {ConfirmOrderDialogComponent} from "./confirm-order-dialog/confirm-order-dialog.component";
 
 
 // @ts-ignore
@@ -209,6 +210,8 @@ export class OrdersComponent implements OnInit {
   }
 
   startOrder(order: any, index: number) {
+
+    this.matdialog.open(ConfirmOrderDialogComponent,{data : order})
 
     // Verificar si clickState existe, si no inicializarlo
     if (order.clickState === undefined) {

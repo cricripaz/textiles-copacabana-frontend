@@ -79,9 +79,7 @@
         <tr>
           <th scope="col" class="px-4 py-3">ID</th>
           <th scope="col" class="px-4 py-3">Nombre</th>
-          <th scope="col" class="px-4 py-3">Peso</th>
           <th scope="col" class="px-4 py-3 text-center">Acciones</th>
-          <th scope="col" class="px-4 py-3 text-center">Operaciones</th>
         </tr>
         </thead>
 
@@ -89,7 +87,6 @@
         <tr class="border-b dark:border-gray-700" *ngFor="let recipes of getCurrentPageItems() | search: searchUser; let i = index" [ngClass]="{'bg-gray-100 dark:bg-gray-300': i % 2 === 0, 'bg-gray-100 dark:bg-gray-600': i % 2 !== 0}">
           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ recipes.recipeRegistry_id}}</th>
           <td class="px-4 py-3">{{ recipes.recipe_name}}</td>
-          <td class="px-4 py-3">{{ recipes.recipe_total_weight}}</td>
           <td class="px-4 py-3 flex items-center justify-center">
 
 
@@ -108,11 +105,7 @@
 
 
           </td>
-          <td class="px-4 py-3">
-            <button mat-icon-button (click)="starOrder(recipes)" >
-              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="done"></mat-icon>
-            </button>
-          </td>
+
 
         </tr>
 

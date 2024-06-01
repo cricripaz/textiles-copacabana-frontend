@@ -6,6 +6,7 @@ import {InventoryApiService} from "../../../../services/inventory-api.service";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-register-dialog',
@@ -16,68 +17,63 @@ import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 export class RegisterDialogComponent implements OnInit {
 
-  ingredients: { name: string, weight: number, note: string }[] = [];
+
+  ingredients: { name: string, weight: number, note: string, dyeInventory_id?: number }[] = [];
   allMaterials: any[] = [];
   filteredMaterials!: Observable<any[]>;
-  user_id = 0
-
-
+  user_id = 0;
 
   constructor(
-    private recipeService : RecipeApiService,
-    private inventoryService : InventoryApiService
+    private recipeService: RecipeApiService,
+    private inventoryService: InventoryApiService,
+    private matDialogRef : MatDialogRef<RegisterDialogComponent>
   ) { }
 
   ngOnInit(): void {
-
     this.addIngredient();
 
     const token = localStorage.getItem('token');
-
-    // Verificar si el token existe antes de intentar decodificar
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      console.log(decodedToken)
       if (decodedToken && decodedToken.user_id) {
         this.user_id = decodedToken.user_id;
       } else {
-        console.error('El token no contiene la propiedad "role_id".');
+        console.error('El token no contiene la propiedad "user_id".');
       }
     }
+
     this.inventoryService.fetchInventory().subscribe(products => {
       this.allMaterials = products.data;
-
-      this.filteredMaterials = of(this.allMaterials); // Inicialmente todos los materiales
+      this.filteredMaterials = of(this.allMaterials);
     });
-
   }
 
-  onInputChange(value: string): void {
+  onInputChange(value: string, index: number): void {
     this.filteredMaterials = of(this.allMaterials).pipe(
-
       map(products => products.filter(product =>
         product.name.toLowerCase().includes(value.toLowerCase())
       ))
     );
   }
 
+  onSelectionChange(selectedMaterial: any, index: number): void {
+    this.ingredients[index].dyeInventory_id = selectedMaterial.dyeInventory_id;
+    this.ingredients[index].name = selectedMaterial.name;
+
+    console.log(selectedMaterial,index)
+  }
 
   onSubmit(DataUserForm: NgForm) {
-    //TODO verificar porque no funciona el .valid
-    console.log('data sin formatear',DataUserForm.value)
     if (true) {
       const formData = DataUserForm.value;
       const postData = this.reformatData(formData);
 
-      // Llama al servicio para realizar la solicitud POST
       this.recipeService.createRecipe(postData).subscribe(response => {
-        console.log('data formated :',postData)
-        console.log(response); // Maneja la respuesta del servidor
-      }, error => {
 
+        this.matDialogRef.close()
+      }, error => {
         console.error(error);
       });
-
     } else {
       // Manejo de validación de formulario
       //TODO IMPLEMENTAR TOAST DE LLENAR CAMPOS
@@ -88,32 +84,13 @@ export class RegisterDialogComponent implements OnInit {
     const ingredients = this.extractIngredients(formData);
     return {
       name: formData.name,
-      weight: formData.weight,
       id_user: this.user_id,
       ingredients: ingredients
     };
   }
 
   private extractIngredients(formData: any) {
-    const ingredients = [];
-    let i = 0;
-
-
-    while (formData['ingredient' + i] !== undefined) {
-      const ingredientName = formData['ingredient' + i];
-      const ingredientWeight = formData['weigh' + i];
-      const ingredientNote = formData['note' + i];
-
-      ingredients.push({
-        name: ingredientName,
-        weight: ingredientWeight,
-        note: ingredientNote
-      });
-
-      i++;
-    }
-
-    return ingredients;
+    return this.ingredients;
   }
 
   addIngredient() {
@@ -125,10 +102,6 @@ export class RegisterDialogComponent implements OnInit {
       this.ingredients.splice(index, 1);
     }
   }
-
-
-
-
 
 }
 

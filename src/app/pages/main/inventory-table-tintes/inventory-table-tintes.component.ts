@@ -20,7 +20,7 @@ export class InventoryTableTintesComponent implements OnInit  {
   dropdownStates: { [key: number]: boolean } = {};
   searchItem ='';
   currentPage: number = 1 ;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 15;
 
   constructor(
     private matDialog:MatDialog ,

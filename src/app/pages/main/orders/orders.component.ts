@@ -11,6 +11,7 @@ import {EditOrderDialogComponent} from "./edit-order-dialog/edit-order-dialog.co
 import {OrderPopupComponent} from "./order-popup/order-popup.component";
 import {DatePipe} from "@angular/common";
 import {ConfirmOrderDialogComponent} from "./confirm-order-dialog/confirm-order-dialog.component";
+import {FinishOrderDialogComponent} from "./finish-order-dialog/finish-order-dialog.component";
 
 
 // @ts-ignore
@@ -211,35 +212,33 @@ export class OrdersComponent implements OnInit {
 
   startOrder(order: any, index: number) {
 
-    this.matdialog.open(ConfirmOrderDialogComponent,{data : order})
+    this.matdialog.open(ConfirmOrderDialogComponent,{data : order}).afterClosed().subscribe( (res) => {
 
-    // Verificar si clickState existe, si no inicializarlo
-    if (order.clickState === undefined) {
-      order.clickState = false;
-    }
+      console.log('res start: ',res)
 
-    // Alternar el estado de clickState
-    order.clickState = !order.clickState;
+      if (res=== 'yes'){
+        order.order_status = 'En Proceso';
+        this.orderData[index] = order;
+      }
+    })
 
-    // Actualizar el estado de la orden según el valor de clickState
-    if (order.clickState) {
-      order.order_status = 'En Proceso';
-      this.toastrService.success('Orden En Proceso');
-    } else {
-      order.order_status = 'Completado';
-      this.toastrService.success('Orden Terminada');
-    }
 
-    // Si la orden está completada, deshabilitar el botón
-    if (order.order_status === 'Completado') {
-      order.isButtonDisabled = true;
-    }
-
-    // Actualizar el objeto orderData con la nueva información de la orden
-    this.orderData[index] = order;
-
-    console.log(order);
   }
+
+  finishOrder(order: any, i: number) {
+
+    this.matdialog.open(FinishOrderDialogComponent,{ data : order }).afterClosed().subscribe( (res) => {
+      console.log(res)
+      //TODO validar el NO
+      if (res == 'yes'){
+        order.order_status = 'Completado';
+        this.orderData[i] = order;
+      }
+    })
+
+  }
+
+
 
 //PAGINATION
   calculateInitialIndex() {
@@ -266,6 +265,7 @@ export class OrdersComponent implements OnInit {
     const finalIndex = this.calculateFinalIndex();
     return this.filteredOrders ? this.filteredOrders.slice(initialIndex, finalIndex) : [];
   }
+
 
 
 }

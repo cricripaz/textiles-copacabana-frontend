@@ -32,4 +32,12 @@ export class OrdersApiService {
     return this.http.put(`${this.apiUrl}/edit/${id}`, body)
 
   }
+
+  public startOrder (id : number , body : any){
+    return this.http.post(`${this.apiUrl}/start/${id}`, body)
+  }
+  public finishOrder (id : number ){
+    return this.http.post(`${this.apiUrl}/finish/${id}`,{})
+  }
+
 }

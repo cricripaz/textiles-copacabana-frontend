@@ -95,11 +95,19 @@
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
             </button>
           </td>
+
           <td class="px-4 py-3">
             <button mat-icon-button (click)="startOrder(order, i)" [disabled]="order.isButtonDisabled">
-              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="done"></mat-icon>
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="play_circle_fill"></mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="finishOrder(order, i)" [disabled]="order.isButtonDisabled">
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="pan_tool"></mat-icon>
             </button>
           </td>
+
+
+
         </tr>
         </tbody>
       </table>

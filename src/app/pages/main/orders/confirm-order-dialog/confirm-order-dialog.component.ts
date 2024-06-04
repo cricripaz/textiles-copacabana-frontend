@@ -16,6 +16,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatOptionModule} from "@angular/material/core";
+import {OrdersApiService} from "../../../../services/orders-api.service";
+import {ToastrService} from "ngx-toastr";
+import {HttpErrorResponse} from "@angular/common/http";
+import {DialogRef} from "@angular/cdk/dialog";
 
 @Component({
   selector: 'app-confirm-order-dialog',
@@ -43,8 +47,10 @@ export class ConfirmOrderDialogComponent  implements OnInit{
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private recipeService: RecipeApiService,
+    private orderService : OrdersApiService,
     private fb: FormBuilder,
-    private matDialogRef: MatDialogRef<ConfirmOrderDialogComponent>
+    private matDialogRef: MatDialogRef<ConfirmOrderDialogComponent>,
+    private toastrService : ToastrService
   ) {
     this.orderConfirmationForm = this.fb.group({
       products: this.fb.array([])
@@ -103,6 +109,30 @@ export class ConfirmOrderDialogComponent  implements OnInit{
   }
 
   onSubmit(): void {
-    console.log(this.orderConfirmationForm.value);
+    const id = this.data.order_id;
+    const form_values = this.orderConfirmationForm.value;
+
+    console.log(form_values);
+    this.orderService.startOrder(id, form_values).subscribe(
+
+      (res: any) => {
+        if (res.message === 'Order Start Successfully') {
+          this.toastrService.success("Orden Comenzada");
+          this.matDialogRef.close("yes")
+          //TODO ACTUALIZAR EL STATE
+        } else {
+          this.toastrService.error(res.error.message);
+          this.matDialogRef.close("no")
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.toastrService.error(error.error.message || "Error desconocido");
+        this.matDialogRef.close("no")
+      }
+    );
   }
+
+
+
 }

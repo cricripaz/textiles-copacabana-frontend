@@ -49,7 +49,6 @@ export class EditDialogComponent implements OnInit {
   private initForm(): void {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      weight: [0, Validators.required],
       ingredients: this.fb.array([])
     });
   }
@@ -58,7 +57,6 @@ export class EditDialogComponent implements OnInit {
     console.log(data)
     this.form.patchValue({
       name: data.recipe_name,
-      weight: data.recipe_total_weight
     });
     this.setIngredients(data.ingredients);
   }
@@ -70,6 +68,7 @@ export class EditDialogComponent implements OnInit {
   private setIngredients(ingredients: any[]): void {
     const ingredientFGs = ingredients.map(ingredient =>
       this.fb.group({
+        dyeInventory_id: [ingredient.id],
         name: [ingredient.name, Validators.required],
         weight: [ingredient.weight || 0, Validators.required],
         note: [ingredient.note || '', Validators.required]
@@ -82,7 +81,6 @@ export class EditDialogComponent implements OnInit {
   addIngredient(): void {
     this.ingredients.push(this.fb.group({
       name: ['', Validators.required],
-      weight: [0, Validators.required],
       note: ['', Validators.required]
     }));
   }
@@ -93,6 +91,7 @@ export class EditDialogComponent implements OnInit {
 
   onSubmit(): void {
 
+    console.log(this.form.value)
     this.recipeService.editRecipe(this.form.value,this.id).subscribe(
       () => {
         this.toastr.success('La Receta se editó exitosamente.', 'Éxito'); // Muestra el toastr de éxito

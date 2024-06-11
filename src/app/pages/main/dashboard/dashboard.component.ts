@@ -1,37 +1,27 @@
-import { Component } from '@angular/core';
-import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { DashboardService } from "../../../services/dashboard.service";
+import { forkJoin } from "rxjs";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-
-export class DashboardComponent {
-
-  // Configuración del gráfico de líneas
+export class DashboardComponent implements OnInit {
   public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ],
+    labels: [],
     datasets: [
       {
-        data: [40, 45, 50, 55, 60, 65, 100, 75, 70, 60, 50, 45],
-        label: 'Ventas-2022',
+        data: [],
+        label: 'Total Ordenes',
         fill: true,
         tension: 0.5,
-        borderColor: '#FFB6C1', // LightPink
-        backgroundColor: 'rgba(255,182,193,0.3)' // LightPink
-      },
-      {
-        data: [45, 50, 60, 70, 75, 65, 50, 60, 55, 50, 45, 45],
-        label: 'Ventas-2024',
-        fill: true,
-        tension: 0.5,
-        borderColor: '#ADD8E6', // LightBlue
-        backgroundColor: 'rgba(173,216,230,0.3)' // LightBlue
+        borderColor: '#227ddc',
+        backgroundColor: 'rgba(117,174,252,0.62)'
       }
     ]
   };
@@ -43,54 +33,104 @@ export class DashboardComponent {
 
   public lineChartLegend = true;
 
-  // Configuración del gráfico de barras
   public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    labels: [],
     datasets: [
       {
-        data: [65, 59, 80, 81],
-        label: '2023',
-        backgroundColor: 'rgba(135,206,250,0.5)', // LightSkyBlue
-        borderColor: '#87CEFA', // LightSkyBlue
-      },
-      {
-        data: [28, 48, 40, 19],
-        label: '2024',
-        backgroundColor: 'rgba(144,238,144,0.5)', // LightGreen
-        borderColor: '#90EE90', // LightGreen
+        data: [],
+        label: 'Total Ordenes',
+        backgroundColor: 'rgba(135,206,250,0.5)',
+        borderColor: '#87CEFA',
       }
     ]
   };
+
   public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
   };
+
   public barChartLegend = true;
 
-  // Configuración del gráfico de dona
-  public doughnutChartData: ChartConfiguration<'doughnut'>['data'] = {
-    labels: ['Red', 'Blue', 'Yellow'],
-    datasets: [
-      {
-        data: [300, 50, 100],
-        backgroundColor: [
-          'rgba(255,182,193,0.3)', // LightPink
-          'rgba(173,216,230,0.3)', // LightBlue
-          'rgba(255,255,224,0.3)' // LightYellow
-        ],
-        borderColor: [
-          '#FFB6C1', // LightPink
-          '#ADD8E6', // LightBlue
-          '#FFFFE0' // LightYellow
-        ],
+  public loading = true;
+  dateRangeForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef,
+    private datePipe: DatePipe
+  ) {
+    this.dateRangeForm = this.fb.group({
+      start: [''],
+      end: ['']
+    });
+
+  }
+
+  ngOnInit(): void {
+    this.loadInitialData();
+  }
+
+  loadInitialData(): void {
+    forkJoin({
+      ordersByYear: this.dashboardService.getOrdersByYear(2024),
+      ordersByCity: this.dashboardService.getOrdersByCity()
+    }).subscribe(
+      ({ ordersByYear, ordersByCity }) => {
+        // Handle orders by year data
+        const orders = ordersByYear.data;
+        const labels: unknown[] | undefined = [];
+        const orderCounts: any[] = [];
+
+        orders.forEach((order: { year: any; month: { toString: () => string; }; total_orders: any; }) => {
+          labels.push(`${order.year}-${order.month.toString().padStart(2, '0')}`);
+          orderCounts.push(order.total_orders);
+        });
+
+        this.lineChartData.labels = labels;
+        this.lineChartData.datasets[0].data = orderCounts;
+
+        // Handle orders by city data
+        const cities = ordersByCity.data.map((item: { city: any; }) => item.city);
+        const totalOrders = ordersByCity.data.map((item: { total_orders: any; }) => item.total_orders);
+
+        this.barChartData.labels = cities;
+        this.barChartData.datasets[0].data = totalOrders;
+
+        this.loading = false;
+        this.cdr.markForCheck(); // Mark the component for change detection
+      },
+      error => {
+        console.error('Error fetching data', error);
+        this.loading = false;
       }
-    ]
-  };
-  public doughnutChartOptions: ChartOptions<'doughnut'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-  };
-  public doughnutChartLegend = true;
+    );
+  }
 
+  loadChartData(): void {
+    const { start, end } = this.dateRangeForm.value;
+    const formattedStart = this.datePipe.transform(start, 'yyyy-MM-dd');
+    const formattedEnd = this.datePipe.transform(end, 'yyyy-MM-dd');
+    console.log('Fecha de inicio:', formattedStart, 'Fecha de fin:', formattedEnd);
 
+    // Aquí deberías llamar al servicio para cargar los datos del gráfico según el rango de fechas seleccionado
+    // Ejemplo:
+    this.dashboardService.getOrdersByDateRange(formattedStart, formattedEnd).subscribe(data => {
+      // Actualiza this.lineChartData con los nuevos datos
+      const labels: unknown[] | undefined = [];
+      const orderCounts: any[] = [];
+
+      data.forEach((order: { year: any; month: { toString: () => string; }; total_orders: any; }) => {
+        labels.push(`${order.year}-${order.month.toString().padStart(2, '0')}`);
+        orderCounts.push(order.total_orders);
+      });
+
+      this.lineChartData.labels = labels;
+      this.lineChartData.datasets[0].data = orderCounts;
+      this.cdr.markForCheck();
+    }, (error: any) => {
+      console.error('Error fetching data', error);
+    });
+  }
 }

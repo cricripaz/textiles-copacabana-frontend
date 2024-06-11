@@ -43,11 +43,13 @@ import { UnitKgPipe } from './pipes/unit-kg.pipe';
 import { TypeDyePipe } from './pipes/type-dye.pipe';
 import { SearchTablePipe } from './pipes/search-table.pipe';
 import {ToastrModule} from "ngx-toastr";
-import {NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgOptimizedImage} from "@angular/common";
 
 import { BaseChartDirective } from 'ng2-charts';
 
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -73,10 +75,13 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
         ToastrModule.forRoot(),
         NgOptimizedImage,
         ReactiveFormsModule,
-        BaseChartDirective
+        BaseChartDirective,
+        MatProgressSpinnerModule,
+        MatNativeDateModule
 
     ],
   providers: [
+    DatePipe,
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
     provideCharts(withDefaultRegisterables()),
     JwtHelperService

@@ -42,6 +42,8 @@ import {DateTimeFormatPipe} from "../../pipes/date-time-format.pipe";
 import {ColorsComponent} from "./colors/colors.component";
 import {MaterialsComponent} from "./materials/materials.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 const routes: Route[] = [
   {
@@ -119,34 +121,36 @@ const routes: Route[] = [
     DeleteDialogComponent,
     EditDialogComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-        MatGridListModule,
-        MatCardModule,
-        MatMenuModule,
-        MatTableModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        NgOptimizedImage,
-        MatPaginatorModule,
-        MatSortModule,
-        MatDialogModule,
-        FormsModule,
-        MatDialogModule,
-        MatSelectModule,
-        DeleteDialogUserComponent,
-        RoleIdToNamePipe,
-        BaseChartDirective,
-        DateTimeFormatPipe,
-        MatAutocompleteModule,
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatTableModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    NgOptimizedImage,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    FormsModule,
+    MatDialogModule,
+    MatSelectModule,
+    DeleteDialogUserComponent,
+    RoleIdToNamePipe,
+    BaseChartDirective,
+    DateTimeFormatPipe,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
 
-    ],
+  ],
     exports: [RouterModule, NavigationComponent, SearchTablePipe]
 })
 export class MainModule { }

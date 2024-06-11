@@ -5,9 +5,8 @@
   </svg>
   <span class="sr-only">Loading...</span>
 </div>
-<div *ngIf="!loading">
-  <!-- Aquí va tu contenido cuando no está cargando -->
 
+<div *ngIf="!loading">
   <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
     <div class="text-xl font-bold text-center py-4">Órdenes Por Año</div>
     <div class="p-6">
@@ -19,22 +18,29 @@
               [legend]="lineChartLegend">
       </canvas>
     </div>
-    <div class="flex justify-center space-x-4 py-4">
-      <form [formGroup]="dateRangeForm" (ngSubmit)="loadChartData()">
-        <mat-form-field appearance="fill">
+    <div class="flex flex-wrap justify-center items-center py-4 space-y-4 md:space-y-0 md:space-x-4">
+      <form [formGroup]="dateRangeForm" (ngSubmit)="loadChartData()" class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
+        <mat-form-field appearance="fill" class="w-full md:w-auto">
           <mat-label>Fecha de inicio</mat-label>
           <input matInput [matDatepicker]="startPicker" formControlName="start">
           <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
           <mat-datepicker #startPicker></mat-datepicker>
         </mat-form-field>
-        <span class="mx-4 text-gray-500">to</span>
-        <mat-form-field appearance="fill">
+        <span class="self-center text-gray-500">to</span>
+        <mat-form-field appearance="fill" class="w-full md:w-auto">
           <mat-label>Fecha de fin</mat-label>
           <input matInput [matDatepicker]="endPicker" formControlName="end">
           <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
           <mat-datepicker #endPicker></mat-datepicker>
         </mat-form-field>
-        <div class="flex justify-center mt-4">
+        <mat-form-field appearance="fill" class="w-full md:w-auto">
+          <mat-label>Agrupar por</mat-label>
+          <mat-select formControlName="groupBy">
+            <mat-option value="day">Día</mat-option>
+            <mat-option value="month">Mes</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="flex justify-center md:justify-start mt-4 md:mt-0">
           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Actualizar
           </button>
@@ -42,8 +48,6 @@
       </form>
     </div>
   </div>
-
-
 
   <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
     <div class="text-xl font-bold text-center py-4">Órdenes Por Ciudad</div>
@@ -57,5 +61,5 @@
       </canvas>
     </div>
   </div>
-
 </div>
+

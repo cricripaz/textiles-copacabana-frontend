@@ -15,17 +15,14 @@
         </a>
       </div>
 
-
       <div class="flex items-center">
         <div class="flex items-center ms-3">
           <div>
             <button type="button"  aria-expanded="false" data-dropdown-toggle="dropdown-user">
               <span class="sr-only">Open user menu</span>
               <mat-icon class="mat-icon">person</mat-icon>
-
             </button>
           </div>
-
 
           <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
             <div class="px-4 py-3" role="none">
@@ -48,24 +45,26 @@
   </div>
 </nav>
 
-<br>
-
-<br>
-
-
+<br><br>
 
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
     <ul class="space-y-2 font-medium">
       <ng-container *ngFor="let item of getNavData()">
         <li *ngIf="!item.subItems">
-          <a [routerLink]="item.routeLink" class="flex items-center p-2 mb-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+          <a [routerLink]="item.routeLink"
+             (click)="setActiveItem(item.label)"
+             [ngClass]="{'bg-gray-300': activeItem === item.label, 'hover:bg-gray-100 dark:hover:bg-gray-700': activeItem !== item.label}"
+             class="flex items-center p-2 mb-3 rounded-lg dark:text-white group">
             <mat-icon matListIcon class="text-gray-500">{{ item.icon }}</mat-icon>
             <span class="ms-3 text-gray-900 dark:text-white">{{ item.label }}</span>
           </a>
         </li>
         <li *ngIf="item.subItems" class="group relative">
-          <button type="button" (click)="item.isOpen = !item.isOpen" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+          <button type="button"
+                  (click)="item.isOpen = !item.isOpen"
+                  [ngClass]="{'bg-gray-300': activeItem === item.label, 'hover:bg-gray-100 dark:hover:bg-gray-700': activeItem !== item.label}"
+                  class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group">
             <mat-icon matListIcon class="text-gray-500">{{ item.icon }}</mat-icon>
             <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{ item.label }}</span>
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -74,7 +73,10 @@
           </button>
           <ul [ngClass]="{'block': item.isOpen, 'hidden': !item.isOpen}" class="py-2 space-y-2">
             <li *ngFor="let subItem of item.subItems">
-              <a [routerLink]="subItem.routeLink" class="flex items-center w-full p-2 text-sm text-gray-900 transition duration-75 rounded-lg pl-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              <a [routerLink]="subItem.routeLink"
+                 (click)="setActiveItem(subItem.label)"
+                 [ngClass]="{'bg-gray-300': activeItem === subItem.label, 'hover:bg-gray-100 dark:hover:bg-gray-700': activeItem !== subItem.label}"
+                 class="flex items-center w-full p-2 text-sm transition duration-75 rounded-lg pl-5 group">
                 <mat-icon matListIcon class="text-gray-500">{{ subItem.icon }}</mat-icon>
                 <span class="ms-3 text-gray-900 dark:text-white">{{ subItem.label }}</span>
               </a>
@@ -85,9 +87,6 @@
     </ul>
   </div>
 </aside>
-
-
-
 
 <main class="p-3">
   <div class="p-3 sm:ml-64">

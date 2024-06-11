@@ -6,3 +6,25 @@
 .loading-spinner-container {
   height: 100vh;
 }
+
+
+.form-container {
+  display: flex;
+  flex-direction: row; /* Para que los elementos se alineen en fila */
+  justify-content: center; /* Para centrar horizontalmente */
+  align-items: center; /* Para centrar verticalmente */
+  gap: 10px; /* Espacio entre los elementos, ajusta según tu necesidad */
+}
+
+.form-container .input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container .button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

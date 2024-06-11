@@ -21,7 +21,11 @@ export class NavigationComponent implements OnInit{
   role_id: number = 0;
   username: string = '';
   lastname: string = '';
+  activeItem: string = '';
 
+  setActiveItem(item: string) {
+    this.activeItem = item;
+  }
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService

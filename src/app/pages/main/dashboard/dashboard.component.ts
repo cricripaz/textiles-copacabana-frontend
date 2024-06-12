@@ -52,8 +52,46 @@ export class DashboardComponent implements OnInit {
 
   public barChartLegend = true;
 
+  public pieChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+      }
+    ]
+  };
+
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  public pieChartLegend = true;
+
   public loading = true;
   dateRangeForm: FormGroup;
+
+  public dyeInventoryBarChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'Total Quantity Change',
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  public dyeInventoryBarChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  public dyeInventoryBarChartLegend = true;
+
 
   constructor(
     private fb: FormBuilder,
@@ -70,14 +108,16 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInitialData();
+    this.loadDyeInventoryData();
   }
 
   loadInitialData(): void {
     forkJoin({
       ordersByYear: this.dashboardService.getOrdersByYear(2024),
-      ordersByCity: this.dashboardService.getOrdersByCity()
+      ordersByCity: this.dashboardService.getOrdersByCity(),
+      ordersByStatus: this.dashboardService.getOrdersByStatus() // Añade esta línea
     }).subscribe(
-      ({ ordersByYear, ordersByCity }) => {
+      ({ ordersByYear, ordersByCity, ordersByStatus }) => { // Añade ordersByStatus
         // Handle orders by year data
         const orders = ordersByYear.data;
         const labels: unknown[] | undefined = [];
@@ -98,6 +138,13 @@ export class DashboardComponent implements OnInit {
         this.barChartData.labels = cities;
         this.barChartData.datasets[0].data = totalOrders;
 
+        // Handle orders by status data for pie chart
+        const statuses = ordersByStatus.data.map((item: { order_status: any; }) => item.order_status);
+        const statusCounts = ordersByStatus.data.map((item: { total: any; }) => item.total);
+
+        this.pieChartData.labels = statuses;
+        this.pieChartData.datasets[0].data = statusCounts;
+
         this.loading = false;
         this.cdr.markForCheck(); // Mark the component for change detection
       },
@@ -107,6 +154,37 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
+  loadDyeInventoryData(): void {
+    this.dashboardService.getInventoryDyesTop10().subscribe(response => {
+      const data = response.data;
+      const labels: string[] = [];
+      const quantityChanges: number[] = [];
+
+      data.forEach((item: { dye_name: string; total_quantity_change: number; }) => {
+        labels.push(item.dye_name);
+        quantityChanges.push(item.total_quantity_change);
+      });
+
+      this.dyeInventoryBarChartData = {
+        labels: labels,
+        datasets: [
+          {
+            data: quantityChanges,
+            label: 'Total Quantity Change',
+            backgroundColor: 'rgba(255,99,132,0.2)',
+            borderColor: 'rgba(255,99,132,1)',
+            borderWidth: 1
+          }
+        ]
+      };
+
+      this.cdr.markForCheck(); // Mark the component for change detection
+    }, (error: any) => {
+      console.error('Error fetching dye inventory data', error);
+    });
+  }
+
 
   loadChartData(): void {
     const { start, end, groupBy } = this.dateRangeForm.value;

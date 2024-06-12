@@ -31,4 +31,14 @@ export class DashboardService {
     console.log(params)
     return this.http.get<any>(`${this.apiUrl}/orders-by-date-range`, { params });
   }
+
+  getOrdersByStatus () {
+    return this.http.get<any>(`${this.apiUrl}/orders-by-status`);
+  }
+
+  getInventoryDyesTop10 () {
+    return this.http.get<any>(`${this.apiUrl}/inventory-dyes-top10`)
+  }
+
+
 }

@@ -61,5 +61,32 @@
       </canvas>
     </div>
   </div>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
+    <div class="text-xl font-bold text-center py-4">Distribución de Órdenes</div>
+    <div class="p-6">
+      <canvas baseChart
+              class="block w-full h-80"
+              [type]="'pie'"
+              [data]="pieChartData"
+              [options]="pieChartOptions"
+              [legend]="pieChartLegend">
+      </canvas>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
+    <div class="text-xl font-bold text-center py-4">Inventario de Tintes Descontados</div>
+    <div class="p-6">
+      <canvas baseChart
+              class="block w-full h-80"
+              [type]="'bar'"
+              [data]="dyeInventoryBarChartData"
+              [options]="dyeInventoryBarChartOptions"
+              [legend]="dyeInventoryBarChartLegend">
+      </canvas>
+    </div>
+  </div>
+
 </div>
 

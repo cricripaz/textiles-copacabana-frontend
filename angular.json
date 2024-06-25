@@ -89,27 +89,6 @@
           "options": {
             "buildTarget": "TrabajoDirigidoFrontend:build"
 					}
-				},
-				"test": {
-					"builder": "@angular-devkit/build-angular:karma",
-					"options": {
-						"main": "src/test.ts",
-						"polyfills": "src/polyfills.ts",
-						"tsConfig": "tsconfig.spec.json",
-						"karmaConfig": "karma.conf.js",
-						"assets": [
-							"src/favicon.ico",
-							"src/assets"
-						],
-						"styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
-            ],
-						"scripts": [
-              "node_modules/alpinejs/dist/cdn.min.js",
-              "node_modules/flowbite/dist/flowbite.min.js"
-            ]
-					}
 				}
 			}
 		}

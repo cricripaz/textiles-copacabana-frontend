@@ -38,7 +38,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import {MainModule} from "./pages/main/main.module";
-import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
 import { UnitKgPipe } from './pipes/unit-kg.pipe';
 import { TypeDyePipe } from './pipes/type-dye.pipe';
 import { SearchTablePipe } from './pipes/search-table.pipe';
@@ -50,6 +49,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatNativeDateModule} from "@angular/material/core";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [

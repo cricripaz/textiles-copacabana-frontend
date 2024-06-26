@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
-
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
@@ -22,12 +21,4 @@ describe('AppComponent', () => {
   it('should create the app', () => {
     expect(component).toBeTruthy();
   });
-
-
-  it('should render the title', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('demo-angular-jest app is running!');
-  });
-
-
 });

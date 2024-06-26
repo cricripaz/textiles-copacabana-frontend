@@ -9,8 +9,6 @@ import {UserPopupComponent} from "./user-popup/user-popup.component";
 
 
 
-
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -76,7 +74,6 @@ export class UserComponent implements OnInit  {
        this.usersData.push(res.user)
      }
 
-
    })
 
   }
@@ -130,8 +127,5 @@ export class UserComponent implements OnInit  {
     return Array(emptyRowsCount).fill(null);
   }
 
-  toggleDropdown() {
-
-  }
 
 }

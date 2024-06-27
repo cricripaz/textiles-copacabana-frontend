@@ -4,9 +4,7 @@ import {RegisterDyeInventoryDialogComponent} from "./register-dye-inventory-dial
 import {MatDialog} from "@angular/material/dialog";
 import {InventoryPopupComponent} from "./inventory-popup/inventory-popup.component";
 import {EditInventoryComponent} from "./edit-inventory/edit-inventory.component";
-import {data} from "autoprefixer";
 import {AddWeightInventoryComponent} from "./add-weight-inventory/add-weight-inventory.component";
-import {DeleteDialogComponent} from "../recipes/delete-dialog/delete-dialog.component";
 import {DeleteInventoryComponent} from "./delete-inventory/delete-inventory.component";
 
 @Component({
@@ -94,4 +92,6 @@ export class InventoryTableTintesComponent implements OnInit  {
   addQuantityItem(item: any) {
     this.matDialog.open(AddWeightInventoryComponent,{data : item})
   }
+
+
 }

@@ -62,7 +62,7 @@ export class RegisterDialogComponent implements OnInit{
           //TODO UPDATE data parent
 
         }, () => {
-          this.toastr.error('Error en el inicio de sesión. Por favor, verifica tus credenciales.')
+          this.toastr.error('Error')
         }
       )
     }else{

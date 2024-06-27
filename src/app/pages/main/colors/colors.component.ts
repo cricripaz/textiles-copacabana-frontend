@@ -6,11 +6,7 @@ import {NgClass, NgForOf} from "@angular/common";
 import {MainModule} from "../main.module";
 import {ColorApiService} from "../../../services/color-api.service";
 import {MatDialog} from "@angular/material/dialog";
-import {
-  RegisterMaterialDialogComponent
-} from "../materials/register-material-dialog/register-material-dialog.component";
-import {EditMaterialDialogComponent} from "../materials/edit-material-dialog/edit-material-dialog.component";
-import {DeleteMaterialDialogComponent} from "../materials/delete-material-dialog/delete-material-dialog.component";
+
 import {EditColorDialogComponent} from "./edit-color-dialog/edit-color-dialog.component";
 import {RegisterColorDialogComponent} from "./register-color-dialog/register-color-dialog.component";
 import {DeleteColorDialogComponent} from "./delete-color-dialog/delete-color-dialog.component";
@@ -64,7 +60,7 @@ export class ColorsComponent implements OnInit{
     this.matDialog.open(EditColorDialogComponent , {data : colors})
   }
 
-  openDialogDeleteColor(colors: any, i: number) {
+  openDialogDeleteColor(colors: any) {
     this.matDialog.open(DeleteColorDialogComponent, {data : colors})
   }
 

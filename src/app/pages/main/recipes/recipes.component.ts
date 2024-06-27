@@ -95,7 +95,5 @@ export class RecipesComponent implements OnInit {
   }
 
 
-  starOrder(recipes: any) {
-    this.toastr.success('Orden Iniciada')
-  }
+
 }

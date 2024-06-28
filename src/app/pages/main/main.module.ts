@@ -35,7 +35,6 @@ import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSelectModule} from "@angular/material/select";
 import {DeleteDialogUserComponent} from "./user/delete-dialog-userr/delete-dialog.component";
-import {DyeingComponent} from "./dyeing/dyeing.component";
 import {RoleIdToNamePipe} from "../../pipes/role-id-to-name.pipe";
 import {BaseChartDirective} from "ng2-charts";
 import {DateTimeFormatPipe} from "../../pipes/date-time-format.pipe";
@@ -44,6 +43,7 @@ import {MaterialsComponent} from "./materials/materials.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+
 
 const routes: Route[] = [
   {
@@ -59,10 +59,6 @@ const routes: Route[] = [
         path: 'dashboard',
         component: DashboardComponent,
         title: 'Textiles Copacabana'
-      },
-      {
-        path:'dyeing',
-        component: DyeingComponent
       },
       {
         path: 'inventory-dye',

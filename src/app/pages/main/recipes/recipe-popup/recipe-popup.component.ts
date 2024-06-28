@@ -6,15 +6,13 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
   templateUrl: './recipe-popup.component.html',
   styleUrls: ['./recipe-popup.component.scss']
 })
-export class RecipePopupComponent implements OnInit {
+export class RecipePopupComponent  {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.data)
-  }
+
 
   protected readonly Object = Object;
 }

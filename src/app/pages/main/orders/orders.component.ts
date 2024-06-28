@@ -4,7 +4,6 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
-import {RegisterDialogComponent} from "../recipes/register-dialog/register-dialog.component";
 import {RegisterOrderDialogComponent} from "./register-order-dialog/register-order-dialog.component";
 import {DeleteOrderDialogComponent} from "./delete-order-dialog/delete-order-dialog.component";
 import {EditOrderDialogComponent} from "./edit-order-dialog/edit-order-dialog.component";
@@ -16,6 +15,7 @@ import {FinishOrderDialogComponent} from "./finish-order-dialog/finish-order-dia
 
 // @ts-ignore
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',

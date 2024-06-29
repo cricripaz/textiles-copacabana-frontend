@@ -34,7 +34,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import {AuthGuard} from "./guards/auth.guard";
 import { MainComponent } from './pages/main/main.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import {MainModule} from "./pages/main/main.module";
@@ -77,7 +77,9 @@ import {MatTableModule} from "@angular/material/table";
         ReactiveFormsModule,
         BaseChartDirective,
         MatProgressSpinnerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+      BrowserAnimationsModule,
+
 
     ],
   providers: [

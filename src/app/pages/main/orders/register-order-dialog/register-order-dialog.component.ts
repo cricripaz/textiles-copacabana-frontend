@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup, FormsModule, ReactiveFormsModule,
-  Validators
-} from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
@@ -18,9 +13,9 @@ import { map } from "rxjs/operators";
 import { ColorApiService } from "../../../../services/color-api.service";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {OrdersApiService} from "../../../../services/orders-api.service";
-import {ToastrService} from "ngx-toastr";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { OrdersApiService } from "../../../../services/orders-api.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-register-order-dialog',
@@ -51,13 +46,13 @@ export class RegisterOrderDialogComponent implements OnInit {
 
   constructor(
     private customerService: CustomerApiService,
-    private orderService : OrdersApiService,
+    private orderService: OrdersApiService,
     private materialService: MaterialApiService,
     private colorService: ColorApiService,
     private fb: FormBuilder,
-    private toastr : ToastrService,
-    private matdialog : MatDialog
-  ) {}
+    private toastr: ToastrService,
+    private matdialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -69,11 +64,9 @@ export class RegisterOrderDialogComponent implements OnInit {
       customer: ['', Validators.required],
       products: this.fb.array([this.createProductGroup()])
     });
-    console.log('Form initialized:', this.formOrder);
   }
 
   private createProductGroup(): FormGroup {
-
     const productGroup = this.fb.group({
       name_material: [''],
       name_color: [''],
@@ -83,12 +76,10 @@ export class RegisterOrderDialogComponent implements OnInit {
     this.setupMaterialAutocomplete(productGroup);
     this.setupColorAutocomplete(productGroup);
 
-    console.log('Product group created:', productGroup);
     return productGroup;
   }
 
   private setupMaterialAutocomplete(productGroup: FormGroup): void {
-
     const materialControl = productGroup.get('name_material')!;
     this.filteredMaterials.push(
       materialControl.valueChanges.pipe(
@@ -96,8 +87,6 @@ export class RegisterOrderDialogComponent implements OnInit {
         map(value => this._filterMaterials(value ?? ''))
       )
     );
-
-    console.log('Material autocomplete set up for product group:', productGroup);
   }
 
   private setupColorAutocomplete(productGroup: FormGroup): void {
@@ -108,9 +97,7 @@ export class RegisterOrderDialogComponent implements OnInit {
         map(value => this._filterColors(value ?? ''))
       )
     );
-    console.log('Color autocomplete set up for product group:', productGroup);
   }
-
 
   get products(): FormArray {
     return this.formOrder.get('products') as FormArray;
@@ -119,19 +106,15 @@ export class RegisterOrderDialogComponent implements OnInit {
   getData(): void {
     this.customerService.fetchCustomers().subscribe((res) => {
       this.customers = res.customers.sort((a: { name: string; }, b: { name: any; }) => a.name.localeCompare(b.name));
-      console.log('Customers loaded:', this.customers);
     });
-
 
     this.materialService.getOrders().subscribe((res) => {
       this.materials = res.materials;
-      console.log('Materials loaded:', this.materials);
     });
 
     this.colorService.getColors().subscribe((res) => {
       this.colors = res.colors;
-      console.log('Colors loaded:', this.colors);
-      this.initFilteredObservables(); // Inicializar observables después de cargar los colores y materiales
+      this.initFilteredObservables();
     });
   }
 
@@ -143,22 +126,16 @@ export class RegisterOrderDialogComponent implements OnInit {
       this.setupMaterialAutocomplete(productGroup as FormGroup);
       this.setupColorAutocomplete(productGroup as FormGroup);
     });
-
-    console.log('Filtered observables initialized');
   }
 
   private _filterMaterials(value: string): Material[] {
     const filterValue = value.toLowerCase();
-    const filteredMaterials = this.materials.filter(material => material.name.toLowerCase().includes(filterValue));
-    console.log('Filtered materials:', filteredMaterials);
-    return filteredMaterials;
+    return this.materials.filter(material => material.name.toLowerCase().includes(filterValue));
   }
 
   private _filterColors(value: string): Color[] {
     const filterValue = value.toLowerCase();
-    const filteredColors = this.colors.filter(color => color.name.toLowerCase().includes(filterValue));
-    console.log('Filtered colors:', filteredColors);
-    return filteredColors;
+    return this.colors.filter(color => color.name.toLowerCase().includes(filterValue));
   }
 
   addProduct(): void {
@@ -166,7 +143,6 @@ export class RegisterOrderDialogComponent implements OnInit {
     this.products.push(productGroup);
     this.setupMaterialAutocomplete(productGroup);
     this.setupColorAutocomplete(productGroup);
-    console.log('Product added:', productGroup);
   }
 
   removeProduct(index: number): void {
@@ -174,13 +150,10 @@ export class RegisterOrderDialogComponent implements OnInit {
       this.products.removeAt(index);
       this.filteredMaterials.splice(index, 1);
       this.filteredColors.splice(index, 1);
-      console.log('Product removed at index:', index);
     }
   }
 
   onSubmit(): void {
-    console.log('Form submitted with value:', this.formOrder.value);
-
     const orderData = {
       customer_id: this.formOrder.value.customer,
       products: this.formOrder.value.products.map((product: any) => ({
@@ -191,13 +164,10 @@ export class RegisterOrderDialogComponent implements OnInit {
     };
 
     this.orderService.createOrder(orderData).subscribe(response => {
-      this.toastr.success('Orden Creada exitosamente','Exito')
-      this.matdialog.closeAll()
-      // Manejar la respuesta, redirigir o mostrar mensaje de éxito
+      this.toastr.success('Orden Creada exitosamente', 'Exito');
+      this.matdialog.closeAll();
     }, error => {
-      console.error(error)
-      // Manejar el error, mostrar mensaje de error
+      this.toastr.error('Error al crear la orden');
     });
   }
-
 }

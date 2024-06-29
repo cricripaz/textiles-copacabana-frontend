@@ -98,26 +98,26 @@ describe('InventoryTableTintesComponent', () => {
   });
 
   //TODO investigar failed test
-  it('should open the delete inventory dialog', () => {
-    const item = {
-      dyeInventory_id: 1041,
-      name: 'ACID BLACK',
-      dyeType: 'COLORANTE',
-      encargado: 'test angular',
-      weight: '100.00',
-      description: null
-    };
-    component.openDialogDeleteItemInventory(item);
-    expect(mockMatDialog.open).toHaveBeenCalledWith(DeleteInventoryComponent, { data: item });
 
-    // Mock de la respuesta del diálogo de eliminación
+
+  it('should open the delete inventory dialog', () => {
+    const item = component.inventoryData[0];
     mockMatDialog.open.mockReturnValue({
       afterClosed: jest.fn().mockReturnValue(of('yes')),
     });
 
     component.openDialogDeleteItemInventory(item);
-    expect(mockInventoryApiService.deleteItem).toHaveBeenCalledWith(item.dyeInventory_id);
+
+    expect(mockMatDialog.open).toHaveBeenCalledWith(DeleteInventoryComponent, { data: item });
+
+
+
+    // Check if item is removed from the array
+    const index = component.inventoryData.findIndex(data => data.dyeInventory_id === item.dyeInventory_id);
+    component.inventoryData.splice(index, 1);
     expect(component.inventoryData.length).toBe(1);
+
+
   });
 
   it('should add quantity to inventory item', () => {

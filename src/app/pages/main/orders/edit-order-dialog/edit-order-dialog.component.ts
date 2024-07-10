@@ -10,13 +10,10 @@ import {AsyncPipe} from "@angular/common";
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {ProductServiceService} from "../../../../services/product.service.service";
 import {ProductApiService} from "../../../../services/product-api.service";
 import {ToastrService} from "ngx-toastr";
 import {MaterialApiService} from "../../../../services/material-api.service";
 import {ColorApiService} from "../../../../services/color-api.service";
-import {Material} from "../../../../models/material.model";
-import {Color} from "../../../../models/color.model";
 import {Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";
 interface Customer {

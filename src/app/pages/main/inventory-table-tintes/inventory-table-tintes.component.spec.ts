@@ -97,7 +97,6 @@ describe('InventoryTableTintesComponent', () => {
     expect(mockMatDialog.open).toHaveBeenCalledWith(EditInventoryComponent, { data: item });
   });
 
-  //TODO investigar failed test
 
 
   it('should open the delete inventory dialog', () => {

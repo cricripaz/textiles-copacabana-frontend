@@ -17,6 +17,10 @@ export const navbarData: NavItem[] = [
     routeLink: 'dashboard',
     icon: 'pie_chart',
     label: 'Dashboard'
+  }, {
+    routeLink: 'dashboard-ia',
+    icon: 'timeline',
+    label: 'Dashboard IA'
   },
   {
     routeLink: 'users',

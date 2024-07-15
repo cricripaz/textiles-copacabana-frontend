@@ -43,6 +43,7 @@ import {MaterialsComponent} from "./materials/materials.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {DashboardIaComponent} from "./dashboard-ia/dashboard-ia.component";
 
 
 const routes: Route[] = [
@@ -58,6 +59,10 @@ const routes: Route[] = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        title: 'Textiles Copacabana'
+      },{
+        path: 'dashboard-ia',
+        component: DashboardIaComponent,
         title: 'Textiles Copacabana'
       },
       {

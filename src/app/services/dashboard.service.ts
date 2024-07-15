@@ -9,6 +9,7 @@ import {Observable} from "rxjs";
 export class DashboardService {
 
   private apiUrl = `${environment.baseUrl}/dashboard`;
+  private predictionUrl = 'http://localhost:5000/predict';
   constructor(private http: HttpClient) { }
 
 
@@ -40,5 +41,8 @@ export class DashboardService {
     return this.http.get<any>(`${this.apiUrl}/inventory-dyes-top10`)
   }
 
+  getPredictedOrders(year: number, month: number): Observable<any> {
+    return this.http.get<any>(`${this.predictionUrl}?year=${year}&month=${month}`);
+  }
 
 }

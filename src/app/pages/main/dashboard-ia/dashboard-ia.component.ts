@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormBuilder } from '@angular/forms';
+import {FormBuilder, FormsModule} from '@angular/forms';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { DashboardService } from "../../../services/dashboard.service";
 import { forkJoin } from 'rxjs';
@@ -9,13 +9,13 @@ import { BaseChartDirective } from "ng2-charts";
 @Component({
   selector: 'app-dashboard-ia',
   standalone: true,
-  imports: [CommonModule, BaseChartDirective],
+  imports: [CommonModule, BaseChartDirective, FormsModule],
   templateUrl: './dashboard-ia.component.html',
   styleUrls: ['./dashboard-ia.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardIaComponent implements OnInit {
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
+  public lineChartData: ChartConfiguration<'line' | 'bar'>['data'] = {
     labels: [],
     datasets: [
       {
@@ -37,14 +37,18 @@ export class DashboardIaComponent implements OnInit {
     ]
   };
 
-  public lineChartOptions: ChartOptions<'line'> = {
+  public lineChartOptions: ChartOptions<'line' | 'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
   };
 
   public lineChartLegend = true;
   public loading = true;
+  public chartType: 'line' | 'bar' = 'line'; // Default to line chart
   private filterType: 'day' | 'month' = 'day';
+
+  public predictionYear: number = new Date().getFullYear();
+  public predictionMonth: number = new Date().getMonth() + 1;
 
   constructor(
     private fb: FormBuilder,
@@ -59,14 +63,15 @@ export class DashboardIaComponent implements OnInit {
 
   setFilter(type: 'day' | 'month'): void {
     this.filterType = type;
+    this.chartType = type === 'day' ? 'line' : 'bar'; // Set chart type based on filter
     this.loadChartData();
   }
 
   loadChartData(): void {
     this.loading = true;
     forkJoin({
-      realData: this.dashboardService.getOrdersByDateRange('2024-01-01', '2024-06-29'),
-      predictedData: this.dashboardService.getPredictedOrders(2024, 7)
+      realData: this.dashboardService.getOrdersByDateRange('2024-03-01', '2024-06-29'),
+      predictedData: this.dashboardService.getPredictedOrders(this.predictionYear, this.predictionMonth)
     }).subscribe(
       ({ realData, predictedData }) => {
         if (this.filterType === 'month') {
@@ -82,6 +87,10 @@ export class DashboardIaComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  loadPrediction(): void {
+    this.loadChartData();
   }
 
   aggregateByDay(realData: any[], predictedData: any[]): void {
@@ -101,17 +110,9 @@ export class DashboardIaComponent implements OnInit {
       predictedCounts.push(order.quantity);
     });
 
-    this.lineChartData.labels = [...new Set([...realLabels, ...predictedLabels])];
-    this.lineChartData.datasets[0].data = this.lineChartData.labels.map(label => {
-      // @ts-ignore
-      const index = realLabels.indexOf(label);
-      return index !== -1 ? realCounts[index] : 0;
-    });
-    this.lineChartData.datasets[1].data = this.lineChartData.labels.map(label => {
-      // @ts-ignore
-      const index = predictedLabels.indexOf(label);
-      return index !== -1 ? predictedCounts[index] : 0;
-    });
+    this.lineChartData.labels = realLabels.concat(predictedLabels);
+    this.lineChartData.datasets[0].data = realCounts.concat(new Array(predictedLabels.length).fill(null));
+    this.lineChartData.datasets[1].data = new Array(realLabels.length).fill(null).concat(predictedCounts);
     this.lineChartData.datasets[1].label = 'Predicción';
   }
 
@@ -119,16 +120,14 @@ export class DashboardIaComponent implements OnInit {
     const realDataByMonth = this.groupByMonth(realData, 'entry_date', 'total_orders');
     const predictedDataByMonth = this.groupByMonth(predictedData, 'date', 'quantity');
 
-    this.lineChartData.labels = [...new Set([...realDataByMonth.labels, ...predictedDataByMonth.labels])];
-    // @ts-ignore
-    this.lineChartData.datasets[0].data = this.lineChartData.labels.map(label => realDataByMonth.values[label] || 0);
-    // @ts-ignore
-    this.lineChartData.datasets[1].data = this.lineChartData.labels.map(label => predictedDataByMonth.values[label] || 0);
+    this.lineChartData.labels = realDataByMonth.labels.concat(predictedDataByMonth.labels);
+    this.lineChartData.datasets[0].data = realDataByMonth.values.concat(new Array(predictedDataByMonth.labels.length).fill(null));
+    this.lineChartData.datasets[1].data = new Array(realDataByMonth.labels.length).fill(null).concat(predictedDataByMonth.values);
     this.lineChartData.datasets[1].label = 'Predicción';
   }
 
-  groupByMonth(data: any[], dateKey: string, valueKey: string): { labels: string[], values: { [key: string]: number } } {
-    const groupedData = data.reduce((acc: { [key: string]: number }, item: any) => {
+  groupByMonth(data: any[], dateKey: string, valueKey: string): { labels: string[], values: number[] } {
+    const groupedData = data.reduce((acc: any, item: any) => {
       const month = this.datePipe.transform(item[dateKey], 'yyyy-MM')!;
       if (!acc[month]) {
         acc[month] = 0;
@@ -138,7 +137,7 @@ export class DashboardIaComponent implements OnInit {
     }, {});
 
     const labels = Object.keys(groupedData);
-    const values = groupedData;
+    const values = Object.values(groupedData).map(value => value as number);
     return { labels, values };
   }
 }

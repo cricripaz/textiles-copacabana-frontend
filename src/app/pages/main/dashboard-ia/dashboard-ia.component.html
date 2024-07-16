@@ -1,10 +1,12 @@
 <div class="container mx-auto px-4 py-8">
+
+  <div class="text-xl font-bold text-center py-4">Prediccion de Ordenes</div>
   <div class="flex justify-end mb-4 space-x-2">
     <button
-      class="btn btn-primary mr-2"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       (click)="setFilter('day')">Filtrar por Día</button>
     <button
-      class="btn btn-primary"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       (click)="setFilter('month')">Filtrar por Mes</button>
   </div>
 
@@ -13,9 +15,21 @@
       <canvas baseChart
               [data]="lineChartData"
               [options]="lineChartOptions"
-              [legend]="lineChartLegend"></canvas>
+              [legend]="lineChartLegend"
+              [type]="chartType"></canvas>
     </div>
   </div>
+
+  <div class="mt-4">
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Año</label>
+    <input type="number" placeholder="Año" [(ngModel)]="predictionYear" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+  </div>
+  <div class="mt-4">
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mes</label>
+    <input type="number" placeholder="Mes" [(ngModel)]="predictionMonth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+  </div>
+
+  <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" (click)="loadPrediction()">Generar Predicción</button>
 
   <ng-template #loadingTemplate>
     <div class="flex justify-center items-center h-96">

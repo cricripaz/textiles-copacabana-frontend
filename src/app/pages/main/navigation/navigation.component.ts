@@ -41,7 +41,7 @@ export class NavigationComponent implements OnInit{
         if (decodedToken && decodedToken.role_id) {
           this.role_id = decodedToken.role_id;
           this.username = decodedToken.username;
-          console.log('Tipo de rol : ', this.role_id);
+          console.log('Tipo de rol : ', this.role_id,decodedToken);
         } else {
           console.error('El token no contiene la propiedad "role_id".');
         }
@@ -61,7 +61,7 @@ export class NavigationComponent implements OnInit{
     if (this.role_id === 1) {
       return this.navData;
     } else if (this.role_id === 2) {
-      return this.navData;
+      return this.navDataOp;
     } else {
       return [];
     }

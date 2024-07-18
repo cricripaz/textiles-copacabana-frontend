@@ -1,11 +1,6 @@
 // navDataMain.ts
-interface NavItem {
-  routeLink: string;
-  icon: string;
-  label: string;
-  subItems?: NavItem[];
-  isOpen?: boolean; // Agregar propiedad isOpen para controlar la visualización
-}
+
+import {NavItem} from "../../../models/navItem.model";
 
 export const navbarData: NavItem[] = [
   {

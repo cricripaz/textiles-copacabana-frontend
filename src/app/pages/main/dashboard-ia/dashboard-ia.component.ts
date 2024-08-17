@@ -100,7 +100,7 @@ export class DashboardIaComponent implements OnInit {
       const entryDate = this.datePipe.transform(order.entry_date, 'yyyy-MM-dd')!;
       realLabels.push(entryDate);
       realCounts.push(order.total_quantity);
-    });gi
+    });
 
     const predictedLabels: string[] = [];
     const predictedCounts: number[] = [];

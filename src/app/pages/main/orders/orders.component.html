@@ -114,39 +114,50 @@
     </div>
 
     <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-      <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Showing
-        <span class="font-semibold text-gray-900 dark:text-white">{{ calculateInitialIndex() + 1 }}</span>
-        to
-        <span class="font-semibold text-gray-900 dark:text-white">{{ calculateFinalIndex() > filteredOrders.length ? filteredOrders.length : calculateFinalIndex() }}</span>
-        of
-        <span class="font-semibold text-gray-900 dark:text-white">{{ filteredOrders.length }}</span>
-      </span>
-      <ul class="inline-flex items-stretch -space-x-px">
-        <li>
-          <a (click)="currentPage = currentPage > 1 ? currentPage - 1 : 1" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            <span class="sr-only">Previous</span>
-            <svg class="style-click w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-          </a>
-        </li>
-        <ng-container *ngFor="let pageNumber of getPageNumbers()">
+  <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+    Mostrando
+    <span class="font-semibold text-gray-900 dark:text-white">{{ calculateInitialIndex() + 1 }}</span>
+    a
+    <span class="font-semibold text-gray-900 dark:text-white">{{ calculateFinalIndex() > filteredOrders.length ? filteredOrders.length : calculateFinalIndex() }}</span>
+    de
+    <span class="font-semibold text-gray-900 dark:text-white">{{ filteredOrders.length }}</span>
+  </span>
+      <div class="overflow-x-auto">
+        <ul class="inline-flex items-stretch -space-x-px">
           <li>
-            <a class="style-click flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" [class.bg-primary-50]="pageNumber === currentPage" [class.text-primary-600]="pageNumber === currentPage" (click)="currentPage = pageNumber">
-              {{ pageNumber }}
+            <a (click)="currentPage = +currentPage > 1 ? +currentPage - 1 : 1" class="flex items-center justify-center h-full py-2 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer">
+              <span class="sr-only">Anterior</span>
+              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
             </a>
           </li>
-        </ng-container>
-        <li>
-          <a class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" (click)="currentPage = currentPage < getTotalPages() ? currentPage + 1 : getTotalPages()">
-            <span class="sr-only">Next</span>
-            <svg class="style-click w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M14.707 9.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 10 10.293 7.707a1 1 0 011.414-1.414l4 4z" clip-rule="evenodd" />
-            </svg>
-          </a>
-        </li>
-      </ul>
+          <ng-container *ngFor="let pageNumber of getVisiblePageNumbers()">
+            <li *ngIf="pageNumber === '...'">
+          <span class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 cursor-default">
+            {{ pageNumber }}
+          </span>
+            </li>
+            <li *ngIf="pageNumber !== '...'">
+              <a (click)="currentPage = +pageNumber" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+                 [class.bg-primary-50]="pageNumber === currentPage"
+                 [class.text-primary-600]="pageNumber === currentPage">
+                {{ pageNumber }}
+              </a>
+            </li>
+          </ng-container>
+          <li>
+            <a (click)="currentPage = +currentPage < getTotalPages() ? +currentPage + 1 : getTotalPages()" class="flex items-center justify-center h-full py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer">
+              <span class="sr-only">Siguiente</span>
+              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M14.707 9.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 10l-2.293-2.293a1 1 0 011.414-1.414l4 4z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
+
+
   </div>
 </div>

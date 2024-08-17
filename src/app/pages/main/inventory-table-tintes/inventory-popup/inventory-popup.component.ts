@@ -14,6 +14,7 @@ export class InventoryPopupComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    console.log(data)
   }
 
 

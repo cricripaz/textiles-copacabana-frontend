@@ -70,7 +70,7 @@ export class DashboardIaComponent implements OnInit {
   loadChartData(): void {
     this.loading = true;
     forkJoin({
-      realData: this.dashboardService.getOrdersByDateRange('2024-03-01', '2024-06-29'),
+      realData: this.dashboardService.getOrdersByDateRange('2024-02-01', '2024-06-29'),
       predictedData: this.dashboardService.getPredictedOrders(this.predictionYear, this.predictionMonth)
     }).subscribe(
       ({ realData, predictedData }) => {
@@ -96,11 +96,11 @@ export class DashboardIaComponent implements OnInit {
   aggregateByDay(realData: any[], predictedData: any[]): void {
     const realLabels: string[] = [];
     const realCounts: number[] = [];
-    realData.forEach((order: { entry_date: string; total_orders: number }) => {
+    realData.forEach((order: { entry_date: string; total_quantity: number }) => {
       const entryDate = this.datePipe.transform(order.entry_date, 'yyyy-MM-dd')!;
       realLabels.push(entryDate);
-      realCounts.push(order.total_orders);
-    });
+      realCounts.push(order.total_quantity);
+    });gi
 
     const predictedLabels: string[] = [];
     const predictedCounts: number[] = [];

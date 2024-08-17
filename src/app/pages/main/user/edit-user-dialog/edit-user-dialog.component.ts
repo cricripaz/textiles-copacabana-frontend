@@ -44,6 +44,7 @@ export class EditUserDialogComponent implements OnInit {
 
     const roleValue = this.roleMapping[this.userDataInject.userdata.role.toLowerCase()]; // Convierte el texto a número
 
+    console.log(roleValue)
     this.editUserForm = this.fb.group({
       username:[this.userDataInject.userdata.username,[Validators.required , Validators.minLength(3)]],
       role_id:[roleValue],

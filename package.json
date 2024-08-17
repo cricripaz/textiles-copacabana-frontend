@@ -42,7 +42,7 @@
     "schematics-scss-migrate": "^2.3.17",
     "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.4"
+    "zone.js": "^0.14.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.5",

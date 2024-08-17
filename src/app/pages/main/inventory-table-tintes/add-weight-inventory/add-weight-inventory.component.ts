@@ -32,9 +32,11 @@ export class AddWeightInventoryComponent implements OnInit {
 
   private initializeForm() {
     this.addWeightForm = this.fb.group({
+
       id: [this.data.dyeInventory_id],
-      type: ['', Validators.required],
+      type: ['kg', Validators.required],
       weigth: ['', Validators.required]
+
     });
   }
 
@@ -42,7 +44,7 @@ export class AddWeightInventoryComponent implements OnInit {
     if (this.addWeightForm.valid) {
       this.inventoryService.addQuantityWeight(this.addWeightForm.value).subscribe(() => {
         this.matdialog.closeAll();
-        this.toastr.success(`Exito ,Cantidad Agregada : ${this.addWeightForm.value.weigth}`);
+        this.toastr.success(`Exito ,Cantidad Agregada : ${this.addWeightForm.value.weigth} kg`);
       }, () => {
         this.toastr.error('Error al agregar la cantidad.');
       });

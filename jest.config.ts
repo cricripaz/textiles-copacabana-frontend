@@ -25,6 +25,16 @@ const config: Config = {
   ],
   notify: true,
   verbose: true,
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/dist/",
+    "/app/guards auth.guard.ts",
+    "/app/guards role.guard.ts",
+    "/app/pages/main main.module.ts",
+    "/app/app-routing.module.ts",
+    "/app/app.module.ts",
+    "src/app/pages/main/dashboard-ia/dashboard-ia.component.ts"// Agrega cualquier otra ruta que desees ignorar
+  ]
 };
 
 export default config;

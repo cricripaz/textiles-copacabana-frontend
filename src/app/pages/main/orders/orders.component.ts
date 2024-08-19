@@ -11,6 +11,7 @@ import {OrderPopupComponent} from "./order-popup/order-popup.component";
 import {DatePipe} from "@angular/common";
 import {ConfirmOrderDialogComponent} from "./confirm-order-dialog/confirm-order-dialog.component";
 import {FinishOrderDialogComponent} from "./finish-order-dialog/finish-order-dialog.component";
+import jwt_decode from "jwt-decode";
 
 // @ts-ignore
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -30,6 +31,7 @@ export class OrdersComponent implements OnInit {
   isSelectedAll: boolean = false;
   selectedStatuses: Set<string> = new Set();
   dropdownVisible = false;
+  role_id!: number;
 
   // PAGINATION
   currentPage: number = 1;
@@ -49,6 +51,26 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.showOrders();
+    this.getRolebyToken()
+  }
+
+  getRolebyToken (){
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwt_decode(token);
+        if (decodedToken && decodedToken.role_id) {
+          this.role_id = decodedToken.role_id;
+          console.log('Tipo de rol : ', this.role_id,decodedToken);
+        } else {
+          console.error('El token no contiene la propiedad "role_id".');
+        }
+      } catch (error) {
+        console.error('Error al decodificar el token:', error);
+      }
+    } else {
+      console.error('No se encontró el token en el almacenamiento local.');
+    }
   }
 
   // ACTIONS
@@ -221,6 +243,7 @@ export class OrdersComponent implements OnInit {
   }
 
   // PAGINATION
+
   calculateInitialIndex(): number {
     return (+this.currentPage - 1) * this.itemsPerPage;
   }

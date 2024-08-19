@@ -6,6 +6,7 @@ import { DeleteDialogComponent } from "./delete-dialog/delete-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { EditDialogComponent } from "./edit-dialog/edit-dialog.component";
 import { ToastrService } from "ngx-toastr";
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-recipes',
@@ -20,6 +21,8 @@ export class RecipesComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
+  role_id!:number ;
+
   constructor(
     private recipeService: RecipeApiService,
     private matdialog: MatDialog,
@@ -28,8 +31,28 @@ export class RecipesComponent implements OnInit {
 
   ngOnInit(): void {
     this.showRecipes();
+    this.getRolebyToken()
   }
 
+
+  getRolebyToken (){
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwt_decode(token);
+        if (decodedToken && decodedToken.role_id) {
+          this.role_id = decodedToken.role_id;
+          console.log('Tipo de rol : ', this.role_id,decodedToken);
+        } else {
+          console.error('El token no contiene la propiedad "role_id".');
+        }
+      } catch (error) {
+        console.error('Error al decodificar el token:', error);
+      }
+    } else {
+      console.error('No se encontró el token en el almacenamiento local.');
+    }
+  }
   showRecipes() {
     this.recipeService.fetchRecipes()
       .subscribe(data => {

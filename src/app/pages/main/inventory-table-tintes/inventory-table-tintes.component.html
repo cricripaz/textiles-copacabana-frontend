@@ -44,7 +44,6 @@
           <th scope="col" class="px-4 py-3">ID</th>
           <th scope="col" class="px-4 py-3">Nombre</th>
           <th scope="col" class="px-4 py-3">Tipo</th>
-          <th scope="col" class="px-4 py-3">Encargado</th>
           <th scope="col" class="px-4 py-3">Peso</th>
           <th scope="col" class="px-4 py-3">Descripcion</th>
           <th scope="col" class="px-4 py-3">Acciones</th>
@@ -58,7 +57,6 @@
           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ item.dyeInventory_id}}</th>
           <td class="px-4 py-3">{{item.name}}</td>
           <td class="px-4 py-3">{{ item.dyeType }}</td>
-          <td class="px-4 py-3">{{ item.encargado}}</td>
           <td class="px-4 py-3">{{ item.weight}} kg</td>
           <td class="px-4 py-3">{{ item.description}}</td>
 
@@ -68,7 +66,7 @@
 
 
 
-            <button mat-icon-button (click)="addQuantityItem(item)" >
+            <button *ngIf="role_id!==2"  mat-icon-button (click)="addQuantityItem(item)" >
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="add_circle"></mat-icon>
             </button>
 
@@ -77,11 +75,11 @@
             </button>
 
 
-            <button mat-icon-button (click)="editItemInventory(item)" >
+            <button *ngIf="role_id!==2" mat-icon-button (click)="editItemInventory(item)" >
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="mode_edit"></mat-icon>
             </button>
 
-            <button mat-icon-button (click)="openDialogDeleteItemInventory(item)" >
+            <button *ngIf="role_id!==2" mat-icon-button (click)="openDialogDeleteItemInventory(item)" >
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
             </button>
 

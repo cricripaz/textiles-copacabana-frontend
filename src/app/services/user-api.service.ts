@@ -29,30 +29,27 @@ export class UserApiService {
   createUser(body: any) {
     return this.http.post(`${this.apiUrl}/createuser`, body).pipe(
       map((response: any) => {
-        // Verifica si la respuesta tiene un código de estado 200
-
-        if (response && response.message === "User Create Successfully") {
+        // Verifica si la respuesta tiene un mensaje de éxito
+        if (response && response.message === "User Created Successfully" && response.data && response.data.length > 0) {
+          const createdUser = response.data[0];  // Obtén el primer (y único) usuario del array data
 
           this.toastr.success('Usuario creado exitosamente');
 
-          return response;
+          return createdUser;  // Retorna los datos del usuario creado
         } else {
-          // Si no es 200, lanza un error para ser capturado por el operador catchError
-
+          // Si no es 200 o si la estructura es incorrecta, lanza un error
           throw new Error('Error al crear usuario');
         }
       }),
       catchError(error => {
-
-        //TODO MAENJO DE ERRORRES O DEJARLO ASI
-        this.toastr.error(error.error.message);
+        this.toastr.error("Error Vuelva a intentar");
 
         // Retorna un observable de "fallback" con un valor predeterminado o vacío
-
         return of(null);
       })
     );
   }
+
 
 
   deleteUser( userId : number ): Observable<any>{

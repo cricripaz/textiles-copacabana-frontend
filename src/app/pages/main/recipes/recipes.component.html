@@ -44,10 +44,11 @@
           <button mat-icon-button (click)="openModalInfoRecipe(recipes)">
             <mat-icon aria-hidden="false" aria-label="Ver detalles" fontIcon="visibility"></mat-icon>
           </button>
-          <button mat-icon-button (click)="editRecipe(recipes)">
+          <button *ngIf="role_id!==2" mat-icon-button (click)="editRecipe(recipes)">
+
             <mat-icon aria-hidden="false" aria-label="Editar receta" fontIcon="mode_edit"></mat-icon>
           </button>
-          <button mat-icon-button (click)="openDialogDeleteRecipe(recipes, i)">
+          <button *ngIf="role_id!==2" mat-icon-button (click)="openDialogDeleteRecipe(recipes, i)">
             <mat-icon aria-hidden="false" aria-label="Eliminar receta" fontIcon="delete"></mat-icon>
           </button>
         </td>

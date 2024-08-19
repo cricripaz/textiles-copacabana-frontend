@@ -67,7 +67,7 @@
           <th scope="col" class="px-4 py-3">Cliente</th>
           <th scope="col" class="px-4 py-3">Fecha</th>
           <th scope="col" class="px-4 py-3">Acciones</th>
-          <th scope="col" class="px-4 py-3">Operaciones</th>
+          <th *ngIf="role_id!==3" scope="col" class="px-4 py-3">Operaciones</th>
         </tr>
         </thead>
         <tbody>
@@ -88,15 +88,15 @@
             <button mat-icon-button (click)="openModalOrder(order)">
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="visibility"></mat-icon>
             </button>
-            <button mat-icon-button (click)="editOrder(order)">
+            <button *ngIf="role_id!==3" mat-icon-button (click)="editOrder(order)">
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="mode_edit"></mat-icon>
             </button>
-            <button mat-icon-button (click)="openDialogDeleteOrder(order, i)">
+            <button *ngIf="role_id!==3" mat-icon-button (click)="openDialogDeleteOrder(order, i)">
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="delete"></mat-icon>
             </button>
           </td>
 
-          <td class="px-4 py-3">
+          <td *ngIf="role_id!==3" class="px-4 py-3">
             <button mat-icon-button (click)="startOrder(order, i)" [disabled]="order.isButtonDisabled">
               <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="play_circle_fill"></mat-icon>
             </button>

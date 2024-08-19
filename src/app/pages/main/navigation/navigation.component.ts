@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {navbarData} from "./navDataMain";
 import {navDataOp} from "./navDataOp";
+import {navDataTintor} from "./navDataTintor"
 import jwt_decode from 'jwt-decode';
 
 
@@ -18,6 +19,8 @@ export class NavigationComponent implements OnInit{
 
   navDataOp = navDataOp;
   navData = navbarData;
+  navDataTintor = navDataTintor;
+
   role_id: number = 0;
   username: string = '';
   lastname: string = '';
@@ -62,6 +65,8 @@ export class NavigationComponent implements OnInit{
       return this.navData;
     } else if (this.role_id === 2) {
       return this.navDataOp;
+    } else if (this.role_id === 3) {
+      return this.navDataTintor;
     } else {
       return [];
     }

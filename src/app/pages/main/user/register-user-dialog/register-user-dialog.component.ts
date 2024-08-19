@@ -35,9 +35,10 @@ export class RegisterUserDialogComponent implements OnInit {
       role_id: data.value.role_id
     }
 
-    this.userService.createUser(datauser).subscribe( ()=> {
-      //TODO VALIDAR TODO EL FORMS Y RECIEN HACER LA PETICION POST
-        this.dialoRef.close({user : datauser , message : 'success'})
+    this.userService.createUser(datauser).subscribe( (res)=> {
+
+
+      this.dialoRef.close({user : res , message : 'success'})
 
     })
   }

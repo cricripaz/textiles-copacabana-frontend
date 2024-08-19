@@ -50,6 +50,7 @@ export class UserComponent implements OnInit  {
         console.log(this.usersData)
         this.usersData = this.usersData.filter((user: any) => user.state == 'active');
 
+
         //TODO modificar el backend ya filtrados
       })
 
@@ -69,7 +70,7 @@ export class UserComponent implements OnInit  {
   }
   openDialogRegisterUser() {
    this.matDialog.open(RegisterUserDialogComponent).afterClosed().subscribe( (res) => {
-     //TODO Implementarlo de mejor manera y verificar los parametros
+
      if(res.message == 'success'){
        this.usersData.push(res.user)
      }

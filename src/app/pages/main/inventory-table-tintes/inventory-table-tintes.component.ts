@@ -6,6 +6,7 @@ import {InventoryPopupComponent} from "./inventory-popup/inventory-popup.compone
 import {EditInventoryComponent} from "./edit-inventory/edit-inventory.component";
 import {AddWeightInventoryComponent} from "./add-weight-inventory/add-weight-inventory.component";
 import {DeleteInventoryComponent} from "./delete-inventory/delete-inventory.component";
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-inventory-table-tintes',
@@ -19,6 +20,7 @@ export class InventoryTableTintesComponent implements OnInit  {
   searchItem ='';
   currentPage: number = 1 ;
   itemsPerPage: number = 15;
+  role_id!: number;
 
   constructor(
     private matDialog:MatDialog ,
@@ -28,9 +30,26 @@ export class InventoryTableTintesComponent implements OnInit  {
   ngOnInit(): void {
 
   this.showInventory()
-
+  this.getRolebyToken()
   }
-
+  getRolebyToken (){
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwt_decode(token);
+        if (decodedToken && decodedToken.role_id) {
+          this.role_id = decodedToken.role_id;
+          console.log('Tipo de rol : ', this.role_id,decodedToken);
+        } else {
+          console.error('El token no contiene la propiedad "role_id".');
+        }
+      } catch (error) {
+        console.error('Error al decodificar el token:', error);
+      }
+    } else {
+      console.error('No se encontró el token en el almacenamiento local.');
+    }
+  }
 
   showInventory() {
 

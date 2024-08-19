@@ -1,16 +1,11 @@
 import {NavItem} from "../../../models/navItem.model";
 
-export const navDataOp: NavItem[] = [
+export const navDataTintor: NavItem[] = [
 
   {
     routeLink: '',
     icon: '',
     label: ''
-  },
-  {
-    routeLink: 'customers',
-    icon: 'wc',
-    label: 'Clientes'
   },
   {
     routeLink: 'recipes',

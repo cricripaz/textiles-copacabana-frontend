@@ -1,5 +1,7 @@
- <!-- Modal header -->
-  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+<!-- Modal header -->
+<div class="relative bg-white rounded-lg shadow dark:bg-gray-500">
+  <!-- Modal header -->
+  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-500">
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
       Registrar Usuario
     </h3>
@@ -13,84 +15,148 @@
       <span class="sr-only">Close modal</span>
     </button>
   </div>
-  <!-- Modal body -->
-  <form class="p-4 md:p-5" #DataUserForm="ngForm" (ngSubmit)="registerUser(DataUserForm)">
-    <div class="grid gap-4 mb-4 sm:grid-cols-2">
+<!-- Modal body -->
+<form class="p-4 md:p-5" #DataUserForm="ngForm" (ngSubmit)="registerUser(DataUserForm)">
+  <div class="grid gap-4 mb-4 sm:grid-cols-2">
 
-      <div class="col-span-2">
-        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre De Usuario</label>
-        <input type="text" name="username" id="username"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required="true">
+    <!-- Nombre de Usuario -->
+    <div class="col-span-2">
+      <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre De Usuario</label>
+      <input type="text" name="username" id="username"
+             [(ngModel)]="username"
+             #usernameCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': usernameCtrl.invalid && (usernameCtrl.dirty || usernameCtrl.touched)}"
+             minlength="5"
+             required>
+      <div *ngIf="usernameCtrl.invalid && (usernameCtrl.dirty || usernameCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="usernameCtrl.errors?.['required']">El nombre de usuario es requerido.</span>
+        <span *ngIf="usernameCtrl.errors?.['minlength']">El nombre de usuario debe tener al menos 5 caracteres.</span>
       </div>
-
-      <div class="col-span-2">
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
-        <input type="text" name="password" id="password"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required="true">
-      </div>
-
-      <div>
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
-        <input type="email" name="email" id="email"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required>
-      </div>
-
-      <div>
-        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombres</label>
-        <input type="text" name="name" id="name"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required>
-      </div>
-
-      <div>
-        <label for="lastname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellidos</label>
-        <input type="text" name="lastname" id="lastname"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required>
-      </div>
-
-      <div>
-        <label for="numberphone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numero De Telefono</label>
-        <input type="number" name="numberphone" id="numberphone"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required>
-      </div>
-
-      <div>
-        <label for="ci" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Carnet De Identidad</label>
-        <input type="number" name="ci" id="ci"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               ngModel required>
-      </div>
-
-      <div>
-        <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rol</label>
-        <select id="role"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                name="role_id" ngModel>
-          <option value="" disabled selected>Seleccionar Tipo</option>
-          <option value="1">Admin</option>
-          <option value="2">Operador</option>
-          <option value="3">Tintor</option>
-        </select>
-      </div>
-
     </div>
 
-    <div class="p-4 bg-white dark:bg-gray-700">
-      <button type="submit"
-              class="w-full text-white inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Registrar
-      </button>
+    <!-- Contraseña -->
+    <div class="col-span-2">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+      <input type="password" name="password" id="password"
+             [(ngModel)]="password"
+             #passwordCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched)}"
+             minlength="8"
+             required>
+      <div *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="passwordCtrl.errors?.['required']">La contraseña es requerida.</span>
+        <span *ngIf="passwordCtrl.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</span>
+      </div>
     </div>
-  </form>
+
+    <!-- Correo -->
+    <div>
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
+      <input type="email" name="email" id="email"
+             [(ngModel)]="email"
+             #emailCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)}"
+             required
+             email>
+      <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="emailCtrl.errors?.['required']">El correo es requerido.</span>
+        <span *ngIf="emailCtrl.errors?.['email']">Ingrese un correo válido.</span>
+      </div>
+    </div>
+
+    <!-- Nombres -->
+    <div>
+      <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombres</label>
+      <input type="text" name="name" id="name"
+             [(ngModel)]="name"
+             #nameCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)}"
+             required>
+      <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="nameCtrl.errors?.['required']">El nombre es requerido.</span>
+      </div>
+    </div>
+
+    <!-- Apellidos -->
+    <div>
+      <label for="lastname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellidos</label>
+      <input type="text" name="lastname" id="lastname"
+             [(ngModel)]="lastname"
+             #lastnameCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': lastnameCtrl.invalid && (lastnameCtrl.dirty || lastnameCtrl.touched)}"
+             required>
+      <div *ngIf="lastnameCtrl.invalid && (lastnameCtrl.dirty || lastnameCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="lastnameCtrl.errors?.['required']">Los apellidos son requeridos.</span>
+      </div>
+    </div>
+
+    <!-- Número de Teléfono -->
+    <div>
+      <label for="numberphone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número De Teléfono</label>
+      <input type="number" name="numberphone" id="numberphone"
+             [(ngModel)]="numberphone"
+             #numberphoneCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': numberphoneCtrl.invalid && (numberphoneCtrl.dirty || numberphoneCtrl.touched)}"
+             required>
+      <div *ngIf="numberphoneCtrl.invalid && (numberphoneCtrl.dirty || numberphoneCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="numberphoneCtrl.errors?.['required']">El número de teléfono es requerido.</span>
+      </div>
+    </div>
+
+    <!-- Carnet De Identidad -->
+    <div>
+      <label for="ci" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Carnet De Identidad</label>
+      <input type="number" name="ci" id="ci"
+             [(ngModel)]="ci"
+             #ciCtrl="ngModel"
+             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             placeholder=""
+             [ngClass]="{'border-red-500 bg-red-50 text-red-900': ciCtrl.invalid && (ciCtrl.dirty || ciCtrl.touched)}"
+             required>
+      <div *ngIf="ciCtrl.invalid && (ciCtrl.dirty || ciCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="ciCtrl.errors?.['required']">El carnet de identidad es requerido.</span>
+      </div>
+    </div>
+
+    <!-- Rol -->
+    <div>
+      <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rol</label>
+      <select id="role"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              name="role_id"
+              [(ngModel)]="role_id"
+              #roleCtrl="ngModel"
+              [ngClass]="{'border-red-500 bg-red-50 text-red-900': roleCtrl.invalid && (roleCtrl.dirty || roleCtrl.touched)}"
+              required>
+        <option value="" disabled selected>Seleccionar Tipo</option>
+        <option value="1">Admin</option>
+        <option value="2">Operador</option>
+        <option value="3">Tintor</option>
+      </select>
+      <div *ngIf="roleCtrl.invalid && (roleCtrl.dirty || roleCtrl.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="roleCtrl.errors?.['required']">El rol es requerido.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="p-4 bg-white dark:bg-gray-700">
+    <button type="submit"
+            class="w-full text-white inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      Registrar
+    </button>
+  </div>
+</form>
+</div>

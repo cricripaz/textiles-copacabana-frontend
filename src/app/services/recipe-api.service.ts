@@ -28,7 +28,6 @@ export class RecipeApiService {
 
         if (response && response.message === "Recipe Create Successfully") {
 
-          this.toastr.success('Receta creada exitosamente');
 
           return response;
 

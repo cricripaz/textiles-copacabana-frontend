@@ -9,6 +9,16 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./register-user-dialog.component.scss']
 })
 export class RegisterUserDialogComponent implements OnInit {
+
+  username: string = '';
+  password: string = '';
+  email: string = '';
+  name: string = '';
+  lastname: string = '';
+  numberphone: number | null = null;
+  ci: number | null = null;
+  role_id: string = '';
+
   constructor(
 
     private userService : UserApiService,
@@ -22,6 +32,11 @@ export class RegisterUserDialogComponent implements OnInit {
 
 
   registerUser(data:any) {
+
+    if (data.invalid) {
+      this.toastr.error('Por favor, complete todos los campos correctamente.');
+      return;
+    }
     console.log(data.value)
 
     const datauser = {
@@ -42,4 +57,7 @@ export class RegisterUserDialogComponent implements OnInit {
 
     })
   }
+
+
+
 }

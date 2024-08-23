@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
+import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { CustomerApiService } from "../../../../services/customer-api.service";
 import { Customer } from "../../../../models/customer.model";
 import { MaterialApiService } from "../../../../services/material-api.service";
@@ -30,7 +30,8 @@ import { ToastrService } from "ngx-toastr";
     MatAutocompleteModule,
     MatInputModule,
     AsyncPipe,
-    MatDialogModule
+    MatDialogModule,
+    NgClass
   ],
   templateUrl: './register-order-dialog.component.html',
   styleUrls: ['./register-order-dialog.component.scss']
@@ -67,17 +68,13 @@ export class RegisterOrderDialogComponent implements OnInit {
   }
 
   private createProductGroup(): FormGroup {
-    const productGroup = this.fb.group({
-      name_material: [''],
-      name_color: [''],
-      quantity: ['']
+    return this.fb.group({
+      name_material: ['', Validators.required],
+      name_color: ['', Validators.required],
+      quantity: ['', [Validators.required, Validators.min(1)]],
     });
-
-    this.setupMaterialAutocomplete(productGroup);
-    this.setupColorAutocomplete(productGroup);
-
-    return productGroup;
   }
+
 
   private setupMaterialAutocomplete(productGroup: FormGroup): void {
     const materialControl = productGroup.get('name_material')!;

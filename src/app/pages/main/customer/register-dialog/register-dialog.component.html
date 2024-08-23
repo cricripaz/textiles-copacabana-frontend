@@ -1,13 +1,10 @@
-
 <!-- Modal content -->
 <div class="relative bg-white rounded-lg shadow dark:bg-gray-500">
   <!-- Modal header -->
   <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-500">
-
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
       Registrar Cliente
     </h3>
-
     <button type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             matDialogClose>
@@ -15,93 +12,111 @@
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
       </svg>
-
       <span class="sr-only">Close modal</span>
     </button>
-
   </div>
 
   <!-- Modal body -->
   <form class="p-4 md:p-5" [formGroup]="DataInventoryForm" (ngSubmit)="registerCustomer()">
     <div class="grid gap-4 mb-4 grid-cols-2">
 
+      <!-- Nombre -->
       <div class="col-span-2">
-        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
         <input type="text"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
                formControlName="name"
-               required="true">
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+               [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('name')?.invalid && (DataInventoryForm.get('name')?.dirty || DataInventoryForm.get('name')?.touched)}">
+        <div *ngIf="DataInventoryForm.get('name')?.invalid && (DataInventoryForm.get('name')?.dirty || DataInventoryForm.get('name')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('name')?.errors?.['required']">El nombre es requerido.</span>
+        </div>
       </div>
 
+      <!-- Tipo -->
       <div class="col-span-2">
         <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo</label>
         <select id="type"
+                formControlName="type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                formControlName="type">
+                [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('type')?.invalid && (DataInventoryForm.get('type')?.dirty || DataInventoryForm.get('type')?.touched)}">
           <option value="" disabled selected>Seleccionar Tipo</option>
           <option value="Persona">Persona</option>
           <option value="Empresa">Empresa</option>
         </select>
+        <div *ngIf="DataInventoryForm.get('type')?.invalid && (DataInventoryForm.get('type')?.dirty || DataInventoryForm.get('type')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('type')?.errors?.['required']">El tipo es requerido.</span>
+        </div>
       </div>
 
-
-
+      <!-- Dirección -->
       <div class="col-span-2 sm:col-span-1">
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
-        <input type="text" name="email" id="email"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               formControlName="address"
-               >
-      </div>
-
-      <div class="col-span-2 sm:col-span-1">
-        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad</label>
-        <input type="text" name="name" id="name"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               formControlName="city"
-                >
-      </div>
-
-      <div class="col-span-2 sm:col-span-1">
-        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numero De Telefono</label>
-        <input type="text" name="lastname" id="lastname"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               formControlName="phoneNumber"
-                >
-      </div>
-
-
-      <div class="col-span-2 sm:col-span-1">
-        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo electronico</label>
-        <input type="email"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               formControlName="email"
-                >
-      </div>
-
-      <div class="col-span-2 sm:col-span-1">
-        <label for="ci" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIT</label>
-        <input type="text" name="ci" id="ci"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               formControlName="NIT"
-                >
-      </div>
-
-      <div class="col-span-2 sm:col-span-1">
-        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notas</label>
+        <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dirección</label>
         <input type="text"
+               formControlName="address"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder=""
-               formControlName="notes"
-        >
+               [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('address')?.invalid && (DataInventoryForm.get('address')?.dirty || DataInventoryForm.get('address')?.touched)}">
+        <div *ngIf="DataInventoryForm.get('address')?.invalid && (DataInventoryForm.get('address')?.dirty || DataInventoryForm.get('address')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('address')?.errors?.['required']">La dirección es requerida.</span>
+        </div>
       </div>
 
+      <!-- Ciudad -->
+      <div class="col-span-2 sm:col-span-1">
+        <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad</label>
+        <input type="text"
+               formControlName="city"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+               [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('city')?.invalid && (DataInventoryForm.get('city')?.dirty || DataInventoryForm.get('city')?.touched)}">
+        <div *ngIf="DataInventoryForm.get('city')?.invalid && (DataInventoryForm.get('city')?.dirty || DataInventoryForm.get('city')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('city')?.errors?.['required']">La ciudad es requerida.</span>
+        </div>
+      </div>
+
+      <!-- Número de Teléfono -->
+      <div class="col-span-2 sm:col-span-1">
+        <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número De Teléfono</label>
+        <input type="text"
+               formControlName="phoneNumber"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+               [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('phoneNumber')?.invalid && (DataInventoryForm.get('phoneNumber')?.dirty || DataInventoryForm.get('phoneNumber')?.touched)}">
+        <div *ngIf="DataInventoryForm.get('phoneNumber')?.invalid && (DataInventoryForm.get('phoneNumber')?.dirty || DataInventoryForm.get('phoneNumber')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es requerido.</span>
+        </div>
+      </div>
+
+      <!-- Correo Electrónico -->
+      <div class="col-span-2 sm:col-span-1">
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo Electrónico</label>
+        <input type="email"
+               formControlName="email"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+               [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('email')?.invalid && (DataInventoryForm.get('email')?.dirty || DataInventoryForm.get('email')?.touched)}">
+        <div *ngIf="DataInventoryForm.get('email')?.invalid && (DataInventoryForm.get('email')?.dirty || DataInventoryForm.get('email')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('email')?.errors?.['required']">El correo es requerido.</span>
+          <span *ngIf="DataInventoryForm.get('email')?.errors?.['email']">Ingrese un correo válido.</span>
+        </div>
+      </div>
+
+      <!-- NIT -->
+      <div class="col-span-2 sm:col-span-1">
+        <label for="NIT" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIT</label>
+        <input type="text"
+               formControlName="NIT"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+               [ngClass]="{'border-red-500 bg-red-50 text-red-900': DataInventoryForm.get('NIT')?.invalid && (DataInventoryForm.get('NIT')?.dirty || DataInventoryForm.get('NIT')?.touched)}">
+        <div *ngIf="DataInventoryForm.get('NIT')?.invalid && (DataInventoryForm.get('NIT')?.dirty || DataInventoryForm.get('NIT')?.touched)" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span *ngIf="DataInventoryForm.get('NIT')?.errors?.['required']">El NIT es requerido.</span>
+        </div>
+      </div>
+
+      <!-- Notas (Sin validación) -->
+      <div class="col-span-2 sm:col-span-1">
+        <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notas</label>
+        <input type="text"
+               formControlName="notes"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+               placeholder="">
+      </div>
 
     </div>
 
@@ -111,7 +126,5 @@
         Registrar
       </button>
     </div>
-
   </form>
-
 </div>

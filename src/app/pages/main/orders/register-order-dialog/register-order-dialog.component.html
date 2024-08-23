@@ -18,59 +18,92 @@
   <div class="overflow-y-auto p-4 md:p-5" style="max-height: calc(80vh - 88px);">
     <form [formGroup]="formOrder" (ngSubmit)="onSubmit()">
       <div class="grid gap-4 mb-4">
+        <!-- Cliente -->
         <div class="w-full">
           <label for="customer" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente</label>
           <select id="customer"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  formControlName="customer">
-            <option value="" disabled selected>Seleccionar Cliente</option>
+                  formControlName="customer"
+                  [ngClass]="{'border-red-500': formOrder.get('customer')!.invalid && formOrder.get('customer')!.touched}">
+            <option value="" disabled>Seleccionar Cliente</option>
             <option *ngFor="let customer of customers" [value]="customer.customer_id">{{ customer.name }}</option>
           </select>
+          <div *ngIf="formOrder.get('customer')?.invalid && formOrder.get('customer')?.touched" class="text-red-600 text-sm mt-1">
+            <span *ngIf="formOrder.get('customer')?.errors?.['required']">El cliente es requerido.</span>
+          </div>
         </div>
+
+        <!-- Productos -->
         <div formArrayName="products" class="space-y-4 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
           <div class="space-y-4" *ngFor="let product of products.controls; let i = index; let isLast = last;" [formGroupName]="i">
             <div class="flex flex-col md:flex-row md:space-x-4 items-center space-y-4 md:space-y-0">
+              <!-- Material -->
+              <!-- Material -->
               <div class="w-full md:flex-1">
                 <label for="material-{{i}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Material</label>
                 <mat-form-field class="w-full">
                   <input id="material-{{i}}" type="text"
                          matInput
                          formControlName="name_material"
-                         [matAutocomplete]="autoMaterial">
+                         [matAutocomplete]="autoMaterial"
+                         [ngClass]="{'border-red-500': product.get('name_material')?.invalid && product.get('name_material')?.touched}">
                   <mat-autocomplete #autoMaterial="matAutocomplete">
                     <mat-option *ngFor="let option of filteredMaterials[i] | async" [value]="option.name">
                       {{ option.name }}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
+                <div *ngIf="product.get('name_material')?.invalid && product.get('name_material')?.touched" class="text-red-600 text-sm mt-1">
+                  <span *ngIf="product.get('name_material')?.errors?.['required']">El material es requerido.</span>
+                </div>
               </div>
+
+
+              <!-- Color -->
               <div class="w-full md:flex-1">
                 <label for="color-{{i}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
                 <mat-form-field class="w-full">
                   <input id="color-{{i}}" type="text"
                          matInput
                          formControlName="name_color"
-                         [matAutocomplete]="autoColor">
+                         [matAutocomplete]="autoColor"
+                         [ngClass]="{'border-red-500': product.get('name_color')?.invalid && product.get('name_color')?.touched}">
                   <mat-autocomplete #autoColor="matAutocomplete">
                     <mat-option *ngFor="let option of filteredColors[i] | async" [value]="option.name">
                       {{ option.name }}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
+                <div *ngIf="product.get('name_color')?.invalid && product.get('name_color')?.touched" class="text-red-600 text-sm mt-1">
+                  <span *ngIf="product.get('name_color')?.errors?.['required']">El color es requerido.</span>
+                </div>
               </div>
+
+
+              <!-- Cantidad -->
               <div class="w-full md:flex-1">
                 <label for="quantity-{{i}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
                 <input id="quantity-{{i}}" type="number"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Cantidad"
-                       formControlName="quantity">
+                       formControlName="quantity"
+                       [ngClass]="{'border-red-500': product.get('quantity')?.invalid && product.get('quantity')?.touched}">
+                <div *ngIf="product.get('quantity')?.invalid && product.get('quantity')?.touched" class="text-red-600 text-sm mt-1">
+                  <span *ngIf="product.get('quantity')?.errors?.['required']">La cantidad es requerida.</span>
+                  <span *ngIf="product.get('quantity')?.errors?.['min']">La cantidad mínima es 1.</span>
+                </div>
               </div>
+
+
+              <!-- Botón para eliminar producto -->
               <button *ngIf="products.length > 1" type="button"
                       class="text-red-400 bg-transparent hover:bg-gray-200 hover:text-red-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                       mat-icon-button (click)="removeProduct(i)">
                 <mat-icon color="warn">remove_circle</mat-icon>
               </button>
             </div>
+
+            <!-- Botón para agregar producto -->
             <div *ngIf="isLast" class="flex justify-end mt-4">
               <button type="button"
                       class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
@@ -82,6 +115,7 @@
         </div>
       </div>
 
+      <!-- Botón para enviar formulario -->
       <div class="p-4 bg-white dark:bg-gray-700">
         <button type="submit"
                 class="w-full text-white inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -89,8 +123,5 @@
         </button>
       </div>
     </form>
-
   </div>
-
-
 </div>

@@ -3,15 +3,18 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {CustomerApiService} from "../../../../services/customer-api.service";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
+import {NgClass, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-register-dialog',
   standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogModule
-    ],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    NgClass,
+    NgIf
+  ],
   templateUrl: './register-dialog.component.html',
   styleUrl: './register-dialog.component.scss'
 })

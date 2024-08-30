@@ -20,14 +20,6 @@ export class DashboardIaComponent implements OnInit {
     datasets: [
       {
         data: [],
-        label: 'Datos Reales',
-        fill: true,
-        tension: 0.5,
-        borderColor: '#227ddc',
-        backgroundColor: 'rgba(117,174,252,0.62)'
-      },
-      {
-        data: [],
         label: 'Predicción',
         fill: true,
         tension: 0.5,
@@ -58,26 +50,23 @@ export class DashboardIaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadChartData();
+    this.loadPrediction();
   }
 
   setFilter(type: 'day' | 'month'): void {
     this.filterType = type;
     this.chartType = type === 'day' ? 'line' : 'bar'; // Set chart type based on filter
-    this.loadChartData();
+    this.loadPrediction();
   }
 
-  loadChartData(): void {
+  loadPrediction(): void {
     this.loading = true;
-    forkJoin({
-      realData: this.dashboardService.getOrdersByDateRange('2024-02-01', '2024-06-29'),
-      predictedData: this.dashboardService.getPredictedOrders(this.predictionYear, this.predictionMonth)
-    }).subscribe(
-      ({ realData, predictedData }) => {
+    this.dashboardService.getPredictedOrders(this.predictionYear, this.predictionMonth).subscribe(
+      predictedData => {
         if (this.filterType === 'month') {
-          this.aggregateByMonth(realData.data, predictedData.data);
+          this.aggregateByMonth(predictedData.data);
         } else {
-          this.aggregateByDay(realData.data, predictedData.data);
+          this.aggregateByDay(predictedData.data);
         }
         this.loading = false;
         this.cdr.markForCheck();
@@ -89,19 +78,7 @@ export class DashboardIaComponent implements OnInit {
     );
   }
 
-  loadPrediction(): void {
-    this.loadChartData();
-  }
-
-  aggregateByDay(realData: any[], predictedData: any[]): void {
-    const realLabels: string[] = [];
-    const realCounts: number[] = [];
-    realData.forEach((order: { entry_date: string; total_quantity: number }) => {
-      const entryDate = this.datePipe.transform(order.entry_date, 'yyyy-MM-dd')!;
-      realLabels.push(entryDate);
-      realCounts.push(order.total_quantity);
-    });
-
+  aggregateByDay(predictedData: any[]): void {
     const predictedLabels: string[] = [];
     const predictedCounts: number[] = [];
     predictedData.forEach((order: { date: string; quantity: number }) => {
@@ -110,20 +87,15 @@ export class DashboardIaComponent implements OnInit {
       predictedCounts.push(order.quantity);
     });
 
-    this.lineChartData.labels = realLabels.concat(predictedLabels);
-    this.lineChartData.datasets[0].data = realCounts.concat(new Array(predictedLabels.length).fill(null));
-    this.lineChartData.datasets[1].data = new Array(realLabels.length).fill(null).concat(predictedCounts);
-    this.lineChartData.datasets[1].label = 'Predicción';
+    this.lineChartData.labels = predictedLabels;
+    this.lineChartData.datasets[0].data = predictedCounts;
   }
 
-  aggregateByMonth(realData: any[], predictedData: any[]): void {
-    const realDataByMonth = this.groupByMonth(realData, 'entry_date', 'total_orders');
+  aggregateByMonth(predictedData: any[]): void {
     const predictedDataByMonth = this.groupByMonth(predictedData, 'date', 'quantity');
 
-    this.lineChartData.labels = realDataByMonth.labels.concat(predictedDataByMonth.labels);
-    this.lineChartData.datasets[0].data = realDataByMonth.values.concat(new Array(predictedDataByMonth.labels.length).fill(null));
-    this.lineChartData.datasets[1].data = new Array(realDataByMonth.labels.length).fill(null).concat(predictedDataByMonth.values);
-    this.lineChartData.datasets[1].label = 'Predicción';
+    this.lineChartData.labels = predictedDataByMonth.labels;
+    this.lineChartData.datasets[0].data = predictedDataByMonth.values;
   }
 
   groupByMonth(data: any[], dateKey: string, valueKey: string): { labels: string[], values: number[] } {

@@ -4,6 +4,7 @@ import { DashboardService } from "../../../services/dashboard.service";
 import { forkJoin } from "rxjs";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { DatePipe } from "@angular/common";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,12 @@ import { DatePipe } from "@angular/common";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
+
+  private barColors: string[] = [
+    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+    '#FF5733', '#33FF57', '#3357FF', '#F0FF33'
+  ];
+
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [],
     datasets: [
@@ -35,19 +42,41 @@ export class DashboardComponent implements OnInit {
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
-    datasets: [
-      {
-        data: [],
-        label: 'Total Ordenes',
-        backgroundColor: 'rgba(135,206,250,0.5)',
-        borderColor: '#87CEFA',
-      }
-    ]
+    datasets: []
   };
 
   public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          generateLabels: (chart) => {
+            return chart.data.datasets.map((dataset, index) => ({
+              text: dataset.label || '', // Muestra el label de la ciudad en la leyenda
+              fillStyle: dataset.backgroundColor as string, // Color de la leyenda
+              strokeStyle: dataset.borderColor as string,
+              lineCap: 'butt', // Valor por defecto para cumplir con la interfaz
+              lineDash: [], // Valor por defecto para cumplir con la interfaz
+              lineDashOffset: 0, // Valor por defecto para cumplir con la interfaz
+              lineJoin: 'miter', // Valor por defecto para cumplir con la interfaz
+              lineWidth: 1, // Valor por defecto para cumplir con la interfaz
+              hidden: !chart.isDatasetVisible(index), // Controlar visibilidad
+              datasetIndex: index // Añadir `datasetIndex` para cumplir con la interfaz `LegendItem`
+            }));
+          }
+        }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+        formatter: (value: number) => value.toFixed(0), // Formatear etiquetas como números enteros
+        color: '#000', // Color de las etiquetas
+        font: {
+          weight: 'bold'
+        }
+      }
+    }
   };
 
   public barChartLegend = true;
@@ -92,7 +121,6 @@ export class DashboardComponent implements OnInit {
 
   public dyeInventoryBarChartLegend = true;
 
-
   constructor(
     private fb: FormBuilder,
     private dashboardService: DashboardService,
@@ -102,7 +130,7 @@ export class DashboardComponent implements OnInit {
     this.dateRangeForm = this.fb.group({
       start: [''],
       end: [''],
-      groupBy: ['month'] // Agregar control para la agrupación
+      groupBy: ['month']
     });
   }
 
@@ -113,40 +141,64 @@ export class DashboardComponent implements OnInit {
 
   loadInitialData(): void {
     forkJoin({
-      ordersByYear: this.dashboardService.getOrdersByYear(2024),
+      ordersByDateRange: this.dashboardService.getOrdersByDateRange('2024-04-01', '2024-06-29'),
       ordersByCity: this.dashboardService.getOrdersByCity(),
-      ordersByStatus: this.dashboardService.getOrdersByStatus() // Añade esta línea
+      ordersByStatus: this.dashboardService.getOrdersByStatus()
     }).subscribe(
-      ({ ordersByYear, ordersByCity, ordersByStatus }) => { // Añade ordersByStatus
-        // Handle orders by year data
-        const orders = ordersByYear.data;
-        const labels: unknown[] | undefined = [];
-        const orderCounts: any[] = [];
+      ({ ordersByDateRange, ordersByCity, ordersByStatus }) => {
+        // Manejar datos por rango de fecha
+        const orders = ordersByDateRange.data;
+        const labels: string[] = [];
+        const quantities: number[] = [];
 
-        orders.forEach((order: { year: any; month: { toString: () => string; }; total_orders: any; }) => {
-          labels.push(`${order.year}-${order.month.toString().padStart(2, '0')}`);
-          orderCounts.push(order.total_orders);
+        orders.forEach((order: { entry_date: string; total_quantity: string; }) => {
+          const formattedDate = this.datePipe.transform(order.entry_date, 'yyyy-MM-dd');
+          labels.push(formattedDate || '');
+          quantities.push(parseFloat(order.total_quantity));
         });
 
-        this.lineChartData.labels = labels;
-        this.lineChartData.datasets[0].data = orderCounts;
+        this.lineChartData = {
+          labels: labels,
+          datasets: [
+            {
+              data: quantities,
+              label: 'Total Cantidad',
+              fill: true,
+              tension: 0.5,
+              borderColor: '#227ddc',
+              backgroundColor: 'rgba(117,174,252,0.62)'
+            }
+          ]
+        };
 
-        // Handle orders by city data
-        const cities = ordersByCity.data.map((item: { city: any; }) => item.city);
-        const totalOrders = ordersByCity.data.map((item: { total_orders: any; }) => item.total_orders);
+        // Configurar etiquetas para el eje X
+        this.barChartData.labels = ordersByCity.data.map((item: { city: string; }) => item.city);
 
-        this.barChartData.labels = cities;
-        this.barChartData.datasets[0].data = totalOrders;
+        // Crear datasets para cada ciudad
+        this.barChartData.datasets = ordersByCity.data.map((item: { city: string; total_orders: number; }, index: number) => ({
+          label: item.city,
+          data: this.barChartData.labels?.map((city, i) => city === item.city ? item.total_orders : 0),
+          backgroundColor: this.barColors[index],
+          borderColor: this.barColors[index],
+          borderWidth: 1
+        }));
 
-        // Handle orders by status data for pie chart
-        const statuses = ordersByStatus.data.map((item: { order_status: any; }) => item.order_status);
-        const statusCounts = ordersByStatus.data.map((item: { total: any; }) => item.total);
+        // Manejar datos por estado para el gráfico de pie
+        const statuses = ordersByStatus.data.map((item: { order_status: string; }) => item.order_status);
+        const statusCounts = ordersByStatus.data.map((item: { total: number; }) => item.total);
 
-        this.pieChartData.labels = statuses;
-        this.pieChartData.datasets[0].data = statusCounts;
+        this.pieChartData = {
+          labels: statuses,
+          datasets: [
+            {
+              data: statusCounts,
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+            }
+          ]
+        };
 
         this.loading = false;
-        this.cdr.markForCheck(); // Mark the component for change detection
+        this.cdr.detectChanges(); // Forzar detección de cambios
       },
       error => {
         console.error('Error fetching data', error);
@@ -154,6 +206,7 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
 
   loadDyeInventoryData(): void {
     this.dashboardService.getInventoryDyesTop10().subscribe(response => {
@@ -171,7 +224,7 @@ export class DashboardComponent implements OnInit {
         datasets: [
           {
             data: quantityChanges,
-            label: 'Total Quantity Change',
+            label: 'Cantidad Descontada',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1
@@ -179,12 +232,11 @@ export class DashboardComponent implements OnInit {
         ]
       };
 
-      this.cdr.markForCheck(); // Mark the component for change detection
+      this.cdr.detectChanges(); // Forzar detección de cambios
     }, (error: any) => {
       console.error('Error fetching dye inventory data', error);
     });
   }
-
 
   loadChartData(): void {
     const { start, end, groupBy } = this.dateRangeForm.value;
@@ -199,7 +251,10 @@ export class DashboardComponent implements OnInit {
         const labels: string[] = [];
         const orderCounts: number[] = [];
 
-        response.data.forEach((order: { entry_date: string; total_orders: number; }) => {
+        // Crear un objeto temporal para agrupar por mes o día
+        const groupedData: { [key: string]: number } = {};
+
+        response.data.forEach((order: { entry_date: string; total_quantity: number; }) => {
           const entryDate = new Date(order.entry_date);
           let label: string;
 
@@ -211,21 +266,31 @@ export class DashboardComponent implements OnInit {
             label = this.datePipe.transform(entryDate, 'yyyy-MM-dd')!;
           }
 
-          const labelIndex = labels.indexOf(label);
-          if (labelIndex >= 0) {
-            orderCounts[labelIndex] += order.total_orders;
+          // Asegurarse de que el valor se trate como número
+          const quantity = Number(order.total_quantity);
+
+          // Agrupar los datos en el objeto temporal asegurando que se sumen correctamente
+          if (groupedData[label]) {
+            groupedData[label] += quantity;
           } else {
-            labels.push(label);
-            orderCounts.push(order.total_orders);
+            groupedData[label] = quantity;
           }
         });
+
+        // Convertir el objeto temporal en arrays de labels y orderCounts
+        for (const key in groupedData) {
+          if (groupedData.hasOwnProperty(key)) {
+            labels.push(key);
+            orderCounts.push(groupedData[key]);
+          }
+        }
 
         this.lineChartData = {
           labels: labels,
           datasets: [
             {
               data: orderCounts,
-              label: 'Total Ordenes',
+              label: 'Total De Pedidos',
               fill: true,
               tension: 0.5,
               borderColor: '#227ddc',
@@ -234,10 +299,8 @@ export class DashboardComponent implements OnInit {
           ]
         };
 
-        console.log('Labels:', labels);
-        console.log('Order Counts:', orderCounts);
 
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       } else {
         console.error('Datos no son un arreglo:', response.data);
       }
@@ -245,4 +308,8 @@ export class DashboardComponent implements OnInit {
       console.error('Error fetching data', error);
     });
   }
+
+
+
+
 }

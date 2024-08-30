@@ -11,7 +11,7 @@
     <div class="text-xl font-bold text-center py-4">Órdenes Por Año</div>
     <div class="p-6">
       <canvas baseChart
-              class="block w-full h-80"
+              class="block w-full h-[320px]"
               [type]="'line'"
               [data]="lineChartData"
               [options]="lineChartOptions"
@@ -19,12 +19,9 @@
       </canvas>
     </div>
 
-
     <div class="flex flex-col items-center py-4 space-y-4 w-full">
       <form [formGroup]="dateRangeForm" (ngSubmit)="loadChartData()" class="w-full">
-        <!-- Contenedor para los mat-form-field en una sola línea -->
         <div class="flex flex-wrap justify-between items-center space-y-4 lg:space-y-0 lg:space-x-4">
-          <!-- Fecha de inicio -->
           <mat-form-field appearance="fill" class="flex-1 min-w-[250px] mx-2">
             <mat-label>Fecha de inicio</mat-label>
             <input matInput [matDatepicker]="startPicker" formControlName="start">
@@ -32,7 +29,6 @@
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
 
-          <!-- Fecha de fin -->
           <mat-form-field appearance="fill" class="flex-1 min-w-[250px] mx-2">
             <mat-label>Fecha de fin</mat-label>
             <input matInput [matDatepicker]="endPicker" formControlName="end">
@@ -40,7 +36,6 @@
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
 
-          <!-- Agrupar por -->
           <mat-form-field appearance="fill" class="flex-1 min-w-[250px] mx-2">
             <mat-label>Agrupar por</mat-label>
             <mat-select formControlName="groupBy">
@@ -50,7 +45,6 @@
           </mat-form-field>
         </div>
 
-        <!-- Botón Actualizar en una nueva línea con ancho automático y centrado -->
         <div class="flex justify-center mt-4">
           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Actualizar
@@ -60,15 +54,11 @@
     </div>
   </div>
 
-
-
-
-
-    <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
-    <div class="text-xl font-bold text-center py-4">Órdenes Por Ciudad</div>
+  <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
+    <div class="text-xl font-bold text-center py-4">Pedidos Por Ciudad</div>
     <div class="p-6">
       <canvas baseChart
-              class="block w-full h-80"
+              class="block w-full h-[320px]"
               [type]="'bar'"
               [data]="barChartData"
               [options]="barChartOptions"
@@ -78,10 +68,10 @@
   </div>
 
   <div class="bg-white shadow-md rounded-lg overflow-hidden m-4">
-    <div class="text-xl font-bold text-center py-4">Distribución de Órdenes</div>
+    <div class="text-xl font-bold text-center py-4">Distribución de Pedidos</div>
     <div class="p-6">
       <canvas baseChart
-              class="block w-full h-80"
+              class="block w-full h-[320px]"
               [type]="'pie'"
               [data]="pieChartData"
               [options]="pieChartOptions"
@@ -94,7 +84,7 @@
     <div class="text-xl font-bold text-center py-4">Inventario de Tintes Descontados</div>
     <div class="p-6">
       <canvas baseChart
-              class="block w-full h-80"
+              class="block w-full h-[320px]"
               [type]="'bar'"
               [data]="dyeInventoryBarChartData"
               [options]="dyeInventoryBarChartOptions"
@@ -102,6 +92,4 @@
       </canvas>
     </div>
   </div>
-
 </div>
-

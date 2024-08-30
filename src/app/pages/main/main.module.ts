@@ -17,7 +17,6 @@ import { TypeDyePipe} from "../../pipes/type-dye.pipe";
 import { UserComponent } from './user/user.component';
 import { RegisterUserDialogComponent } from './user/register-user-dialog/register-user-dialog.component';
 import { EditUserDialogComponent } from './user/edit-user-dialog/edit-user-dialog.component';
-import { SearchTablePipe} from "../../pipes/search-table.pipe";
 import { RecipesComponent } from './recipes/recipes.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CustomerComponent } from './customer/customer.component';
@@ -44,6 +43,7 @@ import { MatAutocompleteModule} from "@angular/material/autocomplete";
 import { MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { MatDatepickerModule} from "@angular/material/datepicker";
 import { DashboardIaComponent} from "./dashboard-ia/dashboard-ia.component";
+import {SharedModule} from "../../shared/shared.module";
 
 
 const routes: Route[] = [
@@ -108,7 +108,6 @@ const routes: Route[] = [
     UserComponent,
     RegisterUserDialogComponent,
     EditUserDialogComponent,
-    SearchTablePipe,
     RecipesComponent,
     OrdersComponent,
     CustomerComponent,
@@ -145,8 +144,9 @@ const routes: Route[] = [
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
+    SharedModule
 
   ],
-    exports: [RouterModule, NavigationComponent, SearchTablePipe]
+    exports: [RouterModule, NavigationComponent]
 })
 export class MainModule { }

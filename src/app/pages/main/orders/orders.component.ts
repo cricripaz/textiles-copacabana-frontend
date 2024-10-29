@@ -75,12 +75,17 @@ export class OrdersComponent implements OnInit {
 
   // ACTIONS
   showOrders() {
-    this.orderService.getOrders().subscribe(data => {
-      this.orderData = data;
-      this.orderData = this.orderData.data;
+    this.orderService.getOrders().subscribe((data: any) => {
+      this.orderData = data.data;
+
+      // Ordena los datos de `orderData` por `entry_date` en orden descendente
+      this.orderData.sort((a: any, b: any) => new Date(b.entry_date).getTime() - new Date(a.entry_date).getTime());
+
       this.filterOrders();
     });
   }
+
+
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {

@@ -32,10 +32,16 @@ export class CustomerComponent implements OnInit {
   showCustomers() {
     this.customerService.fetchCustomers()
       .subscribe(data => {
-        // Assuming 'data.customers' is the correct path if 'data' and 'data.customers' are valid
+        // Verifica si 'data' y 'data.customers' están definidos
         this.customersData = data && data.customers ? data.customers : [];
+
+        // Ordena los clientes por `customer_id` en orden descendente
+        this.customersData.sort((a: any, b: any) => b.customer_id - a.customer_id);
+
+        console.log(this.customersData);
       });
   }
+
 
 
   openDialogRegisterCustomer() {

@@ -41,21 +41,24 @@ export class UserComponent implements OnInit  {
   }
 
 
-  showUsers(){
-
+  showUsers() {
     this.userService.fetchUsers()
       .subscribe(data => {
-        this.usersData = data && data.users ? data.users : []; // Verifica si data y data.data están definidos
-        // Filtrar los usuarios activos después de asignar los datos
-        console.log(this.usersData)
-        this.usersData = this.usersData.filter((user: any) => user.state == 'active');
+        this.usersData = data && data.users ? data.users : []; // Verifica si data y data.users están definidos
 
+        // Filtrar los usuarios activos
+        this.usersData = this.usersData.filter((user: any) => user.state === 'active');
 
-        //TODO modificar el backend ya filtrados
-      })
+        // Ordenar los usuarios por `user_id` en orden descendente
+        this.usersData.sort((a: any, b: any) => b.user_id - a.user_id);
 
+        console.log(this.usersData);
 
+        // TODO: modificar el backend ya filtrados
+      });
   }
+
+
 
   editUser(user : any) {
     console.log(user)
@@ -71,8 +74,19 @@ export class UserComponent implements OnInit  {
   openDialogRegisterUser() {
    this.matDialog.open(RegisterUserDialogComponent).afterClosed().subscribe( (res) => {
 
-     if(res.message == 'success'){
-       this.usersData.push(res.user)
+     if (res.message === 'success') {
+       // Mapea los `role_id` a los nombres de rol
+       const roles: { [key: number]: string } = {
+         1: 'admin',
+         2: 'operador',
+         3: 'tintor'
+       };
+
+       // Asigna el rol usando el mapeo
+       res.user.role = roles[res.user.role_id] || 'desconocido';
+
+       // Añade el usuario al inicio de `usersData`
+       this.usersData.unshift(res.user);
      }
 
    })

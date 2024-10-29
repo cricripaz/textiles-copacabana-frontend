@@ -17,7 +17,7 @@ export class RegisterUserDialogComponent implements OnInit {
   lastname: string = '';
   numberphone: number | null = null;
   ci: number | null = null;
-  role_id: string = '';
+  role: string = '';
 
   constructor(
 
@@ -47,7 +47,7 @@ export class RegisterUserDialogComponent implements OnInit {
       lastname:data.value.lastname,
       numberphone:data.value.numberphone,
       ci:data.value.ci,
-      role_id: data.value.role_id
+      role: data.value.role
     }
 
     this.userService.createUser(datauser).subscribe( (res)=> {

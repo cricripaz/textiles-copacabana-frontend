@@ -96,8 +96,12 @@ export class UserComponent implements OnInit  {
   openDialogDeleteUser(user : any , index: number){
     console.log('index',index)
     this.matDialog.open(DeleteDialogUserComponent,{data:user}).afterClosed().subscribe((res) => {
-      console.log('res After ',res )})
-       this.usersData.splice(index, 1)
+      console.log('res After ',res )
+      if (res == 'yes' ){
+        this.usersData.splice(index, 1)
+      }
+    })
+
   }
 
 

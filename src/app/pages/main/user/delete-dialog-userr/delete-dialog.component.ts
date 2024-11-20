@@ -31,12 +31,12 @@ export class DeleteDialogUserComponent {
 
     this.userServices.deleteUser(id).subscribe(()=>{
 
-      this.toastr.success('Usuario Eliminado Correctamente');
+      this.toastr.success(`Usuario: ${id} Eliminado Correctamente`);
 
         this.dialogRef.close("yes")
 
     },error => {
-      this.toastr.error('Error al eliminar receta:', error)
+      this.toastr.error('Error al eliminar Usuario:', error)
       }
     )
 

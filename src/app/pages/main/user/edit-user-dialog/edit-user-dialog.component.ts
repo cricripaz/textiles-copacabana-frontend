@@ -63,7 +63,7 @@ export class EditUserDialogComponent implements OnInit {
     this.userService.editUser(id, formData )
       .subscribe(
         () => {
-          this.toastr.success('El usuario se editó exitosamente.', 'Éxito'); // Muestra el toastr de éxito
+          this.toastr.success(`El usuario: ${id} se editó exitosamente.`, 'Éxito'); // Muestra el toastr de éxito
           this.matdialog.closeAll()
           //TODO update al array investigar
         },

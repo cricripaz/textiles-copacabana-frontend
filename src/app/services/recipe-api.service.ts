@@ -26,7 +26,7 @@ export class RecipeApiService {
       map((response: any) => {
         // Verifica si la respuesta tiene un código de estado 200
 
-        if (response && response.message === "Recipe Create Successfully") {
+        if (response && response.message === "Recipe created successfully") {
 
 
           return response;

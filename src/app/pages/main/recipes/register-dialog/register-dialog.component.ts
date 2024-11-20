@@ -106,10 +106,9 @@ export class RegisterDialogComponent implements OnInit {
 
       this.recipeService.createRecipe(postData).subscribe(response => {
         this.toastr.success('Receta registrada exitosamente');
-        this.matDialogRef.close();
+        this.matDialogRef.close({recipe : response , message : 'yes'});
       }, error => {
         this.toastr.error('Error al registrar la receta');
-        console.error(error);
       });
     } else {
       this.toastr.warning('Por favor, completa todos los campos requeridos');

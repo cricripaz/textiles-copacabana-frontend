@@ -56,13 +56,33 @@ export class RecipesComponent implements OnInit {
   showRecipes() {
     this.recipeService.fetchRecipes()
       .subscribe(data => {
-        this.recipeData = data && data.recipes ? data.recipes : []; // Verifica si data y data.data están definidos
+        this.recipeData = data && data.recipes ? data.recipes : [];
+
+        // Ordenar los datos de forma descendente por recipeRegistry_id
+        this.recipeData.sort((a, b) => b.recipeRegistry_id - a.recipeRegistry_id);
+
+        console.log(this.recipeData);
       });
   }
 
+
   openDialogRegisterRecipe() {
-    this.matdialog.open(RegisterDialogComponent);
+    this.matdialog.open(RegisterDialogComponent).afterClosed().subscribe((res) => {
+      if (res && res.recipe && res.recipe.data) {
+        // Renombrar el parámetro `name` a `recipe_name`
+        const updatedData = {
+          ...res.recipe.data, // Copiar todos los datos originales
+          recipe_name: res.recipe.data.name, // Asignar el valor de `name` a `recipe_name`
+        };
+        delete updatedData.name; // Eliminar el parámetro `name` original
+
+        this.recipeData.unshift(updatedData);
+
+        console.log("test data : ", updatedData);
+      }
+    });
   }
+
 
   openDialogDeleteRecipe(recipe: any, index: number) {
     this.matdialog.open(DeleteDialogComponent, { data: recipe }).afterClosed().subscribe((res) => {
